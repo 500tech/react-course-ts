@@ -2,6 +2,8 @@ import * as React from 'react';
 import Movies from './components/Movies';
 
 export default class App extends React.Component {
+  input: any;
+
   state = {
     data: [
       "Avatar",
@@ -10,15 +12,13 @@ export default class App extends React.Component {
     ]
   };
 
-  private input: HTMLInputElement;
-
   addMovie = () => {
     const { data } = this.state;
 
-    console.log(this.input.target);
-
     this.setState({
-      data: data.concat(`new-movie-${data.length}`)
+      data: data.concat(this.input.value || `new-movie-${data.length}`)
+    }, () => {
+      this.input.value = '';
     });
   };
 
@@ -30,6 +30,14 @@ export default class App extends React.Component {
     this.setState({ data: newData });
   };
 
+  setRef = el => {
+    if (!el) {
+      return;
+    }
+
+    this.input = el;
+  };
+
   render() {
     const { data } = this.state;
 
@@ -38,7 +46,7 @@ export default class App extends React.Component {
         <div className="movies">
           <h1>my favorite movies</h1>
 
-          <input type="text" placeholder="new movie" ref={input => this.input = input} />
+          <input type="text" placeholder="new movie" ref={this.setRef} />
 
           <div className="button" onClick={this.addMovie}>add movie</div>
 
