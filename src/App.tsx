@@ -1,30 +1,50 @@
-import {find} from 'lodash';
+import {find, findIndex} from 'lodash';
 import * as React from 'react';
+
+import Movies from './components/Movies';
+import Panel from './components/Panel';
 
 class App extends React.Component {
   state = {
     data: [
-      { id: 0, label: 'forest gump' },
-      { id: 1, label: 'wonder woman' },
-      { id: 2, label: 'a quiet place' }
+      { id: 0, label: 'forest gump', rating: 1 },
+      { id: 1, label: 'wonder woman', rating: 2 },
+      { id: 2, label: 'a quiet place', rating: 1 }
     ],
+    inputVal: '',
     selectedId: null
   };
 
   addMovie = () => {
+    const { inputVal } = this.state;
+
     this.setState({
       data: this.state.data.concat({
         id: this.state.data.length,
-        label: `new movie - ${this.state.data.length}`
+        label: inputVal || `new movie - ${this.state.data.length}`,
+        rating: 1
       })
     });
   };
 
-  removeMovie(id) {
+  updateRating = (movieId, val) => {
+    const newData = [...this.state.data];
+    const movieIndex = findIndex(newData, { id: movieId });
+
+    if (movieIndex > -1) {
+      newData[movieIndex] = Object.assign({}, newData[movieIndex], {
+        rating: val
+      });
+    }
+
+    this.setState({ data: newData });
+  };
+
+  removeMovie = (id) => {
     this.setState({
       data: this.state.data.filter(movie => movie.id !== id)
     });
-  }
+  };
 
   clearAll = () => {
     this.setState({
@@ -33,91 +53,37 @@ class App extends React.Component {
     });
   };
 
-  list() {
-    const { data } = this.state;
+  clearSelected = () => {
+    this.setState({ selectedId: null });
+  };
 
-    return (
-      <ul>
-        {
-          data.map(movie => (
-            <li key={movie.id} onClick={() => this.setState({ selectedId: movie.id })}>
-              <div>{movie.label}</div>
-              <div
-                className="remove"
-                onClick={() => this.removeMovie(movie.id)}>
-                remove
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-    );
-  }
+  updateValue = (e) => {
+    const inputVal = e.target.value;
 
-  emptyMessage() {
-    return (
-      <div className="empty">
-        no movies
-      </div>
-    );
-  }
-
-  rating() {
-    return (
-      <div className="rating">
-        <div className="rating-circle filled" />
-        <div className="rating-circle filled" />
-        <div className="rating-circle filled" />
-        <div className="rating-circle" />
-        <div className="rating-circle" />
-      </div>
-    );
-  }
-
-  panel() {
-    const { selectedId } = this.state;
-    const movie = find(this.state.data, { id: selectedId });
-
-    if (!movie) {
-      return null;
-    }
-
-    return (
-      <div className="panel">
-        <div className="panel-title">{movie.label}</div>
-        <div className="panel-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat
-        </div>
-        {this.rating()}
-        <div
-          className="panel-close"
-          onClick={() => this.setState({ selectedId: null })}>
-          close panel
-        </div>
-      </div>
-    );
-  }
+    this.setState({
+      inputVal
+    });
+  };
 
   render() {
-    const { data } = this.state;
+    const { data, selectedId, inputVal } = this.state;
+    const activeMovie = find(this.state.data, { id: selectedId });
 
     return (
       <div className="app">
-        <div className="movies">
-          <div className="header">my favorite movies</div>
-          <input type="text" placeholder="new movie" />
+        <Movies
+          data={data}
+          inputVal={inputVal}
+          addMovie={this.addMovie}
+          clearAll={this.clearAll}
+          removeMovie={this.removeMovie}
+          updateValue={this.updateValue}
+          selectMovie={id => this.setState({ selectedId: id })} />
 
-          <div className="button" onClick={this.addMovie}>add movie</div>
-
-          {data.length ? this.list() : this.emptyMessage()}
-
-          <div className="filters">
-            <div className="clear" onClick={this.clearAll}>clear all</div>
-          </div>
-        </div>
-
-        {this.panel()}
+        <Panel
+          movie={activeMovie}
+          updateRating={this.updateRating}
+          clearSelected={this.clearSelected} />
       </div>
     );
   }
