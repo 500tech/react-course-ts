@@ -11,7 +11,7 @@ const Header = (props) => (
 ReactDOM.render(
   React.createElement('div', null, [
     React.createElement('h2', null, 'welcome to'),
-    React.createElement(Header, {title: 'React - basic to advanced course'})
+    React.createElement(Header, { title: 'React - basic to advanced course' })
   ]),
   document.getElementById('root')
 );
