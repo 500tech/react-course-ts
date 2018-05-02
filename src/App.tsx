@@ -10,8 +10,12 @@ export default class App extends React.Component {
     ]
   };
 
+  private input: HTMLInputElement;
+
   addMovie = () => {
     const { data } = this.state;
+
+    console.log(this.input.target);
 
     this.setState({
       data: data.concat(`new-movie-${data.length}`)
@@ -33,6 +37,9 @@ export default class App extends React.Component {
       <div className="app">
         <div className="movies">
           <h1>my favorite movies</h1>
+
+          <input type="text" placeholder="new movie" ref={input => this.input = input} />
+
           <div className="button" onClick={this.addMovie}>add movie</div>
 
           <Movies data={data} removeMovie={this.removeMovie} />
