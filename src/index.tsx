@@ -1,35 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-const list = [
-  "Avatar",
-  "Wonder Women",
-  "Titanic"
-];
-
-const Header = ({title}) => <h1>{title}</h1>;
-
-const Movie = ({label}) => <li>{label}</li>;
-
-const Movies = () => (
-  <ul>
-    {list.map(movie => <Movie label={movie} key={movie} />)}
-  </ul>
-);
-
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <Header title="my favorite movies" />
-        <Movies />
-      </div>
-    );
-  }
-}
+import App from './App';
 
 ReactDOM.render(
   <App />,
