@@ -4,15 +4,18 @@ import * as ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-const Header = (props) => (
-  React.createElement('h1', null, props.title)
+const Header = ({title}) => <h1>{title}</h1>;
+
+const App = () => (
+  <div>
+    <h2>welcome to</h2>
+    <Header title="react course - basic to advanced" />
+  </div>
 );
 
+
 ReactDOM.render(
-  React.createElement('div', null, [
-    React.createElement('h2', null, 'welcome to'),
-    React.createElement(Header, {title: 'React - basic to advanced course'})
-  ]),
+  <App />,
   document.getElementById('root')
 );
 
