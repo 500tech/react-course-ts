@@ -20,12 +20,16 @@ const Movies = () => (
   </ul>
 );
 
-const App = () => (
-  <div>
-    <Header title="my favorite movies" />
-    <Movies />
-  </div>
-);
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header title="my favorite movies" />
+        <Movies />
+      </div>
+    );
+  }
+}
 
 
 ReactDOM.render(
