@@ -5,7 +5,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 const Header = () => (
-  React.createElement('h1', null, 'react and course')
+  React.createElement('h1', null, 'react course')
 );
 
 ReactDOM.render(
