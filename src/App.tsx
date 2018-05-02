@@ -1,7 +1,11 @@
 import * as React from 'react';
 import Movies from './components/Movies';
 
-export default class App extends React.Component {
+interface ComponentState {
+  data: string[]
+}
+
+export default class App extends React.Component<{}, ComponentState> {
   input: any;
 
   state = {

@@ -1,5 +1,10 @@
 import * as React from 'react';
 
-const Movie = ({ label, removeMovie }) => <li onClick={removeMovie}>{label}</li>;
+interface ComponentProps {
+  label: string,
+  removeMovie: (id) => void
+}
+
+const Movie = (props: ComponentProps) => <li onClick={props.removeMovie}>{props.label}</li>;
 
 export default Movie;

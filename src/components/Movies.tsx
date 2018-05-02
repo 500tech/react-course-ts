@@ -1,13 +1,18 @@
 import * as React from 'react';
 import Movie from './Movie';
 
-const Movies = ({ data, removeMovie }) => (
+interface ComponentProps {
+  data: string[],
+  removeMovie: (id) => void
+}
+
+const Movies = (props: ComponentProps) => (
   <ul>
-    {data.map((movie, index) =>
+    {props.data.map((movie, index) =>
       <Movie
         label={movie}
         key={movie}
-        removeMovie={() => removeMovie(index)} />
+        removeMovie={() => props.removeMovie(index)} />
     )}
   </ul>
 );
