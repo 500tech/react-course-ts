@@ -10,9 +10,9 @@ const list = [
   "Titanic"
 ];
 
-const Header = ({title}) => <h1>{title}</h1>;
+const Header = ({ title }) => <h1>{title}</h1>;
 
-const Movie = ({label}) => <li>{label}</li>;
+const Movie = ({ label }) => <li>{label}</li>;
 
 const Movies = () => (
   <ul>

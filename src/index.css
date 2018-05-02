@@ -1,176 +1,205 @@
-html, body {
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+
+body {
     margin: 0;
-    padding: 20px;
-    font-family: sans-serif;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    background: #dadada url('https://www.toptal.com/designers/subtlepatterns/patterns/playstation-pattern.png') repeat;
+    font-family: 'Open Sans', sans-serif;
+    background: rgba(12, 124, 249, 0.08);
 }
 
 * {
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
     user-select: none;
 }
 
-h2 {
-    color: #dadada;
-    margin: 20px 0;
-}
-
-h1 {
-    margin: 20px 0;
-}
-
-h1, h2 {
-    text-align: center;
-    text-transform: capitalize;
-}
-
-ul {
-    padding: 20px;
+.app {
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
-    height: 500px;
-    width: 400px;
-    list-style: none;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
+    padding: 50px;
+    width: 100%;
+}
+
+.movies {
+    width: 360px;
+    min-height: 100px;
+    background: #fff;
     border-radius: 10px;
-    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
-}
-
-li {
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-    text-transform: capitalize;
-    float: left;
-    padding: 10px;
-    cursor: pointer;
-}
-
-li:hover {
-    background: #f5f5f5;
-    color: orangered;
+    align-items: center;
 }
 
 .header {
-    overflow: hidden;
-    position: relative;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    height: 150px;
-
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f46011+0,ef4040+100 */
-    background: #f46011; /* Old browsers */
-    background: -moz-linear-gradient(-45deg, #f46011 0%, #ef4040 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg, #f46011 0%, #ef4040 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg, #f46011 0%, #ef4040 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f46011', endColorstr='#ef4040', GradientType=1); /* IE6-9 fallback on horizontal gradient */
-
-    -webkit-box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-.header h1 {
-    font-size: 20px;
-    margin: 10px 0;
-    font-weight: 500;
-}
-
-input[type="text"], textarea {
-    width: 200px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #fff;
-    height: 15px;
-    background: transparent;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 300;
-    color: #fff;
-}
-
-textarea {
-    height: 50px;
-    resize: none;
-}
-
-input[type="text"], textarea {
-    -webkit-transition: all 300ms;
-    -moz-transition: all 300ms;
-    -o-transition: all 300ms;
+input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    height: 30px;
+    margin: 40px 0 0 0;
+    border-radius: 4px;
+    border: 1px solid #dadada;
     transition: all 300ms;
-
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-input[type="text"]:focus, textarea:focus {
-    border: 1px solid rgba(255, 255, 255, 1);
-}
-
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: rgba(255, 255, 255, 0.2);
-}
-
-::-moz-placeholder { /* Firefox 19+ */
-    color: rgba(255, 255, 255, 0.2);
-}
-
-:-ms-input-placeholder { /* IE 10+ */
-    color: rgba(255, 255, 255, 0.2);
-}
-
-:-moz-placeholder { /* Firefox 18- */
-    color: rgba(255, 255, 255, 0.2);
+input[type="text"]:focus {
+    border-color: #444;
 }
 
 *:focus {
     outline: none;
 }
 
-.header .button {
+.button {
     width: 100%;
-    height: 50px;
-
-    text-align: center;
-    line-height: 50px;
+    height: 30px;
+    box-sizing: border-box;
+    margin: 10px 0;
+    background: #000;
     color: #fff;
-    text-transform: uppercase;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-size: 14px;
-    cursor: pointer;
-
-    -webkit-transition: all 300ms;
-    -moz-transition: all 300ms;
-    -o-transition: all 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
     transition: all 300ms;
-
-    -webkit-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
-    -moz-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
-    box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
-
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#45484d+0,000000+100;Black+3D+%231 */
-    background: #45484d; /* Old browsers */
-    background: -moz-linear-gradient(-45deg, #45484d 0%, #000000 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg, #45484d 0%, #000000 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg, #45484d 0%, #000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#45484d', endColorstr='#000000', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
-.header .button:hover {
-    color: orange;
+.button:hover {
+    background: #2428cd;
+}
 
-    -webkit-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
-    -moz-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
-    box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
+ul {
+    list-style: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    border-bottom: 1px solid #e3e3e3;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+    color: #444;
+    text-transform: capitalize;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 300ms;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li:hover {
+    background: #eeeeee;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+.remove {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.filters {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.clear {
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.remove:hover, .clear:hover {
+    color: red;
+}
+
+.empty {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    color: #888;
+    height: 100px;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px dashed #dadada;
+}
+
+.panel {
+    width: 200px;
+    min-height: 200px;
+    background: #fff;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+    box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    max-height: 360px;
+}
+
+.panel-title {
+    text-transform: capitalize;
+    color: darkblue;
+    margin-bottom: 20px;
+}
+
+.panel-description {
+    font-size: 12px;
+    color: #959595;
+    font-weight: 300;
+}
+
+.panel-close {
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.rating {
+    margin-top: 20px;
+    display: flex;
+    width: 70px;
+    justify-content: space-between;
+}
+
+.rating-circle {
+    width: 10px;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.rating-circle.filled {
+    background: gold;
+}
+
+.rating-circle:hover {
+    background: gold;
 }
