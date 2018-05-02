@@ -9,8 +9,10 @@
 # production
 /build
 
+**/.idea/workspace.xml
 *.idea
 *.idea/*
+.idea/*
 
 # misc
 .DS_Store

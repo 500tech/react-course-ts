@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-const Header = ({title}) => <h1>{title}</h1>;
+const Header = ({ title }) => <h1>{title}</h1>;
 
 const App = () => (
   <div>
@@ -12,7 +12,6 @@ const App = () => (
     <Header title="react course - basic to advanced" />
   </div>
 );
-
 
 ReactDOM.render(
   <App />,
