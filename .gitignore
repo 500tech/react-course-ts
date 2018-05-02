@@ -9,6 +9,7 @@
 # production
 /build
 
+**/.idea/workspace.xml
 *.idea
 *.idea/*
 .idea/*
