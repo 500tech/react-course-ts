@@ -1,19 +1,24 @@
 import cx from 'classnames';
 import * as React from 'react';
 
-const Rating = ({ amount, updateRating }) => (
+interface ComponentProps {
+  amount: number,
+  updateRating: (val) => void
+}
+
+const Rating = (props: ComponentProps) => (
   <div className="rating">
     {
       [1, 2, 3, 4, 5].map(val => {
         const classes = cx('rating-circle', {
-          filled: val <= amount
+          filled: val <= props.amount
         });
 
         return (
           <div
             key={`rating-${val}`}
             className={classes}
-            onClick={() => updateRating(val)} />
+            onClick={() => props.updateRating(val)} />
         );
       })
     }

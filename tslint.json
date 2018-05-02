@@ -12,6 +12,11 @@
   },
   "rules": {
     "jsx-no-lambda": false,
+    "no-console": false,
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
     "member-access": [
       true,
       "no-public"

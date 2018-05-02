@@ -1,7 +1,12 @@
 import * as React from 'react';
 
-const Button = ({ onClick, children }) => (
-  <div className="button" onClick={onClick}>{children}</div>
+interface ComponentProps {
+  children: any,
+  onClick: () => void
+}
+
+const Button = (props: ComponentProps) => (
+  <div className="button" onClick={props.onClick}>{props.children}</div>
 );
 
 export default Button;

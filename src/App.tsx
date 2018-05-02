@@ -1,10 +1,21 @@
 import {find, findIndex} from 'lodash';
 import * as React from 'react';
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import Movies from './components/Movies';
 import Panel from './components/Panel';
 
-class App extends React.Component {
+interface ComponentState {
+  data: Array<{
+    label: string,
+    rating: number,
+    id: number
+  }>,
+  inputVal: string,
+  selectedId: null | number
+}
+
+class App extends React.Component<{}, ComponentState> {
   state = {
     data: [
       { id: 0, label: 'forest gump', rating: 1 },
@@ -69,22 +80,32 @@ class App extends React.Component {
     const { data, selectedId, inputVal } = this.state;
     const activeMovie = find(this.state.data, { id: selectedId });
 
-    return (
-      <div className="app">
-        <Movies
-          data={data}
-          inputVal={inputVal}
-          addMovie={this.addMovie}
-          clearAll={this.clearAll}
-          removeMovie={this.removeMovie}
-          updateValue={this.updateValue}
-          selectMovie={id => this.setState({ selectedId: id })} />
+    console.log(this.props);
 
-        <Panel
-          movie={activeMovie}
-          updateRating={this.updateRating}
-          clearSelected={this.clearSelected} />
-      </div>
+    return (
+      <Router>
+        <div className="app">
+          <Movies
+            data={data}
+            inputVal={inputVal}
+            addMovie={this.addMovie}
+            clearAll={this.clearAll}
+            removeMovie={this.removeMovie}
+            updateValue={this.updateValue}
+            selectMovie={id => this.setState({ selectedId: id })} />
+
+          <Route
+            exact={true}
+            // path={match.url}
+            render={() => <h3>Please select a topic.</h3>}
+          />
+
+          <Panel
+            movie={activeMovie}
+            updateRating={this.updateRating}
+            clearSelected={this.clearSelected} />
+        </div>
+      </Router>
     );
   }
 }
