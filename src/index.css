@@ -1,5 +1,176 @@
-body {
+html, body {
     margin: 0;
-    padding: 0;
+    padding: 20px;
     font-family: sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background: #dadada url('https://www.toptal.com/designers/subtlepatterns/patterns/playstation-pattern.png') repeat;
+}
+
+* {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    user-select: none;
+}
+
+h2 {
+    color: #dadada;
+    margin: 20px 0;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+h1, h2 {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+ul {
+    padding: 20px;
+    box-sizing: border-box;
+    height: 500px;
+    width: 400px;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    text-transform: capitalize;
+    float: left;
+    padding: 10px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: #f5f5f5;
+    color: orangered;
+}
+
+.header {
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    height: 150px;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f46011+0,ef4040+100 */
+    background: #f46011; /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #f46011 0%, #ef4040 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #f46011 0%, #ef4040 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #f46011 0%, #ef4040 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f46011', endColorstr='#ef4040', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+
+    -webkit-box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.header h1 {
+    font-size: 20px;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+input[type="text"], textarea {
+    width: 200px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #fff;
+    height: 15px;
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #fff;
+}
+
+textarea {
+    height: 50px;
+    resize: none;
+}
+
+input[type="text"], textarea {
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+input[type="text"]:focus, textarea:focus {
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba(255, 255, 255, 0.2);
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(255, 255, 255, 0.2);
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+    color: rgba(255, 255, 255, 0.2);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: rgba(255, 255, 255, 0.2);
+}
+
+*:focus {
+    outline: none;
+}
+
+.header .button {
+    width: 100%;
+    height: 50px;
+
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    cursor: pointer;
+
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+
+    -webkit-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
+    -moz-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
+    box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.37);
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#45484d+0,000000+100;Black+3D+%231 */
+    background: #45484d; /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #45484d 0%, #000000 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #45484d 0%, #000000 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #45484d 0%, #000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#45484d', endColorstr='#000000', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+}
+
+.header .button:hover {
+    color: orange;
+
+    -webkit-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 5px 14px -4px rgba(0, 0, 0, 0.6);
 }
