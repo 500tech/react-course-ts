@@ -13,6 +13,7 @@
   "rules": {
     "jsx-no-lambda": false,
     "no-console": false,
+    "jsx-boolean-value": false,
     "interface-name": [
       true,
       "never-prefix"
