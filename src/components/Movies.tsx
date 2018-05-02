@@ -1,9 +1,14 @@
 import * as React from 'react';
 import Movie from './Movie';
 
-const Movies = ({ data }) => (
+const Movies = ({ data, removeMovie }) => (
   <ul>
-    {data.map(movie => <Movie label={movie} key={movie} />)}
+    {data.map((movie, index) =>
+      <Movie
+        label={movie}
+        key={movie}
+        removeMovie={() => removeMovie(index)} />
+    )}
   </ul>
 );
 
