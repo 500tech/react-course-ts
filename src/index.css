@@ -70,4 +70,10 @@ li:hover {
   background: #fafafa;
 }
 
+input[type="text"] {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #000;
+  margin: 10px 0;
+}
 

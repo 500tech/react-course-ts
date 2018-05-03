@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aff6b8d9-d6f0-4c22-ad7c-0ffd783ae69b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/Card.tsx" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/common/Input.tsx" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/components/App.tsx" afterPath="$PROJECT_DIR$/src/components/App.tsx" />
+      <change beforePath="$PROJECT_DIR$/src/components/Card.tsx" afterPath="$PROJECT_DIR$/src/components/Card.tsx" />
       <change beforePath="$PROJECT_DIR$/src/index.css" afterPath="$PROJECT_DIR$/src/index.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -22,8 +23,8 @@
       <file leaf-file-name="Card.tsx" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Card.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="18" column="52" lean-forward="false" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
+            <state relative-caret-position="301">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -48,8 +49,9 @@
         <option value="$PROJECT_DIR$/tslint.json" />
         <option value="$PROJECT_DIR$/yarn.lock" />
         <option value="$PROJECT_DIR$/src/components/common/Button.tsx" />
-        <option value="$PROJECT_DIR$/src/components/App.tsx" />
         <option value="$PROJECT_DIR$/src/index.css" />
+        <option value="$PROJECT_DIR$/src/components/App.tsx" />
+        <option value="$PROJECT_DIR$/src/components/common/Input.tsx" />
         <option value="$PROJECT_DIR$/src/components/Card.tsx" />
       </list>
     </option>
@@ -111,6 +113,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="react-course-ts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="react-course-ts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -125,7 +134,7 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="$PROJECT_DIR$/node_modules/tslint" />
-    <property name="SearchEverywhereHistoryKey" value="card&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/Card.tsx&#10;app&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/App.tsx&#10;index&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/index.css&#10;butt&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Button.tsx&#10;button&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Button.tsx" />
+    <property name="SearchEverywhereHistoryKey" value="card&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/Card.tsx&#10;input&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Input.tsx&#10;inpu&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Input.tsx&#10;car&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/Card.tsx&#10;app&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/App.tsx&#10;index&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/index.css&#10;butt&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Button.tsx&#10;button&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/common/Button.tsx" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -163,7 +172,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5405000" />
+    <option name="totallyTimeSpent" value="7333000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -234,16 +243,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/index.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Movies.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -590,27 +589,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+        <state relative-caret-position="702">
+          <caret line="76" column="17" lean-forward="false" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/App.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        <state relative-caret-position="129">
+          <caret line="3" column="35" lean-forward="false" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1525345993281" expanded="true" signature="148:178" ph="..." />
+            <marker date="1525348363449" expanded="true" signature="148:179" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/common/Input.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Card.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="18" column="52" lean-forward="false" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
+        <state relative-caret-position="301">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
