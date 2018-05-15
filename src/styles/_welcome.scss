@@ -1,0 +1,37 @@
+.welcome-container {
+  width: 500px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.15);
+  font-size: 24px;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+
+  span {
+    margin-top: 40px;
+    font-size: 12px;
+    font-weight: 300;
+  }
+
+  .button {
+    width: 120px;
+    background: darkblue;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    margin-top: 20px;
+    transition: all 300ms;
+
+    &:hover {
+      background: #000048;
+    }
+  }
+}
