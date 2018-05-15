@@ -53,7 +53,7 @@ export default class Tasks extends React.Component {
         </div>
 
         <div className="grid">
-          {data.map(task => <Task key={task.id} {...task} removeTask={this.removeTask} />)}
+          {data.map(task => <Task key={task.id} {...task} removeTask={this.removeTask} loading={true} />)}
         </div>
       </div>
     );

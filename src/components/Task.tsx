@@ -1,4 +1,5 @@
 import * as React from 'react';
+import withSpinner from './withSpinner';
 
 const Task = ({ label, id, removeTask }) => (
   <div className="task">
@@ -11,4 +12,4 @@ const Task = ({ label, id, removeTask }) => (
   </div>
 );
 
-export default Task;
+export default withSpinner(Task);
