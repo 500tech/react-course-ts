@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aff6b8d9-d6f0-4c22-ad7c-0ffd783ae69b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/List.tsx" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" afterPath="$PROJECT_DIR$/src/App.tsx" />
-      <change beforePath="$PROJECT_DIR$/src/index.scss" afterPath="$PROJECT_DIR$/src/index.scss" />
-    </list>
+    <list default="true" id="aff6b8d9-d6f0-4c22-ad7c-0ffd783ae69b" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,14 +14,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="App.tsx" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/App.tsx">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
-              <caret line="58" column="19" lean-forward="false" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="321">
+              <caret line="36" column="7" lean-forward="false" selection-start-line="36" selection-start-column="7" selection-end-line="36" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -38,6 +31,7 @@
       <find>loaders</find>
       <find>excl</find>
       <find>lodas</find>
+      <find>redu</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -133,7 +127,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="$PROJECT_DIR$/node_modules/tslint" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="app&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/App.tsx&#10;list&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/List.tsx&#10;lis&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/List.tsx&#10;pack&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/package.json&#10;packa&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/package-lock.json&#10;inde&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/index.scss" />
+    <property name="SearchEverywhereHistoryKey" value="pack&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/package.json&#10;app&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/App.tsx&#10;list&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/List.tsx&#10;lis&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/components/List.tsx&#10;packa&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/package-lock.json&#10;inde&#9;FILE&#9;file:///Users/keinans/Projects/courses/react-course-ts/src/index.scss" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -166,7 +160,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3352000" />
+    <option name="totallyTimeSpent" value="3425000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -591,14 +585,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="30" column="10" lean-forward="false" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/List.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="545">
@@ -616,6 +602,14 @@
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="36" column="7" lean-forward="false" selection-start-line="36" selection-start-column="7" selection-end-line="36" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
