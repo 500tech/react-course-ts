@@ -13,6 +13,10 @@ const mapStateToProps = (state) => ({
 const Enhanced = connect(mapStateToProps)(Header);
 
 class App extends React.Component {
+  componentDidMount() {
+    store.dispatch({type: 'hello'});
+  }
+
   render() {
     return (
       <Provider store={store}>
