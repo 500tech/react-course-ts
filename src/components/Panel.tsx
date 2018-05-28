@@ -1,11 +1,14 @@
 import * as React from 'react';
 import Rating from './common/Rating';
+// import {fetchMovieDetails} from "../queries/movies";
+// import api from '../utils/api';
 
 interface ComponentProps {
   movie: {
     label: string,
     rating: number,
-    id: number
+    id: number,
+    description: string
   },
   updateRating: (id, val) => void,
   clearSelected: () => void
@@ -20,8 +23,7 @@ const Panel = (props: ComponentProps) => {
     <div className="panel">
       <div className="panel-title">{props.movie.label}</div>
       <div className="panel-description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        {props.movie.description}
       </div>
 
       <Rating

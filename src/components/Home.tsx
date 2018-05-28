@@ -1,14 +1,25 @@
-import {find, findIndex} from 'lodash';
+import {find, findIndex, merge} from 'lodash';
 import * as React from 'react';
 
 import Movies from './Movies';
 import Panel from './Panel';
 
+import {
+  createMovie, createMovieParams,
+  fetchMovieDetails,
+  fetchMovies, removeAllMovies,
+  removeMovie,
+  removeMovieParams,
+  updateMovie, updateMovieParams
+} from '../queries/movies';
+import api from '../utils/api';
+
 interface ComponentState {
   data: Array<{
     label: string,
-    rating: number,
-    id: number
+    rating?: number,
+    id: number,
+    description?: string
   }>,
   inputVal: string,
   selectedId: null | number
@@ -20,53 +31,71 @@ interface ComponentProps {
 
 class Home extends React.Component<ComponentProps, ComponentState> {
   state = {
-    data: [
-      { id: 0, label: 'forest gump', rating: 1 },
-      { id: 1, label: 'wonder woman', rating: 2 },
-      { id: 2, label: 'a quiet place', rating: 1 }
-    ],
+    data: [],
     inputVal: '',
     selectedId: null
   };
 
   componentDidMount() {
+    api.executeQuery(fetchMovies)
+        .then((response) => {
+          this.setState({data: response.data.allMovies});
+        });
+
     if (typeof this.props.match.params.id === 'string') {
-      this.setState({ selectedId: parseInt(this.props.match.params.id, 10) });
+      const selectedId = this.props.match.params.id;
+      this.fetchMovieExtraDetails(selectedId).then(() => {
+        console.log(this.state.data);
+        this.setState({selectedId});
+      });
     }
   }
 
   addMovie = () => {
-    const { inputVal } = this.state;
+    const {inputVal} = this.state;
 
-    this.setState({
-      data: this.state.data.concat({
-        id: this.state.data.length,
-        label: inputVal || `new movie - ${this.state.data.length}`,
-        rating: 1
-      })
+    api.executeQuery<createMovieParams>(createMovie, {
+      id: String(this.state.data.length),
+      label: inputVal || `new movie - ${this.state.data.length}`,
+      rating: 1,
+      description: 'details about movie'
+    }).then((payload) => {
+      this.setState({
+        data: [...this.state.data, payload.data.createMovie]
+      });
     });
+
+
   };
 
   updateRating = (movieId, val) => {
     const newData = [...this.state.data];
-    const movieIndex = findIndex(newData, { id: movieId });
+    const movieIndex = findIndex(this.state.data, {id: movieId});
 
     if (movieIndex > -1) {
-      newData[movieIndex] = Object.assign({}, newData[movieIndex], {
-        rating: val
-      });
-    }
+      const movie = this.state.data[movieIndex];
 
-    this.setState({ data: newData });
+      api.executeQuery<updateMovieParams>(updateMovie, {...movie, rating: val})
+          .then((payload) => {
+            newData[movieIndex] = merge(newData[movieIndex], payload.data.updateMovie);
+            this.setState({
+              data: newData
+            })
+          })
+    }
   };
 
   removeMovie = (id) => {
     this.setState({
       data: this.state.data.filter(movie => movie.id !== id)
     });
+    api.executeQuery<removeMovieParams>(removeMovie, { id });
   };
 
   clearAll = () => {
+    const movieIds = this.state.data.map((movie) => movie.id);
+    api.executeQuery(removeAllMovies(movieIds));
+
     this.setState({
       data: [],
       selectedId: null
@@ -74,8 +103,37 @@ class Home extends React.Component<ComponentProps, ComponentState> {
   };
 
   clearSelected = () => {
-    this.setState({ selectedId: null });
+    this.setState({selectedId: null});
   };
+
+  selectMovie = (id) => {
+    const movie = find(this.state.data, {id});
+
+    if (!movie || !movie.description) {
+      this.fetchMovieExtraDetails(id);
+    }
+
+    this.setState({selectedId: id});
+  };
+
+  fetchMovieExtraDetails(id) {
+    return api.executeQuery(fetchMovieDetails, {id})
+        .then((movieDetails) => {
+          const movies = this.state.data.map((movie) => {
+            if (movie.id === id) {
+              return {
+                ...movie,
+                description: movieDetails.data.Movie.description,
+                rating: movieDetails.data.Movie.rating
+              }
+            }
+
+            return movie;
+          });
+
+          this.setState({data: movies});
+        });
+  }
 
   updateValue = (e) => {
     const inputVal = e.target.value;
@@ -90,21 +148,21 @@ class Home extends React.Component<ComponentProps, ComponentState> {
     const activeMovie = find(this.state.data, { id: selectedId });
 
     return (
-      <div className="app">
-        <Movies
-          data={data}
-          inputVal={inputVal}
-          addMovie={this.addMovie}
-          clearAll={this.clearAll}
-          removeMovie={this.removeMovie}
-          updateValue={this.updateValue}
-          selectMovie={id => this.setState({ selectedId: id })} />
+        <div className="app">
+          <Movies
+              data={data}
+              inputVal={inputVal}
+              addMovie={this.addMovie}
+              clearAll={this.clearAll}
+              removeMovie={this.removeMovie}
+              updateValue={this.updateValue}
+              selectMovie={this.selectMovie}/>
 
-        <Panel
-          movie={activeMovie}
-          updateRating={this.updateRating}
-          clearSelected={this.clearSelected} />
-      </div>
+          <Panel
+              movie={activeMovie}
+              updateRating={this.updateRating}
+              clearSelected={this.clearSelected}/>
+        </div>
     );
   }
 }
