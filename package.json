@@ -7,11 +7,15 @@
     "@types/node": "^9.6.7",
     "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.5",
+    "cross-env": "^5.1.6",
+    "json-graphql-server": "^2.1.1",
     "react-scripts-ts": "2.15.1",
     "typescript": "^2.8.3"
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
@@ -23,6 +27,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "api": "cross-env NODE_PORT=3004 json-graphql-server db.js "
   }
 }
