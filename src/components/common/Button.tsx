@@ -5,7 +5,7 @@ interface ComponentProps {
   onClick: () => void
 }
 
-const Button = (props: ComponentProps) => (
+export const Button = (props: ComponentProps) => (
   <div className="button" onClick={props.onClick}>{props.children}</div>
 );
 

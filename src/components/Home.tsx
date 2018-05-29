@@ -12,7 +12,7 @@ import {
   removeMovieParams,
   updateMovie, updateMovieParams
 } from '../queries/movies';
-import api from '../utils/api';
+import * as api from '../utils/api';
 
 interface ComponentState {
   data: Array<{
@@ -45,8 +45,10 @@ class Home extends React.Component<ComponentProps, ComponentState> {
     if (typeof this.props.match.params.id === 'string') {
       const selectedId = this.props.match.params.id;
       this.fetchMovieExtraDetails(selectedId).then(() => {
-        console.log(this.state.data);
-        this.setState({selectedId});
+        console.log('extra data fetched', this.state.data, selectedId);
+        this.setState({selectedId}, () => {
+          console.log('updated state', this.state)
+        });
       });
     }
   }
@@ -64,8 +66,6 @@ class Home extends React.Component<ComponentProps, ComponentState> {
         data: [...this.state.data, payload.data.createMovie]
       });
     });
-
-
   };
 
   updateRating = (movieId, val) => {

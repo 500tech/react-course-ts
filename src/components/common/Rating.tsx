@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import * as cx from 'classnames';
 import * as React from 'react';
 
 interface ComponentProps {
