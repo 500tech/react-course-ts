@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HOC: withTestId should render component with test id wrapper 1`] = `
+<Component>
+  <div
+    data-test-id="my-id"
+  >
+    <TestComponent>
+      <div>
+        Test
+      </div>
+    </TestComponent>
+  </div>
+</Component>
+`;

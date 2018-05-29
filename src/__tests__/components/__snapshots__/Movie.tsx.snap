@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Movie/> should render 1`] = `
+<li
+  onClick={[Function]}
+>
+  <div>
+    test movie
+  </div>
+  <div
+    className="remove"
+    onClick={[Function]}
+  >
+    remove
+  </div>
+</li>
+`;

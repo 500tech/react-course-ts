@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Panel/> should render a movie when a movie is provided 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-title"
+  >
+    test movie
+  </div>
+  <div
+    className="panel-description"
+  >
+    description
+  </div>
+  <Rating
+    amount={1}
+    updateRating={[Function]}
+  />
+  <div
+    className="panel-close"
+    onClick={[Function]}
+  >
+    close panel
+  </div>
+</div>
+`;
+
+exports[`<Panel/> should render nothing when no movie is provided 1`] = `""`;

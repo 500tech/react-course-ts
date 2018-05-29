@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Movies/> should render with movies 1`] = `
+<div
+  className="movies"
+>
+  <div
+    className="header"
+  >
+    my favorite movies
+  </div>
+  <Input
+    onChange={[Function]}
+    value=""
+  />
+  <Component
+    onClick={[Function]}
+  >
+    add movie
+  </Component>
+  <ul>
+    <Movie
+      key="1"
+      movie={
+        Object {
+          "id": 1,
+          "label": "test movie",
+          "rating": 1,
+        }
+      }
+      removeMovie={[Function]}
+      selectMovie={[Function]}
+    />
+    <Movie
+      key="2"
+      movie={
+        Object {
+          "id": 2,
+          "label": "test movie 2",
+          "rating": 2,
+        }
+      }
+      removeMovie={[Function]}
+      selectMovie={[Function]}
+    />
+    <Movie
+      key="3"
+      movie={
+        Object {
+          "id": 3,
+          "label": "test movie 3",
+          "rating": 3,
+        }
+      }
+      removeMovie={[Function]}
+      selectMovie={[Function]}
+    />
+  </ul>
+  <div
+    className="filters"
+  >
+    <div
+      className="clear"
+      onClick={[Function]}
+    >
+      clear all
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Movies/> should render without movies 1`] = `
+<div
+  className="movies"
+>
+  <div
+    className="header"
+  >
+    my favorite movies
+  </div>
+  <Input
+    onChange={[Function]}
+    value=""
+  />
+  <Component
+    onClick={[Function]}
+  >
+    add movie
+  </Component>
+  <div
+    className="empty"
+  >
+    no movies
+  </div>
+  <div
+    className="filters"
+  >
+    <div
+      className="clear"
+      onClick={[Function]}
+    >
+      clear all
+    </div>
+  </div>
+</div>
+`;

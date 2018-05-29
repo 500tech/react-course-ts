@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queries: Movies create movie 1`] = `
+"fragment movie on Movie {
+  id
+  label
+}
+
+mutation createMovie($id: ID!, $label: String!, $rating: Int!, $description: String!) {
+  createMovie(id: $id, label: $label, rating: $rating, description: $description) {
+    ...movie
+  }
+}
+"
+`;
+
+exports[`Queries: Movies fetch movie details 1`] = `
+"query fetchMovieDetails($id: ID!) {
+  Movie(id: $id) {
+    description
+    rating
+  }
+}
+"
+`;
+
+exports[`Queries: Movies fetch movies query 1`] = `
+"fragment movie on Movie {
+  id
+  label
+}
+
+query fetchMovies {
+  allMovies {
+    ...movie
+  }
+}
+"
+`;
+
+exports[`Queries: Movies remove all movies 1`] = `
+"mutation removeAllMovies {
+  movie0: removeMovie(id: \\"0\\")
+  movie1: removeMovie(id: \\"1\\")
+  movie2: removeMovie(id: \\"2\\")
+}
+"
+`;
+
+exports[`Queries: Movies remove movie 1`] = `
+"mutation removeMovie($id: ID!) {
+  removeMovie(id: $id)
+}
+"
+`;
+
+exports[`Queries: Movies update movie 1`] = `
+"fragment movie on Movie {
+  id
+  label
+}
+
+fragment fullMovie on Movie {
+  ...movie
+  rating
+  description
+}
+
+mutation updateMovie($id: ID!, $label: String!, $rating: Int!, $description: String!) {
+  updateMovie(id: $id, label: $label, rating: $rating, description: $description) {
+    ...fullMovie
+  }
+}
+"
+`;

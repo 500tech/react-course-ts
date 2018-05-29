@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home/> should render 1`] = `
+<div
+  className="app"
+>
+  <Movies
+    addMovie={[Function]}
+    clearAll={[Function]}
+    data={Array []}
+    inputVal=""
+    removeMovie={[Function]}
+    selectMovie={[Function]}
+    updateValue={[Function]}
+  />
+  <Panel
+    clearSelected={[Function]}
+    updateRating={[Function]}
+  />
+</div>
+`;
