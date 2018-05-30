@@ -5,9 +5,7 @@ import Home from './components/Home';
 
 const App = () => (
   <Router>
-    <Route exact path="/movies">
-      <Route path="/movies/:id" component={Home} />
-    </Route>
+    <Route path="/movies/:id?" component={Home} />
   </Router>
 );
 
