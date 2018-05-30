@@ -1,8 +1,10 @@
 import {find, findIndex} from 'lodash';
 import * as React from 'react';
 
+import { executeQuery } from '../utils/api';
 import Movies from './Movies';
 import Panel from './Panel';
+import {fetchMovies} from "../queries/movies";
 
 interface ComponentState {
   data: Array<{
@@ -20,16 +22,17 @@ interface ComponentProps {
 
 class Home extends React.Component<ComponentProps, ComponentState> {
   state = {
-    data: [
-      { id: 0, label: 'forest gump', rating: 1 },
-      { id: 1, label: 'wonder woman', rating: 2 },
-      { id: 2, label: 'a quiet place', rating: 1 }
-    ],
+    data: [],
     inputVal: '',
     selectedId: null
   };
 
   componentDidMount() {
+    executeQuery(fetchMovies)
+        .then((payload) => {
+          this.setState({ data: payload.data.allMovies});
+        });
+
     if (typeof this.props.match.params.id === 'string') {
       this.setState({ selectedId: parseInt(this.props.match.params.id, 10) });
     }

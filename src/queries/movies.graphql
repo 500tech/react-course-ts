@@ -1,0 +1,5 @@
+query myQuery {
+    allMovies {
+        id
+    }
+}
