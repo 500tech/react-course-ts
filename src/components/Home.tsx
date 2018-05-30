@@ -4,7 +4,7 @@ import * as React from 'react';
 import { executeQuery } from '../utils/api';
 import Movies from './Movies';
 import Panel from './Panel';
-import {createMovie, fetchMovies, removeMovie, updateMovie} from "../queries/movies";
+import {createMovie, fetchMovies, removeAllMovies, removeMovie, updateMovie} from "../queries/movies";
 
 interface ComponentState {
   data: Array<{
@@ -80,6 +80,9 @@ class Home extends React.Component<ComponentProps, ComponentState> {
   };
 
   clearAll = () => {
+    const movieIds = this.state.data.map(movie => movie.id);
+    executeQuery(removeAllMovies(movieIds))
+
     this.setState({
       data: [],
       selectedId: null
