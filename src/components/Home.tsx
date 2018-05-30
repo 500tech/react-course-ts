@@ -4,7 +4,7 @@ import * as React from 'react';
 import { executeQuery } from '../utils/api';
 import Movies from './Movies';
 import Panel from './Panel';
-import {fetchMovies} from "../queries/movies";
+import {createMovie, fetchMovies, removeMovie, updateMovie} from "../queries/movies";
 
 interface ComponentState {
   data: Array<{
@@ -41,12 +41,16 @@ class Home extends React.Component<ComponentProps, ComponentState> {
   addMovie = () => {
     const { inputVal } = this.state;
 
-    this.setState({
-      data: this.state.data.concat({
-        id: this.state.data.length,
-        label: inputVal || `new movie - ${this.state.data.length}`,
-        rating: 1
-      })
+    executeQuery(createMovie, {
+      id: this.state.data.length,
+      label: inputVal || `new movie - ${this.state.data.length}`,
+      rating: 1,
+      description: 'movie description'
+    }).then((payload) => {
+      this.setState({ data: [
+            ...this.state.data,
+            payload.data.createMovie
+        ]})
     });
   };
 
@@ -55,9 +59,14 @@ class Home extends React.Component<ComponentProps, ComponentState> {
     const movieIndex = findIndex(newData, { id: movieId });
 
     if (movieIndex > -1) {
-      newData[movieIndex] = Object.assign({}, newData[movieIndex], {
-        rating: val
-      });
+      const movie = { ...newData[movieIndex], rating: val, description: 'fake description' };
+      executeQuery(updateMovie, { ...movie })
+          .then((payload) => {
+            newData[movieIndex] = payload.data.updateMovie;
+            this.setState({
+              data: newData
+            })
+          });
     }
 
     this.setState({ data: newData });
@@ -67,6 +76,7 @@ class Home extends React.Component<ComponentProps, ComponentState> {
     this.setState({
       data: this.state.data.filter(movie => movie.id !== id)
     });
+    executeQuery(removeMovie, { id });
   };
 
   clearAll = () => {
