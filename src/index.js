@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -10,14 +10,13 @@ function Todo({ text, isDone, toggleDone }) {
   return (
     <li
       onClick={toggleDone}
-      style={isDone ? { textDecration: 'line-through' } : null}
+      style={isDone ? { textDecoration: 'line-through' } : null}
     >
       {text}
     </li>
   );
 }
 
-// @TODO mark a todo as done when clicked
 function TodoList({ todos = [], toggleDone }) {
   return (
     <ol>
@@ -26,34 +25,41 @@ function TodoList({ todos = [], toggleDone }) {
           key={idx}
           text={todo.text}
           isDone={todo.done}
-          toggleDone={toggleDone.bind(null, todo)}
+          toggleDone={() => toggleDone(idx)}
         />
       ))}
     </ol>
   );
 }
 
-function App({ children }) {
-  return <div className="app-container">{children}</div>;
+// @TODO add button to create new todo
+class App extends Component {
+  state = {
+    todos: [
+      { text: 'This is todo #1', done: false },
+      { text: 'This is todo #2', done: false },
+      { text: 'This is todo #3', done: false },
+      { text: 'This is todo #4', done: false },
+      { text: 'This is todo #5', done: false },
+    ],
+  };
+
+  toggleTodo = indexToToggle =>
+    this.setState({
+      todos: this.state.todos.map((todo, idx) =>
+        idx === indexToToggle ? { ...todo, done: !todo.done } : todo
+      ),
+    });
+
+  render() {
+    const { todos } = this.state;
+    return (
+      <div className="app-container">
+        <Greeting name="foobar" />
+        <TodoList todos={todos} toggleDone={this.toggleTodo} />
+      </div>
+    );
+  }
 }
 
-// why doesn't our app update when we change this array?
-window.todos = [
-  { text: 'This is todo #1', done: false },
-  { text: 'This is todo #2', done: false },
-  { text: 'This is todo #3', done: false },
-  { text: 'This is todo #4', done: false },
-  { text: 'This is todo #5', done: false },
-];
-
-function toggleDone(todo) {
-  todo.done = !todo.done;
-}
-
-ReactDOM.render(
-  <App>
-    <Greeting name="foobar" />
-    <TodoList todos={window.todos} toggleDone={toggleDone} />
-  </App>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
