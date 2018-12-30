@@ -80,6 +80,12 @@ class App extends Component {
   onDraftTodoTextChange = ({ target: { value } }) =>
     this.setState({ draftTodo: value });
 
+  submitOnEnterPress = ({ key }) => {
+    if (key === 'Enter' && this.state.draftTodo) {
+      this.createTodo();
+    }
+  };
+
   render() {
     const { todos, draftTodo } = this.state;
     return (
@@ -92,6 +98,7 @@ class App extends Component {
           placeholder="What should I do?"
           value={draftTodo}
           onChange={this.onDraftTodoTextChange}
+          onKeyPress={this.submitOnEnterPress}
         />
         <button onClick={this.createTodo} disabled={!draftTodo}>
           Create new
