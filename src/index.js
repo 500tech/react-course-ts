@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -35,6 +35,7 @@ function TodoList({ todos = [], toggleDone }) {
   );
 }
 
+// @TODO submit todo item on <ENTER>
 class App extends Component {
   state = {
     draftTodo: '',
@@ -46,6 +47,15 @@ class App extends Component {
       { text: 'This is todo #5', done: false },
     ],
   };
+
+  constructor(props) {
+    super(props);
+    this.draftInput = createRef();
+  }
+
+  componentDidMount() {
+    this.draftInput.current.focus();
+  }
 
   toggleTodo = indexToToggle =>
     this.setState({
@@ -69,7 +79,7 @@ class App extends Component {
 
   onDraftTodoTextChange = ({ target: { value } }) =>
     this.setState({ draftTodo: value });
-  
+
   render() {
     const { todos, draftTodo } = this.state;
     return (
@@ -77,12 +87,15 @@ class App extends Component {
         <Greeting name="foobar" />
         <TodoList todos={todos} toggleDone={this.toggleTodo} />
         <input
+          ref={this.draftInput}
           type="text"
           placeholder="What should I do?"
           value={draftTodo}
           onChange={this.onDraftTodoTextChange}
         />
-        <button onClick={this.createTodo} disabled={!draftTodo}>Create new</button>
+        <button onClick={this.createTodo} disabled={!draftTodo}>
+          Create new
+        </button>
       </div>
     );
   }
