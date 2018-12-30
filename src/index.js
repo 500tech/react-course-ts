@@ -7,25 +7,11 @@ function Greeting({ name = 'stranger' }) {
 }
 
 class Todo extends Component {
-  state = {
-    isNew: false,
-  };
-
-  componentDidMount() {
-    if (this.props.addedRecently) {
-      this.setState({ isNew: true }, () =>
-        setTimeout(() => this.setState({ isNew: false }), 500)
-      );
-    }
-  }
-
   render() {
     const { text, isDone, toggleDone } = this.props;
-    const { isNew } = this.state;
     return (
       <li
         onClick={toggleDone}
-        className={isNew ? 'todo new' : 'todo'}
         style={isDone ? { textDecoration: 'line-through' } : null}
       >
         {text}
@@ -42,7 +28,6 @@ function TodoList({ todos = [], toggleDone }) {
           key={idx}
           text={todo.text}
           isDone={todo.done}
-          addedRecently={todo.addedRecently}
           toggleDone={() => toggleDone(idx)}
         />
       ))}
@@ -52,6 +37,7 @@ function TodoList({ todos = [], toggleDone }) {
 
 class App extends Component {
   state = {
+    draftTodo: '',
     todos: [
       { text: 'This is todo #1', done: false },
       { text: 'This is todo #2', done: false },
@@ -69,27 +55,34 @@ class App extends Component {
     });
 
   createTodo = () => {
-    const { todos } = this.state;
-    const newTodoIndex = todos.length;
-    this.setState(
-      {
-        todos: todos.concat([
-          {
-            text: `This is todo #${newTodoIndex + 1}`,
-            done: false,
-            addedRecently: true,
-          },
-        ]),
-      }
-    );
+    const { todos, draftTodo } = this.state;
+    this.setState({
+      draftTodo: '',
+      todos: todos.concat([
+        {
+          text: draftTodo,
+          done: false,
+        },
+      ]),
+    });
   };
 
+  onDraftTodoTextChange = ({ target: { value } }) =>
+    this.setState({ draftTodo: value });
+  
+  // @TODO make sure you can't add an empty todo, and disable the button
   render() {
-    const { todos } = this.state;
+    const { todos, draftTodo } = this.state;
     return (
       <div className="app-container">
         <Greeting name="foobar" />
         <TodoList todos={todos} toggleDone={this.toggleTodo} />
+        <input
+          type="text"
+          placeholder="What should I do?"
+          value={draftTodo}
+          onChange={this.onDraftTodoTextChange}
+        />
         <button onClick={this.createTodo}>Create new</button>
       </div>
     );
