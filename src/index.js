@@ -70,7 +70,6 @@ class App extends Component {
   onDraftTodoTextChange = ({ target: { value } }) =>
     this.setState({ draftTodo: value });
   
-  // @TODO make sure you can't add an empty todo, and disable the button
   render() {
     const { todos, draftTodo } = this.state;
     return (
@@ -83,7 +82,7 @@ class App extends Component {
           value={draftTodo}
           onChange={this.onDraftTodoTextChange}
         />
-        <button onClick={this.createTodo}>Create new</button>
+        <button onClick={this.createTodo} disabled={!draftTodo}>Create new</button>
       </div>
     );
   }
