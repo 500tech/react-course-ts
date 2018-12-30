@@ -1,1 +1,3 @@
-// This is our canvas :)
+import runAll from './es6';
+
+runAll();
