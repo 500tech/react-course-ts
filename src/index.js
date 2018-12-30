@@ -6,14 +6,19 @@ function Greeting({ name = 'stranger' }) {
   return <h1 className="greeting">Hello, {name}!</h1>;
 }
 
-function Todo({ text, isDone }) {
+function Todo({ text, isDone, toggleDone }) {
   return (
-    <li onClick={console.log} style={isDone ? { textDecration: 'line-through' } : null}>{text}</li>
+    <li
+      onClick={toggleDone}
+      style={isDone ? { textDecration: 'line-through' } : null}
+    >
+      {text}
+    </li>
   );
 }
 
 // @TODO mark a todo as done when clicked
-function TodoList({ todos = [] }) {
+function TodoList({ todos = [], toggleDone }) {
   return (
     <ol>
       {todos.map((todo, idx) => (
@@ -21,6 +26,7 @@ function TodoList({ todos = [] }) {
           key={idx}
           text={todo.text}
           isDone={todo.done}
+          toggleDone={toggleDone.bind(null, todo)}
         />
       ))}
     </ol>
@@ -40,10 +46,14 @@ window.todos = [
   { text: 'This is todo #5', done: false },
 ];
 
+function toggleDone(todo) {
+  todo.done = !todo.done;
+}
+
 ReactDOM.render(
   <App>
     <Greeting name="foobar" />
-    <TodoList todos={window.todos} />
+    <TodoList todos={window.todos} toggleDone={toggleDone} />
   </App>,
   document.getElementById('root')
 );
