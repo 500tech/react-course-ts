@@ -6,8 +6,8 @@
  */
 
 async function varLetConst() {
-  var promises = [];
-  for (var i = 0; i < 5; i++) {
+  const promises = [];
+  for (let i = 0; i < 5; i++) {
     promises.push(
       // eslint-disable-next-line
       new Promise(function(resolve) {
@@ -17,7 +17,7 @@ async function varLetConst() {
       })
     );
   }
-  var values = await Promise.all(promises);
+  const values = await Promise.all(promises);
   return (
     values.reduce(function(sum, value) {
       return sum + value;
@@ -37,37 +37,45 @@ function filterMapReduce() {
   const samples = generateNRandomNumbers(4, 10).concat(
     generateNRandomNumbers(3, 5)
   );
-  const samplesOver5 = samples;
-  const squaresOfSamplesOver5 = samplesOver5;
+  const samplesOver5 = samples.filter(x => x > 5);
+  const squaresOfSamplesOver5 = samplesOver5.map(x => x * x);
   return !squaresOfSamplesOver5.find(function(item) {
     return item < 25;
   });
 }
 
 // Hint: use destructuring for more readable code :)
-function generateCompanyEmail(userObject) {}
+function generateCompanyEmail({ company, fullName }) {
+  const [firstName] = fullName.split(' ');
+  return `${firstName}@${company}.com`;
+}
 
 // Use arrow functions and class syntax to make this work
 function getUserFoo() {
-  function User(username) {
-    this.username = username;
-  }
-  User.prototype.fetchUser = function() {
-    return new Promise(function(resolve) {
-      resolve({
-        username: this && this.username,
+  class User {
+    constructor(username) {
+      this.username = username;
+    }
+
+    fetchUser() {
+      return new Promise(resolve => {
+        resolve({
+          username: this && this.username,
+        });
       });
-    });
-  };
-  const { fetchUser } = new User('foo');
-  return fetchUser();
+    }
+  }
+  const user = new User('foo');
+  return user.fetchUser();
 }
 
 function shallowClone(object) {
-  if (Array.isArray) {
-    return object;
+  if (Array.isArray(object)) {
+    // also: object.slice()
+    return [...object];
   }
-  return object;
+  // also: Object.assign({}, object)
+  return { ...object };
 }
 
 export default async function runAll() {
