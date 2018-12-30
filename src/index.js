@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function Greeting() {
-  return React.createElement('h1', null, `Hello, world!`);
+  return React.createElement('h1', { className: 'greeting' }, `Hello, world!`);
 }
 
 ReactDOM.render(
