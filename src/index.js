@@ -2,27 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const GREETING_SIZES = {
-  TITLE: 'h1',
-  BIG: 'h2',
-  MEDIUM: 'h3',
-  SMALL: 'h5',
-};
+function Greeting({ name = 'stranger' }) {
+  return <h1 className="greeting">Hello, {name}!</h1>;
+}
 
-function Greeting({ name = 'stranger', size = GREETING_SIZES.TITLE }) {
-  return React.createElement(
-    size,
-    { className: 'greeting' },
-    `Hello, ${name}!`
+// @TODO Make App into a component that doesn't know of Greeting, and accepts it as a prop
+function App() {
+  // notice how we don't get that pesky warning anymore...
+  return (
+    <div className="app-container">
+      <Greeting name="foobar" />
+    </div>
   );
 }
 
-Object.assign(Greeting, GREETING_SIZES);
-
-ReactDOM.render(
-  React.createElement('div', null, [
-    // child components
-    React.createElement(Greeting, { name: 'foobar', size: Greeting.MEDIUM }),
-  ]),
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));

@@ -1,3 +1,7 @@
 .greeting {
   color: violet;
 }
+
+.app-container {
+  border: 1px solid lightblue;
+}
