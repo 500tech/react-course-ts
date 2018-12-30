@@ -2,14 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Greeting() {
-  return React.createElement('h1', { className: 'greeting' }, `Hello, world!`);
+// @TODO what if we want to control the size of the greeting?
+function Greeting({ name = 'stranger' }) {
+  return React.createElement(
+    'h1',
+    { className: 'greeting' },
+    `Hello, ${name}!`
+  );
 }
 
 ReactDOM.render(
   React.createElement('div', null, [
     // child components
-    React.createElement(Greeting),
+    React.createElement(Greeting, { name: 'foobar' }),
   ]),
   document.getElementById('root')
 );
