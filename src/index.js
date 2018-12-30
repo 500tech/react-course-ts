@@ -6,15 +6,31 @@ function Greeting({ name = 'stranger' }) {
   return <h1 className="greeting">Hello, {name}!</h1>;
 }
 
-function Todo({ text, isDone, toggleDone }) {
-  return (
-    <li
-      onClick={toggleDone}
-      style={isDone ? { textDecoration: 'line-through' } : null}
-    >
-      {text}
-    </li>
-  );
+class Todo extends Component {
+  state = {
+    isNew: false,
+  };
+
+  componentDidMount() {
+    // @TODO make it so we don't have to do this for initial todo items
+    this.setState({ isNew: true }, () =>
+      setTimeout(() => this.setState({ isNew: false }), 500)
+    );
+  }
+
+  render() {
+    const { text, isDone, toggleDone } = this.props;
+    const { isNew } = this.state;
+    return (
+      <li
+        onClick={toggleDone}
+        className={isNew ? 'todo new' : 'todo'}
+        style={isDone ? { textDecoration: 'line-through' } : null}
+      >
+        {text}
+      </li>
+    );
+  }
 }
 
 function TodoList({ todos = [], toggleDone }) {
@@ -32,7 +48,6 @@ function TodoList({ todos = [], toggleDone }) {
   );
 }
 
-// @TODO add button to create new todo
 class App extends Component {
   state = {
     todos: [
