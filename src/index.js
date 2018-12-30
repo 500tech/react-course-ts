@@ -12,10 +12,11 @@ class Todo extends Component {
   };
 
   componentDidMount() {
-    // @TODO make it so we don't have to do this for initial todo items
-    this.setState({ isNew: true }, () =>
-      setTimeout(() => this.setState({ isNew: false }), 500)
-    );
+    if (this.props.addedRecently) {
+      this.setState({ isNew: true }, () =>
+        setTimeout(() => this.setState({ isNew: false }), 500)
+      );
+    }
   }
 
   render() {
@@ -41,6 +42,7 @@ function TodoList({ todos = [], toggleDone }) {
           key={idx}
           text={todo.text}
           isDone={todo.done}
+          addedRecently={todo.addedRecently}
           toggleDone={() => toggleDone(idx)}
         />
       ))}
@@ -68,11 +70,18 @@ class App extends Component {
 
   createTodo = () => {
     const { todos } = this.state;
-    this.setState({
-      todos: todos.concat([
-        { text: `This is todo #${todos.length + 1}`, done: false },
-      ]),
-    });
+    const newTodoIndex = todos.length;
+    this.setState(
+      {
+        todos: todos.concat([
+          {
+            text: `This is todo #${newTodoIndex + 1}`,
+            done: false,
+            addedRecently: true,
+          },
+        ]),
+      }
+    );
   };
 
   render() {
