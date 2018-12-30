@@ -51,12 +51,22 @@ class App extends Component {
       ),
     });
 
+  createTodo = () => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.concat([
+        { text: `This is todo #${todos.length + 1}`, done: false },
+      ]),
+    });
+  };
+
   render() {
     const { todos } = this.state;
     return (
       <div className="app-container">
         <Greeting name="foobar" />
         <TodoList todos={todos} toggleDone={this.toggleTodo} />
+        <button onClick={this.createTodo}>Create new</button>
       </div>
     );
   }
