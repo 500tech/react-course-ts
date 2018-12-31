@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 const TodoItem = styled.li`
   text-decoration: ${({ done }) => (done ? 'line-through' : 'none')};
+  color: ${({ active }) => (active ? 'violet' : 'inherit')};
 `;
 
 export const TodoType = PropTypes.exact({
@@ -11,10 +12,10 @@ export const TodoType = PropTypes.exact({
   done: PropTypes.bool.isRequired,
 });
 
-export default function Todo({ todo, toggleDone }) {
+export default function Todo({ todo, toggleDone, active }) {
   const { done, text } = todo;
   return (
-    <TodoItem onClick={toggleDone} done={done}>
+    <TodoItem onClick={toggleDone} done={done} active={active}>
       {text}
     </TodoItem>
   );
@@ -22,5 +23,6 @@ export default function Todo({ todo, toggleDone }) {
 
 Todo.propTypes = {
   todo: TodoType.isRequired,
+  active: PropTypes.bool,
   toggleDone: PropTypes.func.isRequired,
 };

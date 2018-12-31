@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Route } from 'react-router-dom';
 import TodoList from '../components/TodoList';
 import AddTodo from '../components/AddTodo';
+
+const Section = styled.div`
+  display: inline-block;
+  vertical-align: top;
+`;
 
 export default class TodoPage extends Component {
   state = {
@@ -13,12 +20,15 @@ export default class TodoPage extends Component {
     ],
   };
 
-  toggleTodo = indexToToggle =>
+  // @TODO split this into click -> go, double click -> toggle
+  toggleTodo = indexToToggle => {
     this.setState({
       todos: this.state.todos.map((todo, idx) =>
         idx === indexToToggle ? { ...todo, done: !todo.done } : todo
       ),
     });
+    this.props.history.push(`/todos/${indexToToggle}`);
+  };
 
   createTodo = todo => {
     const { todos } = this.state;
@@ -31,8 +41,27 @@ export default class TodoPage extends Component {
     const { todos } = this.state;
     return (
       <>
-        <TodoList todos={todos} toggleDone={this.toggleTodo} />
-        <AddTodo autoFocus onAddTodo={this.createTodo} />
+        <Route
+          path="/todos/:todosIndex?"
+          render={() => {
+            return (
+              <Section>
+                <TodoList todos={todos} toggleDone={this.toggleTodo} />
+                <AddTodo autoFocus onAddTodo={this.createTodo} />
+              </Section>
+            );
+          }}
+        />
+        <Route
+          path="/todos/:todosIndex"
+          render={({ match }) => {
+            return (
+              <Section>
+                {JSON.stringify(todos[match.params.todosIndex])}
+              </Section>
+            );
+          }}
+        />
       </>
     );
   }
