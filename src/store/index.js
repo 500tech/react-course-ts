@@ -10,7 +10,7 @@ export default createStore(
     todos: todosReducer,
     counter: counterReducer,
   }),
-  applyMiddleware(log, log)
+  applyMiddleware(log)
 );
 
 export const init = () => ({ type: 'INIT' });
