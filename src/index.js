@@ -1,17 +1,14 @@
 /**
- * Flux:
- *
- * UI -[creates]-> action -[through]-> dispatcher -[affects]-> state -[affects]-> UI
- *
- * For example:
- * Todo List -[onClick]-> TOGGLE_TODO_ITEM -> (...) -> state = !state -> Todo list updates
+ * The case for immutability
  */
+
+// @TODO make NOOP not expensive to render
 
 function createStore(state, handleAction) {
   const stateSubscribers = new Set();
   return {
     dispatch(action) {
-      state = handleAction(state, action);
+      handleAction(state, action);
       for (let sub of stateSubscribers) {
         sub(state);
       }
@@ -23,17 +20,24 @@ function createStore(state, handleAction) {
   };
 }
 
-const store = createStore(0, function handleState(state, action) {
+const store = createStore(Array.from({ length: 1000 }), function handleState(
+  state,
+  action
+) {
   switch (action.type) {
     case 'INCREMENT': {
       const { payload = 1 } = action;
-      return state + payload;
+      for (let i = 0; i < payload; i++) {
+        state.push({});
+      }
+      return;
     }
     case 'DECREMENT': {
-      return state - 1;
+      state.pop();
+      return;
     }
     default: {
-      return state;
+      return;
     }
   }
 });
@@ -45,6 +49,11 @@ document.getElementById('decrement').onclick = () =>
   store.dispatch({ type: 'DECREMENT' });
 document.getElementById('n-increment').onclick = () =>
   store.dispatch({ type: 'INCREMENT', payload: Math.round(Math.random() * 5) });
+document.getElementById('noop').onclick = () =>
+  store.dispatch({ type: 'NOOP' });
 
-store.subscribe(state => (counter.textContent = state));
+store.subscribe(function veryExpensiveFunction(state) {
+  state.forEach(() => state.forEach(() => state.forEach(() => null)));
+  counter.textContent = state.length;
+});
 store.dispatch({ type: 'INIT' });
