@@ -10,6 +10,7 @@ const Container = styled.div`
   border: 1px solid lightblue;
 `;
 
+// @TODO hook up the redux to the react app
 export default function App() {
   return (
     <Router>
