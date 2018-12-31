@@ -1,5 +1,6 @@
 import React from 'react';
-import Todo from './Todo';
+import Todo, { TodoType } from './Todo';
+import PropTypes from 'prop-types';
 
 export default function TodoList({ todos = [], toggleDone }) {
   return (
@@ -7,11 +8,15 @@ export default function TodoList({ todos = [], toggleDone }) {
       {todos.map((todo, idx) => (
         <Todo
           key={idx}
-          text={todo.text}
-          isDone={todo.done}
+          todo={todo}
           toggleDone={() => toggleDone(idx)}
         />
       ))}
     </ol>
   );
 }
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(TodoType).isRequired,
+  toggleDone: PropTypes.func.isRequired,
+};
