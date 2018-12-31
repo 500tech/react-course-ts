@@ -1,15 +1,3 @@
-.greeting {
+.active-link {
   color: violet;
-}
-
-.app-container {
-  border: 1px solid lightblue;
-}
-
-.todo {
-  transition: font-size 2s ease-in-out;
-}
-
-.todo.new {
-  font-size: 22px;
 }
