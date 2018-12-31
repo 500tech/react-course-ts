@@ -1,6 +1,5 @@
 import * as todosActions from './todos.actions';
-
-const createAction = type => payload => ({ type, payload });
+import { createAction } from '../utils';
 
 export const createTodo = createAction(todosActions.CREATE_TODO);
 
