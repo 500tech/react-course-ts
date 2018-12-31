@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import todosReducer from './todos.reducer';
+import { todosReducer } from './todos';
 
 export default createStore(todosReducer);
 

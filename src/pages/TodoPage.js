@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import withRedux from '../withRedux'
 import TodoList from '../components/TodoList';
 import AddTodo from '../components/AddTodo';
-import * as todos from '../store/todos.actors';
+import * as todos from '../store/todos';
 
 const Section = styled.div`
   display: inline-block;

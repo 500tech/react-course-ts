@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Tab = styled.div`
@@ -7,15 +8,33 @@ const Tab = styled.div`
   padding: 5px;
 `;
 
-export default function TabsRow() {
+const tabType = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  exact: PropTypes.bool,
+});
+
+function TabLink({ tab }) {
+  return (
+    <Tab>
+      <NavLink exact={tab.exact} activeClassName="active-link" to={tab.path}>
+        {tab.name}
+      </NavLink>
+    </Tab>
+  );
+}
+TabLink.propTypes = { tab: tabType };
+
+export default function TabsRow({ tabs }) {
   return (
     <div>
-      <Tab>
-        <NavLink exact activeClassName="active-link" to="/">Home</NavLink>
-      </Tab>
-      <Tab>
-        <NavLink activeClassName="active-link" to="/todos">Todos</NavLink>
-      </Tab>
+      {tabs.map((tab, idx) => (
+        <TabLink key={idx} tab={tab} />
+      ))}
     </div>
   );
 }
+
+TabsRow.propTypes = {
+  tabs: PropTypes.arrayOf(tabType).isRequired,
+};
