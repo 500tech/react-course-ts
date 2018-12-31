@@ -1,46 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Greeting from './components/Greeting';
-import TodoList from './components/TodoList';
-import AddTodo from './components/AddTodo';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import TabsRow from './components/TabsRow';
+import HomePage from './pages/HomePage';
+import TodoPage from './pages/TodoPage';
 
 const Container = styled.div`
   border: 1px solid lightblue;
 `;
 
-export default class App extends Component {
-  state = {
-    todos: [
-      { text: 'This is todo #1', done: false },
-      { text: 'This is todo #2', done: false },
-      { text: 'This is todo #3', done: false },
-      { text: 'This is todo #4', done: false },
-      { text: 'This is todo #5', done: false },
-    ],
-  };
-
-  toggleTodo = indexToToggle =>
-    this.setState({
-      todos: this.state.todos.map((todo, idx) =>
-        idx === indexToToggle ? { ...todo, done: !todo.done } : todo
-      ),
-    });
-
-  createTodo = todo => {
-    const { todos } = this.state;
-    this.setState({
-      todos: todos.concat([todo]),
-    });
-  };
-
-  render() {
-    const { todos } = this.state;
-    return (
-      <Container className="app-container">
-        <Greeting name="foobar" />
-        <TodoList todos={todos} toggleDone={this.toggleTodo} />
-        <AddTodo autoFocus onAddTodo={this.createTodo} />
+// @TODO: create a catchall (404) route
+export default function App() {
+  return (
+    <Router>
+      <Container>
+        <TabsRow />
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/todos" component={TodoPage} />
+        </Switch>
       </Container>
-    );
-  }
+    </Router>
+  );
 }
