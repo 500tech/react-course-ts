@@ -1,44 +1,29 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
+import withRedux from '../withRedux'
 import TodoList from '../components/TodoList';
 import AddTodo from '../components/AddTodo';
+import * as todos from '../store/todos.actors';
 
 const Section = styled.div`
   display: inline-block;
   vertical-align: top;
 `;
 
-export default class TodoPage extends Component {
-  state = {
-    todos: [
-      { text: 'This is todo #1', done: false },
-      { text: 'This is todo #2', done: false },
-      { text: 'This is todo #3', done: false },
-      { text: 'This is todo #4', done: false },
-      { text: 'This is todo #5', done: false },
-    ],
-  };
-
+export default withRedux(class TodoPage extends Component {
   gotoTodo = index => this.props.history.push(`/todos/${index}`);
 
   toggleTodo = indexToToggle => {
-    this.setState({
-      todos: this.state.todos.map((todo, idx) =>
-        idx === indexToToggle ? { ...todo, done: !todo.done } : todo
-      ),
-    });
+    this.props.dispatch(todos.toggleTodo(indexToToggle));
   };
 
   createTodo = todo => {
-    const { todos } = this.state;
-    this.setState({
-      todos: todos.concat([todo]),
-    });
+    this.props.dispatch(todos.createTodo(todo));
   };
 
   render() {
-    const { todos } = this.state;
+    const { reduxState: todos } = this.props;
     return (
       <>
         <Route
@@ -70,3 +55,4 @@ export default class TodoPage extends Component {
     );
   }
 }
+)
