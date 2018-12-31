@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import withRedux from '../withRedux';
 import * as counter from '../store/counter';
 
+// @TODO implement this with react-redux
 export default withRedux(
   class CounterPage extends Component {
     increment = () => this.props.dispatch(counter.increment());
