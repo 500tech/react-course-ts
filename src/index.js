@@ -1,28 +1,7 @@
-/**
- * The case for immutability
- */
+import { createStore } from 'redux';
 
-function createStore(state, handleAction) {
-  const stateSubscribers = new Set();
-  return {
-    dispatch(action) {
-      const newState = handleAction(state, action);
-      if (newState !== state || action.type === 'INIT') {
-        state = newState;
-        for (let sub of stateSubscribers) {
-          sub(state);
-        }
-      }
-    },
-    subscribe(cb) {
-      stateSubscribers.add(cb);
-      return () => stateSubscribers.delete(cb);
-    },
-  };
-}
-
-const store = createStore(Array.from({ length: 1000 }), function handleState(
-  state,
+const store = createStore(function itemsReducer(
+  state = Array.from({ length: 1000 }),
   action
 ) {
   switch (action.type) {
@@ -49,8 +28,20 @@ document.getElementById('n-increment').onclick = () =>
 document.getElementById('noop').onclick = () =>
   store.dispatch({ type: 'NOOP' });
 
-store.subscribe(function veryExpensiveFunction(state) {
+const memoizeSubscribe = onStateChange => {
+  let lastState;
+  store.subscribe(() => {
+    const state = store.getState();
+    if (lastState !== state) {
+      lastState = state;
+      onStateChange(state);
+    }
+  });
+};
+
+memoizeSubscribe(function veryExpensiveFunction(state) {
   state.forEach(() => state.forEach(() => state.forEach(() => null)));
   counter.textContent = state.length;
 });
+
 store.dispatch({ type: 'INIT' });
