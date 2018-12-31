@@ -20,14 +20,14 @@ export default class TodoPage extends Component {
     ],
   };
 
-  // @TODO split this into click -> go, double click -> toggle
+  gotoTodo = index => this.props.history.push(`/todos/${index}`);
+
   toggleTodo = indexToToggle => {
     this.setState({
       todos: this.state.todos.map((todo, idx) =>
         idx === indexToToggle ? { ...todo, done: !todo.done } : todo
       ),
     });
-    this.props.history.push(`/todos/${indexToToggle}`);
   };
 
   createTodo = todo => {
@@ -46,7 +46,11 @@ export default class TodoPage extends Component {
           render={() => {
             return (
               <Section>
-                <TodoList todos={todos} toggleDone={this.toggleTodo} />
+                <TodoList
+                  todos={todos}
+                  toggleDone={this.toggleTodo}
+                  gotoTodo={this.gotoTodo}
+                />
                 <AddTodo autoFocus onAddTodo={this.createTodo} />
               </Section>
             );
