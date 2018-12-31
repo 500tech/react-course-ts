@@ -2,15 +2,16 @@
  * The case for immutability
  */
 
-// @TODO make NOOP not expensive to render
-
 function createStore(state, handleAction) {
   const stateSubscribers = new Set();
   return {
     dispatch(action) {
-      handleAction(state, action);
-      for (let sub of stateSubscribers) {
-        sub(state);
+      const newState = handleAction(state, action);
+      if (newState !== state || action.type === 'INIT') {
+        state = newState;
+        for (let sub of stateSubscribers) {
+          sub(state);
+        }
       }
     },
     subscribe(cb) {
@@ -27,17 +28,13 @@ const store = createStore(Array.from({ length: 1000 }), function handleState(
   switch (action.type) {
     case 'INCREMENT': {
       const { payload = 1 } = action;
-      for (let i = 0; i < payload; i++) {
-        state.push({});
-      }
-      return;
+      return state.concat(Array.from({ length: payload }));
     }
     case 'DECREMENT': {
-      state.pop();
-      return;
+      return state.slice(0, state.length - 1);
     }
     default: {
-      return;
+      return state;
     }
   }
 });
