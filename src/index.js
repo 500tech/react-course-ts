@@ -24,13 +24,9 @@ function createStore(state, handleAction) {
 }
 
 const store = createStore(0, function handleState(state, action) {
-  switch (action.type) {
+  switch (action) {
     case 'INCREMENT': {
-      const { payload = 1 } = action;
-      return state + payload;
-    }
-    case 'DECREMENT': {
-      return state - 1;
+      return state + 1;
     }
     default: {
       return state;
@@ -39,12 +35,10 @@ const store = createStore(0, function handleState(state, action) {
 });
 
 const counter = document.getElementById('counter');
-document.getElementById('increment').onclick = () =>
-  store.dispatch({ type: 'INCREMENT' });
-document.getElementById('decrement').onclick = () =>
-  store.dispatch({ type: 'DECREMENT' });
-document.getElementById('n-increment').onclick = () =>
-  store.dispatch({ type: 'INCREMENT', payload: Math.round(Math.random() * 5) });
+// @TODO create a decrement button
+// @TODO create a +n button that adds a random number (0-5)
+const incrementButton = document.getElementById('increment');
 
 store.subscribe(state => (counter.textContent = state));
-store.dispatch({ type: 'INIT' });
+incrementButton.onclick = () => store.dispatch('INCREMENT');
+store.dispatch();
