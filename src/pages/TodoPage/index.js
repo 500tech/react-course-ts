@@ -1,23 +1,23 @@
 import { connect } from 'react-redux';
-import * as todos from '../../store/todos';
+import todos from '../../store/todos';
 import TodosPage from './TodoPage';
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos,
+    todos: todos.selectors.getTodos(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getTodos() {
-      dispatch(todos.getTodos());
+      dispatch(todos.actions.getTodos());
     },
     createTodo(todo) {
-      dispatch(todos.createTodo(todo));
+      dispatch(todos.actions.createTodo(todo));
     },
     toggleTodo(idx) {
-      dispatch(todos.toggleTodo(idx));
+      dispatch(todos.actions.toggleTodo(idx));
     },
   };
 }

@@ -1,8 +1,10 @@
+import { get } from 'lodash';
 import { NET_FAILURE, NET_SUCCESS } from '../utils';
 
 export default store => next => async action => {
   next(action);
-  if (action.api) {
+  const api = get(action, 'meta.api');
+  if (api) {
     const {
       url,
       method = 'GET',
@@ -10,7 +12,7 @@ export default store => next => async action => {
       headers = {},
       successAction = NET_SUCCESS,
       failureAction = NET_FAILURE,
-    } = action.api;
+    } = api;
     const fetchOptions = {
       method,
     };
