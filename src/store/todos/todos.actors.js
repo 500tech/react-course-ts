@@ -1,8 +1,12 @@
 import * as todosActions from './todos.actions';
 import { createAction } from '../utils';
 
-// @TODO hook createTodo to server
-export const createTodo = createAction(todosActions.CREATE_TODO);
+export const createTodo = createAction(todosActions.CREATE_TODO, todo => ({
+  url: '/api/todos',
+  method: 'POST',
+  body: todo,
+  successAction: todosActions.ADD_TODO
+}));
 
 export const toggleTodo = createAction(todosActions.TOGGLE_TODO);
 

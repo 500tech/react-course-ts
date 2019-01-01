@@ -8,7 +8,7 @@ user-select: none;
   color: ${({ active }) => (active ? 'violet' : 'inherit')};
 `;
 
-export const TodoType = PropTypes.exact({
+export const TodoType = PropTypes.shape({
   text: PropTypes.string.isRequired,
   done: PropTypes.bool.isRequired,
 });
