@@ -1,7 +1,10 @@
 import * as todosActions from './todos.actions';
 
-export default function todosReducer(state = [], action) {
+export default function todosReducer(state = null, action) {
   switch (action.type) {
+    case todosActions.SET_TODOS: {
+      return action.payload;
+    }
     case todosActions.CREATE_TODO: {
       return [...state, action.payload];
     }

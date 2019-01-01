@@ -10,6 +10,10 @@ const Section = styled.div`
 `;
 
 export default (class TodoPage extends Component {
+  componentDidMount() {
+    this.props.getTodos();
+  }
+
   gotoTodo = index => this.props.history.push(`/todos/${index}`);
 
   toggleTodo = indexToToggle => {
@@ -22,6 +26,9 @@ export default (class TodoPage extends Component {
 
   render() {
     const { todos } = this.props;
+    if (todos === null) {
+      return 'Loading...';
+    }
     return (
       <>
         <Route
