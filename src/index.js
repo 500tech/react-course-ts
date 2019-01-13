@@ -6,14 +6,13 @@ function Greeting({ name = 'stranger' }) {
   return <h1 className="greeting">Hello, {name}!</h1>;
 }
 
-// @TODO Make App into a component that doesn't know of Greeting, and accepts it as a prop
-function App() {
-  // notice how we don't get that pesky warning anymore...
-  return (
-    <div className="app-container">
-      <Greeting name="foobar" />
-    </div>
-  );
+function App({ children = <p>meow!!!</p> }) {
+  return <div className="app-container">{children}</div>;
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <App>
+    <Greeting name={'foobar'} />
+  </App>,
+  document.getElementById('root')
+);
