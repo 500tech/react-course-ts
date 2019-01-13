@@ -2,17 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Greeting({ name = 'stranger' }) {
-  return <h1 className="greeting">Hello, {name}!</h1>;
+/**
+<div id="root">
+  <div class="app-container">
+    <header>
+      <h1>Foobar</h1>
+    </header>
+    <main>
+      <h1 class="greeting">Hello, stranger!</h1>
+    </main>
+  </div>
+</div>
+ */
+
+function App() {
+  return null;
 }
 
-function App({ children = <p>meow!!!</p> }) {
-  return <div className="app-container">{children}</div>;
-}
-
-ReactDOM.render(
-  <App>
-    <Greeting name={'foobar'} />
-  </App>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));

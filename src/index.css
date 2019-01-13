@@ -3,5 +3,15 @@
 }
 
 .app-container {
-  border: 1px solid lightblue;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  padding: 5px;
+}
+
+main {
+  padding: 20px;
+  background-color: lightcyan;
 }
