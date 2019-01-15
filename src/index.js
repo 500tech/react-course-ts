@@ -27,12 +27,12 @@ function AppContainer({ children }) {
  * @TODO if user exists, greet him/her (use Greeting)
  * otherwise, just render children
  */
-function App({ children }) {
+function App({ children, user }) {
   return (
     <AppContainer>
       <Header title="foobar" />
       <main>
-        <Greeting />
+        {user ? <Greeting name={user.name} /> : null}
         {children}
       </main>
     </AppContainer>
@@ -44,6 +44,6 @@ function App({ children }) {
  *   name: string;
  * }
  */
-const user = null;
+const user = { name: 'Moshe' };
 
 ReactDOM.render(<App user={user} />, document.getElementById('root'));
