@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -25,34 +25,48 @@ function TodoList({ todos = [], toggleTodo }) {
           key={idx}
           text={todo.text}
           isDone={todo.done}
-          onToggle={() => toggleTodo(todo)}
+          onToggle={() => toggleTodo(idx)}
         />
       ))}
     </ol>
   );
 }
 
-function App({ children }) {
-  return <div className="app-container">{children}</div>;
+class App extends Component {
+  state = {
+    todos: [
+      { text: 'This is todo #1', done: false },
+      { text: 'This is todo #2', done: false },
+      { text: 'This is todo #3', done: false },
+      { text: 'This is todo #4', done: false },
+      { text: 'This is todo #5', done: false },
+    ],
+  };
+
+  toggleTodo = index => {
+    const { todos } = this.state;
+    const todo = todos[index];
+    const newTodo = {
+      ...todo,
+      done: !todo.done,
+    };
+    const newTodos = todos.map((todo, idx) => {
+      if (index === idx) {
+        return newTodo;
+      }
+      return todo;
+    });
+    this.setState({ todos: newTodos });
+  };
+
+  render() {
+    return (
+      <div className="app-container">
+        <Greeting name="foobar" />
+        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
+      </div>
+    );
+  }
 }
 
-// why doesn't our app update when we change this array?
-window.todos = [
-  { text: 'This is todo #1', done: false },
-  { text: 'This is todo #2', done: false },
-  { text: 'This is todo #3', done: false },
-  { text: 'This is todo #4', done: false },
-  { text: 'This is todo #5', done: false },
-];
-
-function toggleTodo(todo) {
-  todo.done = !todo.done;
-}
-
-ReactDOM.render(
-  <App>
-    <Greeting name="foobar" />
-    <TodoList todos={window.todos} toggleTodo={toggleTodo} />
-  </App>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
