@@ -32,6 +32,10 @@ function TodoList({ todos = [], toggleDone }) {
   );
 }
 
+function AddTodo({ addTodo }) {
+  return <button onClick={addTodo}>Add a new Todo item</button>;
+}
+
 // @TODO add button to create new todo
 class App extends Component {
   state = {
@@ -51,12 +55,23 @@ class App extends Component {
       ),
     });
 
+  onAddTodo = () => {
+    const { todos } = this.state;
+    const todo = {
+      text: `This is todo #${todos.length + 1}`,
+      done: false,
+    };
+    const newTodos = [...todos, todo];
+    this.setState({ todos: newTodos });
+  };
+
   render() {
     const { todos } = this.state;
     return (
       <div className="app-container">
         <Greeting name="foobar" />
         <TodoList todos={todos} toggleDone={this.toggleTodo} />
+        <AddTodo addTodo={this.onAddTodo} />
       </div>
     );
   }
