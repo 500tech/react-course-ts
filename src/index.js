@@ -45,16 +45,8 @@ class App extends Component {
 
   toggleTodo = index => {
     const { todos } = this.state;
-    const todo = todos[index];
-    const newTodo = {
-      ...todo,
-      done: !todo.done,
-    };
-    const newTodos = todos.map((todo, idx) => {
-      if (index === idx) {
-        return newTodo;
-      }
-      return todo;
+    const newTodos = todos.filter((_todo, idx) => {
+      return index !== idx;
     });
     this.setState({ todos: newTodos });
   };
