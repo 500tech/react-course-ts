@@ -17,17 +17,19 @@ function Todo({ text, isDone, toggleDone }) {
   );
 }
 
-function TodoList({ todos = [], toggleDone }) {
+function TodoList({ todos = [], toggleDone, showDone }) {
   return (
     <ol>
-      {todos.map((todo, idx) => (
-        <Todo
-          key={idx}
-          text={todo.text}
-          isDone={todo.done}
-          toggleDone={() => toggleDone(idx)}
-        />
-      ))}
+      {todos.map((todo, idx) =>
+        !showDone && todo.done ? null : (
+          <Todo
+            key={idx}
+            text={todo.text}
+            isDone={todo.done}
+            toggleDone={() => toggleDone(idx)}
+          />
+        )
+      )}
     </ol>
   );
 }
@@ -36,7 +38,10 @@ function AddTodo({ addTodo }) {
   return <button onClick={addTodo}>Add a new Todo item</button>;
 }
 
-// @TODO add button to create new todo
+function ToggleDoneVisibility({ toggleDoneVisibility }) {
+  return <button onClick={toggleDoneVisibility}>Toggle done visibility</button>;
+}
+
 class App extends Component {
   state = {
     todos: [
@@ -46,6 +51,7 @@ class App extends Component {
       { text: 'This is todo #4', done: false },
       { text: 'This is todo #5', done: false },
     ],
+    showDone: true,
   };
 
   toggleTodo = indexToToggle =>
@@ -65,13 +71,23 @@ class App extends Component {
     this.setState({ todos: newTodos });
   };
 
+  onToggleDoneVisibility = () =>
+    this.setState({ showDone: !this.state.showDone });
+
   render() {
-    const { todos } = this.state;
+    const { todos, showDone } = this.state;
     return (
       <div className="app-container">
         <Greeting name="foobar" />
-        <TodoList todos={todos} toggleDone={this.toggleTodo} />
+        <TodoList
+          todos={todos}
+          showDone={showDone}
+          toggleDone={this.toggleTodo}
+        />
         <AddTodo addTodo={this.onAddTodo} />
+        <ToggleDoneVisibility
+          toggleDoneVisibility={this.onToggleDoneVisibility}
+        />
       </div>
     );
   }
