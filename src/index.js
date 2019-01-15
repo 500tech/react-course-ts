@@ -15,8 +15,31 @@ import './index.css';
 </div>
  */
 
+function Container({ children }) {
+  return <div className="app-container">{children}</div>;
+}
+
+function Header({ title = 'My awesome default title' }) {
+  return (
+    <header>
+      <h1>{title}</h1>
+    </header>
+  );
+}
+
+function Greeting({ name = 'stranger' }) {
+  return <h1 className="greeting">Hello, {name}!</h1>;
+}
+
 function App() {
-  return null;
+  return (
+    <Container>
+      <Header title="Foobar" />
+      <main>
+        <Greeting />
+      </main>
+    </Container>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
