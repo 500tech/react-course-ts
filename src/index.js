@@ -17,6 +17,8 @@ class App extends Component {
 
   _input = createRef();
 
+  _decBtn = createRef();
+
   _setCount = count => {
     const { counter } = this.state;
     const newCounter = {
@@ -25,11 +27,18 @@ class App extends Component {
     };
     this.setState({
       counter: newCounter,
-    });
+    }, () => this._setDisable());
   };
+
+  _setDisable = () => {
+    const { counter } = this.state;
+    const disabled = counter.count === 0;
+    this._decBtn.current.disabled = disabled;
+  }
 
   componentDidMount() {
     this._input.current.focus();
+    this._setDisable();
   }
 
   incrementCount = () => {
@@ -51,7 +60,9 @@ class App extends Component {
       <div>
         <Counter count={count} />
         <button onClick={this.incrementCount}>+</button>
-        <button onClick={this.decrementCount}>-</button>
+        <button onClick={this.decrementCount} ref={this._decBtn}>
+          -
+        </button>
         <div>
           <input
             ref={this._input}
