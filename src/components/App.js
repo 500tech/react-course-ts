@@ -4,6 +4,7 @@ import { Counter } from './Counter';
 
 const FantasyCounter = styled(Counter)`
   font-family: fantasy;
+  font-size: ${props => props.count + 12}px;
 `;
 
 export class App extends Component {
