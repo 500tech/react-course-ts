@@ -1,5 +1,10 @@
 import React, { Component, createRef } from 'react';
+import styled from 'styled-components';
 import { Counter } from './Counter';
+
+const FantasyCounter = styled(Counter)`
+  font-family: fantasy;
+`;
 
 export class App extends Component {
   state = {
@@ -51,7 +56,7 @@ export class App extends Component {
     const { count } = this;
     return (
       <div>
-        <Counter count={count} />
+        <FantasyCounter count={count} />
         <button onClick={this.incrementCount}>+</button>
         <button onClick={this.decrementCount} disabled={this.disabled}>
           -
