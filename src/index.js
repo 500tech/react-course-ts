@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Counter({ count }) {
-  return <h1>{count}</h1>;
-}
+class Counter extends Component {
+  componentDidMount() {
+    this._intervalId = setInterval(() => console.log('Sheket'), 100);
+  }
 
-function decrementCount(currentCount) {
-  console.log(currentCount - 1);
+  componentWillUnmount() {
+    clearInterval(this._intervalId);
+  }
+
+  render() {
+    return <h1>{this.props.count}</h1>;
+  }
 }
 
 class App extends Component {
@@ -28,13 +34,24 @@ class App extends Component {
     });
   };
 
+  decrementCount = () => {
+    const { counter } = this.state;
+    const newCounter = {
+      ...counter,
+      count: Math.max(0, counter.count - 1),
+    };
+    this.setState({
+      counter: newCounter,
+    });
+  };
+
   render() {
     const { count } = this.state.counter;
     return (
       <div>
-        <Counter count={count} />
+        {count === 5 ? null : <Counter count={count} />}
         <button onClick={this.incrementCount}>+</button>
-        <button onClick={() => decrementCount(count)}>-</button>
+        <button onClick={this.decrementCount}>-</button>
       </div>
     );
   }
