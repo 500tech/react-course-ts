@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -15,7 +15,9 @@ class App extends Component {
     },
   };
 
-  _setCount = count =>  {
+  _input = createRef();
+
+  _setCount = count => {
     const { counter } = this.state;
     const newCounter = {
       ...counter,
@@ -24,6 +26,10 @@ class App extends Component {
     this.setState({
       counter: newCounter,
     });
+  };
+
+  componentDidMount() {
+    this._input.current.focus();
   }
 
   incrementCount = () => {
@@ -48,6 +54,7 @@ class App extends Component {
         <button onClick={this.decrementCount}>-</button>
         <div>
           <input
+            ref={this._input}
             type="number"
             value={count}
             onChange={this.onChangeCountFromInput}
