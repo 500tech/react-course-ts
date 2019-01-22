@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 const countReducer = (state = 0, action) => {
   switch (action.type) {
@@ -8,6 +8,12 @@ const countReducer = (state = 0, action) => {
     }
     case 'DECREMENT': {
       return state - 1;
+    }
+    case 'LOGIN': {
+      return 0;
+    }
+    case 'SET_COUNT': {
+      return action.payload;
     }
     default: {
       return state;
@@ -26,27 +32,27 @@ const userReducer = (state = null, action) => {
   }
 };
 
+const loggerMiddleware = store => next => action => {
+  const oldState = store.getState();
+  next(action);
+  const newState = store.getState();
+  console.log({ oldState, action, newState });
+};
+
+const ensureMinCount = min => store => next => action => {
+  next(action);
+  if (store.getState().count < min) {
+    store.dispatch({ type: 'SET_COUNT', payload: min });
+  }
+};
+
 const store = createStore(
   combineReducers({
     count: countReducer,
     user: userReducer,
-  })
+  }),
+  applyMiddleware(ensureMinCount(0), loggerMiddleware)
 );
-
-function mapperMiddleware(stateMapper) {
-  return stateReducer => (state, action) =>
-    stateMapper(stateReducer(state, action));
-}
-
-function loggerMiddleware(reducer) {
-  return (state, action) => {
-    console.log(state);
-    console.log(action);
-    const newState = reducer(state, action);
-    console.log(newState);
-    return newState;
-  };
-}
 
 const counter = document.getElementById('counter');
 const incrementButton = document.getElementById('increment');
@@ -63,7 +69,7 @@ function increment(incrementBy = 1) {
 store.subscribe(() => {
   const state = store.getState();
   counter.textContent = state.count;
-  decrementButton.disabled = state.count === 0;
+  // decrementButton.disabled = state.count === 0;
   if (state.user) {
     document.getElementById('user').textContent = state.user;
   }
