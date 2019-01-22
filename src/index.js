@@ -25,9 +25,9 @@ function createStore(initialState, stateReducer) {
       subscribers.add(cb);
       return () => subscribers.delete(cb);
     },
-    dispatch(action) {
+    dispatch(action, force) {
       const newState = stateReducer(state, action);
-      if (newState !== state) {
+      if (newState !== state || force) {
         state = newState;
         notify();
       }
@@ -36,25 +36,42 @@ function createStore(initialState, stateReducer) {
 }
 
 function createDispatcher(...stores) {
-  return action => stores.forEach(store => store.dispatch(action));
+  return (action, force) =>
+    stores.forEach(store => store.dispatch(action, force));
 }
 
-const countStore = createStore(0, (state, action) => {
-  switch (action.type) {
-    case 'INCREMENT': {
-      return state + 1;
-    }
-    default: {
-      return state;
-    }
-  }
-});
+function withStateMapper(stateReducer, stateMapper) {
+  return (state, action) => stateMapper(stateReducer(state, action));
+}
+
+const countStore = createStore(
+  0,
+  withStateMapper(
+    (state, action) => {
+      switch (action.type) {
+        case 'INCREMENT': {
+          return state + 1;
+        }
+        case 'DECREMENT': {
+          return state - 1;
+        }
+        default: {
+          return state;
+        }
+      }
+    },
+    state => Math.max(state, 0)
+  )
+);
 
 const dispatch = createDispatcher(countStore);
 
 const counter = document.getElementById('counter');
 const incrementButton = document.getElementById('increment');
+const decrementButton = document.getElementById('decrement');
 
 countStore.subscribe(state => (counter.textContent = state));
 incrementButton.onclick = () => dispatch({ type: 'INCREMENT' });
-counter.textContent = countStore.getState();
+decrementButton.onclick = () => dispatch({ type: 'DECREMENT' });
+countStore.subscribe(state => (decrementButton.disabled = state === 0));
+dispatch({ type: 'INIT' }, true);
