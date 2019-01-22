@@ -7,24 +7,40 @@
  * Todo List -[onClick]-> TOGGLE_TODO_ITEM -> (...) -> state = !state -> Todo list updates
  */
 
-function createStore(state, handleAction) {
-  const stateSubscribers = new Set();
+function createStore(initialState, stateReducer) {
+  const subscribers = new Set();
+  let state = initialState;
+
+  function notify() {
+    for (let sub of subscribers) {
+      sub(state);
+    }
+  }
+
   return {
-    dispatch(action) {
-      state = handleAction(state, action);
-      for (let sub of stateSubscribers) {
-        sub(state);
-      }
+    getState() {
+      return state;
     },
     subscribe(cb) {
-      stateSubscribers.add(cb);
-      return () => stateSubscribers.delete(cb);
+      subscribers.add(cb);
+      return () => subscribers.delete(cb);
+    },
+    dispatch(action) {
+      const newState = stateReducer(state, action);
+      if (newState !== state) {
+        state = newState;
+        notify();
+      }
     },
   };
 }
 
-const store = createStore(0, function handleState(state, action) {
-  switch (action) {
+function createDispatcher(...stores) {
+  return action => stores.forEach(store => store.dispatch(action));
+}
+
+const countStore = createStore(0, (state, action) => {
+  switch (action.type) {
     case 'INCREMENT': {
       return state + 1;
     }
@@ -34,11 +50,11 @@ const store = createStore(0, function handleState(state, action) {
   }
 });
 
+const dispatch = createDispatcher(countStore);
+
 const counter = document.getElementById('counter');
-// @TODO create a decrement button
-// @TODO create a +n button that adds a random number (0-5)
 const incrementButton = document.getElementById('increment');
 
-store.subscribe(state => (counter.textContent = state));
-incrementButton.onclick = () => store.dispatch('INCREMENT');
-store.dispatch();
+countStore.subscribe(state => (counter.textContent = state));
+incrementButton.onclick = () => dispatch({ type: 'INCREMENT' });
+counter.textContent = countStore.getState();
