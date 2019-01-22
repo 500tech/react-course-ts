@@ -21,10 +21,11 @@ const countReducer = (state = 0, action) => {
   }
 };
 
-const userReducer = (state = null, action) => {
+const postReducer = (state = { title: null, body: null }, action) => {
   switch (action.type) {
-    case 'LOGIN': {
-      return action.payload;
+    case 'SET_POST': {
+      const { title, body } = action.payload;
+      return { title, body };
     }
     default: {
       return state;
@@ -46,12 +47,34 @@ const ensureMinCount = min => store => next => action => {
   }
 };
 
+/**
+ * interface Action {
+ *   type: string
+ *   payload?: any
+ *   meta?: any[object]
+ *   error?: any[object|Error|string]
+ * }
+ */
+const apiMiddleware = store => next => async action => {
+  next(action);
+  if (action.type === 'API_CALL') {
+    const response = await fetch(
+      'https://jsonplaceholder.typicode.com/posts/1'
+    );
+    const post = await response.json();
+    store.dispatch({
+      type: 'SET_POST',
+      payload: post,
+    });
+  }
+};
+
 const store = createStore(
   combineReducers({
     count: countReducer,
-    user: userReducer,
+    post: postReducer,
   }),
-  applyMiddleware(ensureMinCount(0), loggerMiddleware)
+  applyMiddleware(apiMiddleware, ensureMinCount(0), loggerMiddleware)
 );
 
 const counter = document.getElementById('counter');
@@ -66,16 +89,24 @@ function getRandom() {
 function increment(incrementBy = 1) {
   return { type: 'INCREMENT', payload: incrementBy };
 }
+
+function renderPost({ title, body }) {
+  document.getElementById('post-title').textContent = title;
+  document.getElementById('post-body').textContent = body;
+}
+
 store.subscribe(() => {
   const state = store.getState();
   counter.textContent = state.count;
-  // decrementButton.disabled = state.count === 0;
-  if (state.user) {
-    document.getElementById('user').textContent = state.user;
-  }
+  decrementButton.disabled = state.count === 0;
+  renderPost(state.post);
 });
 incrementButton.onclick = () => store.dispatch({ type: 'INCREMENT' });
 decrementButton.onclick = () => store.dispatch({ type: 'DECREMENT' });
 randomButton.onclick = () => store.dispatch(increment(getRandom()));
+document.getElementById('load-post').onclick = () => {
+  store.dispatch({
+    type: 'API_CALL',
+  });
+};
 store.dispatch({ type: 'INIT' });
-setTimeout(() => store.dispatch({ type: 'LOGIN', payload: 'foobar' }), 5000);
