@@ -50,7 +50,8 @@ const countStore = createStore(
     (state, action) => {
       switch (action.type) {
         case 'INCREMENT': {
-          return state + 1;
+          const { payload = 1 } = action;
+          return state + payload;
         }
         case 'DECREMENT': {
           return state - 1;
@@ -69,9 +70,18 @@ const dispatch = createDispatcher(countStore);
 const counter = document.getElementById('counter');
 const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
+const randomButton = document.getElementById('random');
 
+function getRandom() {
+  return Math.round(Math.random() * 10);
+}
+
+function increment(incrementBy = 1) {
+  return { type: 'INCREMENT', payload: incrementBy };
+}
 countStore.subscribe(state => (counter.textContent = state));
 incrementButton.onclick = () => dispatch({ type: 'INCREMENT' });
 decrementButton.onclick = () => dispatch({ type: 'DECREMENT' });
+randomButton.onclick = () => dispatch(increment(getRandom()));
 countStore.subscribe(state => (decrementButton.disabled = state === 0));
 dispatch({ type: 'INIT' }, true);
