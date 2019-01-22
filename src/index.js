@@ -7,7 +7,17 @@
  * Todo List -[onClick]-> TOGGLE_TODO_ITEM -> (...) -> state = !state -> Todo list updates
  */
 
-function createStore(initialState, stateReducer) {
+const compose = (...fns) => arg => {
+  for (let fn of fns) {
+    arg = fn(arg);
+  }
+  return arg;
+};
+
+function createStore(initialState, stateReducer, middlewares) {
+  stateReducer = middlewares
+    ? compose(...middlewares)(stateReducer)
+    : stateReducer;
   const subscribers = new Set();
   let state = initialState;
 
@@ -40,29 +50,38 @@ function createDispatcher(...stores) {
     stores.forEach(store => store.dispatch(action, force));
 }
 
-function withStateMapper(stateReducer, stateMapper) {
-  return (state, action) => stateMapper(stateReducer(state, action));
+function mapperMiddleware(stateMapper) {
+  return stateReducer => (state, action) =>
+    stateMapper(stateReducer(state, action));
+}
+
+function loggerMiddleware(reducer) {
+  return (state, action) => {
+    console.log(state);
+    console.log(action);
+    const newState = reducer(state, action);
+    console.log(newState);
+    return newState;
+  };
 }
 
 const countStore = createStore(
   0,
-  withStateMapper(
-    (state, action) => {
-      switch (action.type) {
-        case 'INCREMENT': {
-          const { payload = 1 } = action;
-          return state + payload;
-        }
-        case 'DECREMENT': {
-          return state - 1;
-        }
-        default: {
-          return state;
-        }
+  (state, action) => {
+    switch (action.type) {
+      case 'INCREMENT': {
+        const { payload = 1 } = action;
+        return state + payload;
       }
-    },
-    state => Math.max(state, 0)
-  )
+      case 'DECREMENT': {
+        return state - 1;
+      }
+      default: {
+        return state;
+      }
+    }
+  },
+  [loggerMiddleware, mapperMiddleware(state => Math.max(state, 0))]
 );
 
 const dispatch = createDispatcher(countStore);
