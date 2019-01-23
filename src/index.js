@@ -55,18 +55,34 @@ const ensureMinCount = min => store => next => action => {
  *   error?: any[object|Error|string]
  * }
  */
-const apiMiddleware = store => next => async action => {
-  next(action);
-  if (action.type === 'API_CALL') {
-    const response = await fetch(
-      'https://jsonplaceholder.typicode.com/posts/1'
-    );
-    const post = await response.json();
-    store.dispatch({
-      type: 'SET_POST',
-      payload: post,
-    });
-  }
+const apiMiddleware = store => {
+  const host = 'https://jsonplaceholder.typicode.com';
+  return next => async action => {
+    next(action);
+    if (action.meta && action.meta.api) {
+      const {
+        url,
+        successAction = 'API_SUCCESS',
+        failureAction = 'API_FAILURE',
+      } = action.meta.api;
+      try {
+        const response = await fetch(`${host}${url}`);
+        if (!response.ok) {
+          throw new Error('Bad HTTP request:' + response.statusText);
+        }
+        const payload = await response.json();
+        store.dispatch({
+          type: successAction,
+          payload,
+        });
+      } catch (error) {
+        store.dispatch({
+          type: failureAction,
+          error,
+        });
+      }
+    }
+  };
 };
 
 const store = createStore(
@@ -106,7 +122,13 @@ decrementButton.onclick = () => store.dispatch({ type: 'DECREMENT' });
 randomButton.onclick = () => store.dispatch(increment(getRandom()));
 document.getElementById('load-post').onclick = () => {
   store.dispatch({
-    type: 'API_CALL',
+    type: 'LOAD_POST',
+    meta: {
+      api: {
+        url: '/posts/1',
+        successAction: 'SET_POST',
+      },
+    },
   });
 };
 store.dispatch({ type: 'INIT' });
