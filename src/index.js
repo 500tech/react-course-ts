@@ -2,14 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Greeting() {
-  return React.createElement('h1', null, `Hello, world!`);
+function Greeting({ user = 'guest' }) {
+  return <h1>Hello, {user}!</h1>;
+}
+
+function App({ children, background = 'yellow' }) {
+  return (
+    <div
+      className="coolvision"
+      style={{
+        background,
+      }}
+    >
+      {children}
+    </div>
+  );
 }
 
 ReactDOM.render(
-  React.createElement('div', null, [
-    // child components
-    React.createElement(Greeting),
-  ]),
+  <App>
+    <Greeting user="foobar" />
+  </App>,
   document.getElementById('root')
 );
