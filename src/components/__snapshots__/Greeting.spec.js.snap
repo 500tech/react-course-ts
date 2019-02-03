@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Greeting /> is sane 1`] = `
+<styled.h1>
+  Hello, 
+  stranger
+  !
+</styled.h1>
+`;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddTodo /> is sane 1`] = `
+<Fragment>
+  <input
+    onChange={[Function]}
+    onKeyPress={[Function]}
+    placeholder="What should I do?"
+    type="text"
+    value=""
+  />
+  <button
+    disabled={true}
+    onClick={[Function]}
+  >
+    Add
+  </button>
+</Fragment>
+`;
