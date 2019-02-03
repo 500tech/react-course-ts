@@ -1,6 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+
+class AddTodo extends Component {
+  state = {
+    draft: '',
+  };
+
+  componentDidMount() {
+    this._input.current.focus();
+  }
+
+  _input = createRef();
+
+  onDraftChange = event => {
+    const { target } = event;
+    const { value } = target;
+    this.setState({ draft: value });
+  };
+
+  addTodo = () => {
+    this.props.onAddTodo(this.state.draft);
+    this.setState({ draft: '' });
+  };
+
+  render() {
+    return (
+      <div>
+        <input
+          ref={this._input}
+          value={this.state.draft}
+          onChange={this.onDraftChange}
+        />
+        <button disabled={this.state.draft === ''} onClick={this.addTodo}>
+          Add Me!
+        </button>
+      </div>
+    );
+  }
+}
 
 function Greeting({ name = 'stranger' }) {
   return <h1 className="greeting">Hello, {name}!</h1>;
@@ -51,10 +89,19 @@ class App extends Component {
     this.setState({ todos: newTodos });
   };
 
+  onAddTodo = text => {
+    const todo = { text, done: false };
+    const { todos } = this.state;
+    this.setState({
+      todos: [...todos, todo],
+    });
+  };
+
   render() {
     return (
       <div className="app-container">
         <Greeting name="foobar" />
+        <AddTodo onAddTodo={this.onAddTodo} />
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
       </div>
     );
