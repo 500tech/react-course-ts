@@ -11,7 +11,7 @@ class AddTodo extends Component {
     this._input.current.focus();
   }
 
-  _input = createRef();
+  _input = createRef(7);
 
   onDraftChange = event => {
     const { target } = event;
