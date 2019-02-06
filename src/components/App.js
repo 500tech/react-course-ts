@@ -52,7 +52,7 @@ export class App extends Component {
     return (
       <Container>
         <Greeting name="foobar" />
-        <AddTodo onAddTodo={this.onAddTodo} />
+        <AddTodo onAddTodo={this.onAddTodo} focus={false} />
         <TodoList
           todos={this.state.todos}
           toggleTodo={this.toggleTodo}

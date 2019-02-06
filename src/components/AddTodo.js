@@ -1,46 +1,42 @@
-import React, { Component, createRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
-export class AddTodo extends Component {
-  state = {
-    draft: '',
-  };
+function useFocus(shouldFocus) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (shouldFocus) {
+      ref.current.focus();
+    }
+  }, []);
+  return ref;
+}
 
-  componentDidMount() {
-    this._input.current.focus();
-  }
-
-  _input = createRef();
-
-  onDraftChange = event => {
-    const { target } = event;
-    const { value } = target;
-    this.setState({ draft: value });
-  };
-
-  addTodo = () => {
-    this.props.onAddTodo(this.state.draft);
-    this.setState({ draft: '' });
-  };
-
-  onKeyPress = ({ key }) => {
-    if (key.toLowerCase() === 'enter' && this.state.draft) {
-      this.addTodo();
+export function AddTodo({ onAddTodo, focus = true }) {
+  const [draft, setDraft] = useState('');
+  const focusRef = useFocus(focus);
+  const addTodo = useCallback(
+    () => {
+      onAddTodo(draft);
+      setDraft('');
+    },
+    [draft, setDraft, onAddTodo]
+  );
+  const onDraftChange = event => setDraft(event.target.value);
+  const onKeyPress = ({ key }) => {
+    if (key.toLowerCase() === 'enter' && draft) {
+      addTodo();
     }
   };
-
-  render() {
-    return (
-      <div>
-        <input
-          ref={this._input}
-          value={this.state.draft}
-          onChange={this.onDraftChange}
-          onKeyPress={this.onKeyPress}
-        />
-        <button disabled={this.state.draft === ''} onClick={this.addTodo}>
-          Add Me!
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <input
+        ref={focusRef}
+        value={draft}
+        onChange={onDraftChange}
+        onKeyPress={onKeyPress}
+      />
+      <button disabled={draft === ''} onClick={addTodo}>
+        Add Me!
+      </button>
+    </div>
+  );
 }
