@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import uuid from 'uuid';
 import produce from 'immer';
+import { Switch, Route } from 'react-router-dom';
 
-import { AddTodo } from './AddTodo';
 import { Greeting } from './Greeting';
-import { TodoList } from './TodoList';
+import { Home } from '../pages/Home';
+import { Todos } from '../pages/Todos';
 
 const Container = styled.div`
   border: 1px solid lightblue;
@@ -43,12 +44,22 @@ export function App() {
   return (
     <Container>
       <Greeting name="foobar" />
-      <AddTodo onAddTodo={onAddTodo} focus={false} />
-      <TodoList
-        todos={todos}
-        toggleTodo={toggleTodo}
-        removeTodo={onRemoveTodo}
-      />
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route
+          path="/todos"
+          render={() => {
+            return (
+              <Todos
+                todos={todos}
+                toggleTodo={toggleTodo}
+                removeTodo={onRemoveTodo}
+                onAddTodo={onAddTodo}
+              />
+            );
+          }}
+        />
+      </Switch>
     </Container>
   );
 }
