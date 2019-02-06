@@ -7,7 +7,10 @@ const StyledItem = styled.li`
 
 export function Todo({ text, done, onToggleTodo }) {
   return (
-    <StyledItem onClick={onToggleTodo} textDecoration={done && 'line-through'}>
+    <StyledItem
+      onClick={onToggleTodo}
+      textDecoration={done ? 'line-through' : undefined}
+    >
       {text}
     </StyledItem>
   );
