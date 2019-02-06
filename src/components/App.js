@@ -42,12 +42,22 @@ export class App extends Component {
     });
   };
 
+  onRemoveTodo = idx => {
+    const { todos } = this.state;
+    const newTodos = [...todos.slice(0, idx), ...todos.slice(idx + 1)];
+    this.setState({ todos: newTodos });
+  };
+
   render() {
     return (
       <Container>
         <Greeting name="foobar" />
         <AddTodo onAddTodo={this.onAddTodo} />
-        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
+        <TodoList
+          todos={this.state.todos}
+          toggleTodo={this.toggleTodo}
+          removeTodo={this.onRemoveTodo}
+        />
       </Container>
     );
   }

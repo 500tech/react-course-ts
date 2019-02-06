@@ -22,6 +22,12 @@ export class AddTodo extends Component {
     this.setState({ draft: '' });
   };
 
+  onKeyPress = ({ key }) => {
+    if (key.toLowerCase() === 'enter' && this.state.draft) {
+      this.addTodo();
+    }
+  };
+
   render() {
     return (
       <div>
@@ -29,6 +35,7 @@ export class AddTodo extends Component {
           ref={this._input}
           value={this.state.draft}
           onChange={this.onDraftChange}
+          onKeyPress={this.onKeyPress}
         />
         <button disabled={this.state.draft === ''} onClick={this.addTodo}>
           Add Me!
