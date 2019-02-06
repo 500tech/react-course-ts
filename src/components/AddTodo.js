@@ -1,39 +1,22 @@
-import React, { Component, createRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
-export class AddTodo extends Component {
-  state = {
-    draft: '',
+export function AddTodo({ onAddTodo }) {
+  const [draft, setDraft] = useState('');
+  const input = useRef(null);
+  useEffect(() => {
+    input.current.focus();
+  }, []);
+  const onDraftChange = event => setDraft(event.target.value);
+  const addTodo = () => {
+    onAddTodo(draft);
+    setDraft('');
   };
-
-  componentDidMount() {
-    this._input.current.focus();
-  }
-
-  _input = createRef();
-
-  onDraftChange = event => {
-    const { target } = event;
-    const { value } = target;
-    this.setState({ draft: value });
-  };
-
-  addTodo = () => {
-    this.props.onAddTodo(this.state.draft);
-    this.setState({ draft: '' });
-  };
-
-  render() {
-    return (
-      <div>
-        <input
-          ref={this._input}
-          value={this.state.draft}
-          onChange={this.onDraftChange}
-        />
-        <button disabled={this.state.draft === ''} onClick={this.addTodo}>
-          Add Me!
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <input ref={input} value={draft} onChange={onDraftChange} />
+      <button disabled={draft === ''} onClick={addTodo}>
+        Add Me!
+      </button>
+    </div>
+  );
 }
