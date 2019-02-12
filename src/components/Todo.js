@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -6,7 +6,20 @@ const StyledItem = styled.li`
   text-decoration: ${props => props.textDecoration || 'none'};
 `;
 
+function usePrevious(currentValue, initialPreviousValue = null) {
+  const ref = useRef(initialPreviousValue);
+  useEffect(() => {
+    ref.current = currentValue;
+  }, [currentValue]);
+  return ref.current;
+}
+
 export function Todo({ text, done, onToggleTodo, onRemoveTodo }) {
+  const prevDone = usePrevious(done, done);
+  if (done !== prevDone) {
+    console.log({ done, prevDone });
+  }
+
   return (
     <StyledItem
       onClick={onToggleTodo}
