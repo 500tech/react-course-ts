@@ -53,7 +53,7 @@ export function App() {
               <Todos
                 todos={todos}
                 toggleTodo={toggleTodo}
-                removeTodo={onRemoveTodo}
+                onRemoveTodo={onRemoveTodo}
                 onAddTodo={onAddTodo}
               />
             );
