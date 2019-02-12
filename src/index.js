@@ -31,6 +31,8 @@ function createStore(reducer, initialState) {
     },
   };
 }
+const createDispatcher = stores => action =>
+  stores.forEach(store => store.notify(action));
 
 /**
  * interface Action {
@@ -51,14 +53,12 @@ const countStore = createStore((state, action) => {
     }
   }
 }, 0);
-
-const states = [];
+const dispatch = createDispatcher([countStore]);
+const counter = document.getElementById('counter');
+for (let el of document.querySelectorAll('button[data-action]')) {
+  el.onclick = () => dispatch({ type: el.dataset.action });
+}
 countStore.subscribe(state => {
-  states.push(state);
-  console.log(states);
+  counter.textContent = state.toString();
 });
-
-countStore.notify({ type: '@@RANDOM_FOO_BAR' });
-countStore.notify({ type: 'INCREMENT' });
-countStore.notify({ type: 'INCREMENT' });
-countStore.notify({ type: 'INCREMENT' });
+dispatch({ type: '@@RANDOM_FOO_BAR' });
