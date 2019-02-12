@@ -31,8 +31,21 @@ function createStore(reducer, initialState) {
     },
   };
 }
-const createDispatcher = stores => action =>
-  stores.forEach(store => store.notify(action));
+const baseDispatch = stores => () => action =>
+  Object.values(stores).forEach(store => store.notify(action));
+const createDispatcher = (stores, middlewares = []) => {
+  function dispatch(action) {
+    mw2[0](action);
+  }
+  const mw = [...middlewares, baseDispatch].map(m => m(stores, dispatch));
+  mw.reverse();
+  const mw2 = [];
+  for (let i = 0; i < mw.length; i++) {
+    mw2.push(mw[i](mw2[i - 1]));
+  }
+  mw2.reverse();
+  return dispatch;
+};
 
 /**
  * interface Action {
@@ -53,7 +66,13 @@ const countStore = createStore((state, action) => {
     }
   }
 }, 0);
-const dispatch = createDispatcher([countStore]);
+const logMiddleware = stores => next => action => {
+  console.log(stores.countStore.getState());
+  console.log(action);
+  next(action);
+  console.log(stores.countStore.getState());
+};
+const dispatch = createDispatcher({ countStore }, [logMiddleware]);
 const counter = document.getElementById('counter');
 for (let el of document.querySelectorAll('button[data-action]')) {
   el.onclick = () => dispatch({ type: el.dataset.action });
