@@ -19,10 +19,12 @@ const logMiddleware = store => next => action => {
 
 function count(state = 0, action) {
   switch (action.type) {
-    case 'INCEREMENT':
+    case 'INCREMENT':
       return state + 1;
-    case 'DECEREMENT':
+    case 'DECREMENT':
       return state - 1;
+    case 'SET_COUNT':
+      return action.payload;
     default:
       return state;
   }
@@ -30,8 +32,8 @@ function count(state = 0, action) {
 
 function clicks(state = 0, action) {
   switch (action.type) {
-    case 'INCEREMENT':
-    case 'DECEREMENT':
+    case 'INCREMENT':
+    case 'DECREMENT':
       return state + 1;
     default:
       return state;

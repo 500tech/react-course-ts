@@ -1,4 +1,12 @@
-import { Component } from 'react';
+import React, { Component, createContext, useContext } from 'react';
+
+const ReduxContext = createContext();
+const ReduxProvider = ReduxContext.Provider;
+export const ReduxConsumer = ReduxContext.Consumer;
+export function useRedux() {
+  const reduxCtx = useContext(ReduxContext);
+  return reduxCtx;
+}
 
 export class ReduxBridge extends Component {
   constructor(props) {
@@ -17,7 +25,12 @@ export class ReduxBridge extends Component {
   }
 
   render() {
-    console.log(this.state);
-    return this.props.children;
+    const reduxCtx = {
+      state: this.state,
+      dispatch: this.props.store.dispatch,
+    };
+    return (
+      <ReduxProvider value={reduxCtx}>{this.props.children}</ReduxProvider>
+    );
   }
 }

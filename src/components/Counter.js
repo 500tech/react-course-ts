@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { CountContext } from './CountContext';
+import { useRedux } from './ReduxBridge'
 
 const prop = propName => props => props[propName];
 
@@ -9,10 +9,10 @@ const ColouredTitle = styled.h1`
 `;
 
 export function Counter({ className }) {
-  const count = useContext(CountContext);
+  const { state } = useRedux();
   return (
     <ColouredTitle className={className} colour="blue">
-      {count}
+      {state.count}
     </ColouredTitle>
   );
 }
