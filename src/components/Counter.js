@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { CountConsumer } from './CountContext';
+import { CountContext } from './CountContext';
 
 const prop = propName => props => props[propName];
 
@@ -9,9 +9,10 @@ const ColouredTitle = styled.h1`
 `;
 
 export function Counter({ className }) {
+  const count = useContext(CountContext);
   return (
     <ColouredTitle className={className} colour="blue">
-      <CountConsumer>{count => count}</CountConsumer>
+      {count}
     </ColouredTitle>
   );
 }

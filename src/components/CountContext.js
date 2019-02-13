@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const { Provider, Consumer } = createContext(0);
-export const CountProvider = Provider;
-export const CountConsumer = Consumer;
+export const CountContext = createContext(0);
+export const CountProvider = CountContext.Provider;
+export const CountConsumer = CountContext.Consumer;
