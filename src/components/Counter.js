@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const prop = propName => props => props[propName];
@@ -7,12 +7,10 @@ const ColouredTitle = styled.h1`
   color: ${prop('colour')};
 `;
 
-export class Counter extends Component {
-  render() {
-    return (
-      <ColouredTitle className={this.props.className} colour="blue">
-        {this.props.count}
-      </ColouredTitle>
-    );
-  }
+export function Counter({ className, count }) {
+  return (
+    <ColouredTitle className={className} colour="blue">
+      {count}
+    </ColouredTitle>
+  );
 }
