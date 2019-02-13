@@ -1,4 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { diff } from 'deep-diff';
 
 /**
  * interface Action {
@@ -8,6 +9,13 @@ import { createStore } from 'redux';
  *  error?: jsonable;
  * }
  */
+
+const logMiddleware = store => next => action => {
+  const oldState = store.getState();
+  next(action);
+  const newState = store.getState();
+  console.log({ action, stateDiff: diff(oldState, newState) });
+};
 
 function count(state = 0, action) {
   switch (action.type) {
@@ -30,27 +38,14 @@ function clicks(state = 0, action) {
   }
 }
 
-// function master(state = {}, action) {
-//   return {
-//     count: count(state.count, action),
-//     clicks: clicks(state.clicks, action),
-//   };
-// }
-
-function combineReducers(keyToReducerMap) {
-  return function(state = {}, action) {
-    ///
-  };
-}
-
 const store = createStore(
   combineReducers({
     count,
     clicks,
-  })
+  }),
+  applyMiddleware(logMiddleware)
 );
-console.log(store.getState());
-store.subscribe(() => console.log(store.getState()));
+
 store.dispatch({ type: 'INCEREMENT' });
 store.dispatch({ type: 'INCEREMENT' });
 store.dispatch({ type: 'DECEREMENT' });
