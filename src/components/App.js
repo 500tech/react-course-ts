@@ -7,6 +7,19 @@ const FantasyCounter = styled(Counter)`
   font-size: ${props => props.count + 12}px;
 `;
 
+const StyledButton = styled.button`
+  border-radius: 5px;
+  transform: rotate(45deg);
+  filter: invert(1);
+  transition: transform 200ms linear;
+  &:hover {
+    transform: rotate(0);
+  }
+  &[disabled] {
+    background-color: red;
+  }
+`;
+
 export class App extends Component {
   state = {
     counter: {
@@ -58,10 +71,10 @@ export class App extends Component {
     return (
       <div>
         <FantasyCounter count={count} />
-        <button onClick={this.incrementCount}>+</button>
-        <button onClick={this.decrementCount} disabled={this.disabled}>
+        <StyledButton onClick={this.incrementCount}>+</StyledButton>
+        <StyledButton onClick={this.decrementCount} disabled={this.disabled}>
           -
-        </button>
+        </StyledButton>
         <div>
           <input
             ref={this._input}

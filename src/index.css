@@ -13,7 +13,3 @@
 .todo.new {
   font-size: 22px;
 }
-
-button[disabled] {
-  background-color: red;
-}
