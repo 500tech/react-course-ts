@@ -1,10 +1,10 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
+import { CountProvider } from './CountContext';
 import { Counter } from './Counter';
 
 const FantasyCounter = styled(Counter)`
   font-family: fantasy;
-  font-size: ${props => props.count + 12}px;
 `;
 
 const StyledButton = styled.button`
@@ -69,22 +69,24 @@ export class App extends Component {
   render() {
     const { count } = this;
     return (
-      <div>
-        <FantasyCounter count={count} />
-        <StyledButton onClick={this.incrementCount}>+</StyledButton>
-        <StyledButton onClick={this.decrementCount} disabled={this.disabled}>
-          -
-        </StyledButton>
+      <CountProvider value={count}>
         <div>
-          <input
-            ref={this._input}
-            type="number"
-            value={count}
-            onChange={this.onChangeCountFromInput}
-            placeholder="Set input"
-          />
+          <FantasyCounter />
+          <StyledButton onClick={this.incrementCount}>+</StyledButton>
+          <StyledButton onClick={this.decrementCount} disabled={this.disabled}>
+            -
+          </StyledButton>
+          <div>
+            <input
+              ref={this._input}
+              type="number"
+              value={count}
+              onChange={this.onChangeCountFromInput}
+              placeholder="Set input"
+            />
+          </div>
         </div>
-      </div>
+      </CountProvider>
     );
   }
 }
