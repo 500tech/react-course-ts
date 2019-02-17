@@ -1,4 +1,4 @@
-import React, { Component, useState, useCallback } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { render } from 'react-dom';
 
 const Todo = ({ todo, toggleTodo }) => (
@@ -32,7 +32,7 @@ const initialTodos = [
   { id: 2, text: 'Spam buzz pow', done: false },
   { id: 3, text: 'Find better things to do', done: true },
 ];
-
+/*
 class CApp extends Component {
   state = {
     todos: initialTodos,
@@ -73,6 +73,7 @@ class CApp extends Component {
     );
   }
 }
+*/
 
 function useTodos(initialTodos) {
   const [todos, setTodos] = useState(initialTodos);
@@ -103,8 +104,14 @@ function useControlledInput(defaultText = '') {
   return { inputParams, text, reset };
 }
 
-function AddTodo({ addTodo }) {
+function AddTodo({ addTodo, id }) {
   const { inputParams, text, reset } = useControlledInput();
+  useEffect(
+    () => {
+      fetchFromServer(id);
+    },
+    [id]
+  );
   const onAddTodo = () => {
     addTodo(text);
     reset();
@@ -133,4 +140,4 @@ function App() {
   );
 }
 
-render(<CApp />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
