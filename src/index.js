@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { render } from 'react-dom';
 
 const Todo = ({ todo, toggleTodo }) => (
@@ -27,12 +27,12 @@ function Title({ title, children, hidden }) {
 
 const Foo = () => <span>Foo</span>;
 
-const todos = [
+const initialTodos = [
   { id: 1, text: 'Foobar meow', done: true },
   { id: 2, text: 'Spam buzz pow', done: false },
   { id: 3, text: 'Find better things to do', done: true },
 ];
-
+/*
 class App extends Component {
   state = {
     todos,
@@ -63,17 +63,30 @@ class App extends Component {
     );
   }
 }
+*/
 
-// function App() {
-//   return (
-//     <div>
-//       <Title title="meow" hidden>
-//         <hr />
-//         <Foo />
-//       </Title>
-//       <TodoList todos={todos} />
-//     </div>
-//   );
-// }
+function App() {
+  const [todos, setTodos] = useState(initialTodos);
+  const toggleTodo = tid =>
+    setTodos(
+      todos.map(todo =>
+        todo.id === tid
+          ? {
+              ...todo,
+              done: !todo.done,
+            }
+          : todo
+      )
+    );
+  return (
+    <div>
+      <Title title="meow" hidden>
+        <hr />
+        <Foo />
+      </Title>
+      <TodoList todos={todos} toggleTodo={toggleTodo} />
+    </div>
+  );
+}
 
 render(<App />, document.getElementById('root'));
