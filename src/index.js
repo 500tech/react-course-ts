@@ -65,7 +65,7 @@ class App extends Component {
 }
 */
 
-function App() {
+function useTodos(initialTodos) {
   const [todos, setTodos] = useState(initialTodos);
   const toggleTodo = tid =>
     setTodos(
@@ -78,6 +78,12 @@ function App() {
           : todo
       )
     );
+  return { todos, toggleTodo };
+}
+
+function App() {
+  const location = useGeolation();
+  const { todos, toggleTodo } = useTodos(initialTodos);
   return (
     <div>
       <Title title="meow" hidden>
