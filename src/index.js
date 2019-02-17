@@ -82,7 +82,6 @@ function useTodos(initialTodos) {
 }
 
 function App() {
-  const location = useGeolation();
   const { todos, toggleTodo } = useTodos(initialTodos);
   return (
     <div>
