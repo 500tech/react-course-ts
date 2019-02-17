@@ -32,11 +32,21 @@ const initialTodos = [
   { id: 2, text: 'Spam buzz pow', done: false },
   { id: 3, text: 'Find better things to do', done: true },
 ];
-/*
-class App extends Component {
+
+class CApp extends Component {
   state = {
-    todos,
+    todos: initialTodos,
   };
+
+  componentDidMount() {
+    //fetchFromServer(this.props.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      //fetchFromServer(this.props.id);
+    }
+  }
 
   toggleTodo = tid => {
     this.setState({
@@ -63,7 +73,6 @@ class App extends Component {
     );
   }
 }
-*/
 
 function useTodos(initialTodos) {
   const [todos, setTodos] = useState(initialTodos);
@@ -124,4 +133,4 @@ function App() {
   );
 }
 
-render(<App />, document.getElementById('root'));
+render(<CApp />, document.getElementById('root'));
