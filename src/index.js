@@ -87,7 +87,20 @@ function useTodos(initialTodos) {
 }
 
 function AddTodo({ addTodo }) {
-  return <button onClick={() => addTodo('Added')}>Add</button>;
+  const [text, setText] = useState('');
+  const onTextChange = event => setText(event.target.value);
+  const onAddTodo = () => {
+    addTodo(text);
+    setText('');
+  };
+  return (
+    <>
+      <input onChange={onTextChange} value={text} />
+      <button disabled={!text.length} onClick={onAddTodo}>
+        Add
+      </button>
+    </>
+  );
 }
 
 function App() {
