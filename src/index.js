@@ -1,30 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-const todos = [
-  { id: 1, text: 'Foobar meow', done: true },
-  { id: 2, text: 'Spam buzz pow', done: false },
-  { id: 3, text: 'Find better things to do', done: true },
-];
-
-function logEvent(e) {
-  e.persist();
-  console.log(e);
-}
-
-const Todo = ({ todo }) => (
+const Todo = ({ todo, toggleTodo }) => (
   <p
-    onClick={logEvent}
+    onClick={() => toggleTodo(todo.id)}
     style={{ textDecoration: todo.done ? 'line-through' : 'none' }}
   >
     {todo.text}
   </p>
 );
 
-const TodoList = ({ todos }) => (
+const TodoList = ({ todos, toggleTodo }) => (
   <div>
     {todos.map(todo => (
-      <Todo todo={todo} key={todo.id} />
+      <Todo todo={todo} toggleTodo={toggleTodo} key={todo.id} />
     ))}
   </div>
 );
@@ -38,13 +27,53 @@ function Title({ title, children, hidden }) {
 
 const Foo = () => <span>Foo</span>;
 
-render(
-  <div>
-    <Title title="meow" hidden>
-      <hr />
-      <Foo />
-    </Title>
-    <TodoList todos={todos} />
-  </div>,
-  document.getElementById('root')
-);
+const todos = [
+  { id: 1, text: 'Foobar meow', done: true },
+  { id: 2, text: 'Spam buzz pow', done: false },
+  { id: 3, text: 'Find better things to do', done: true },
+];
+
+class App extends Component {
+  state = {
+    todos,
+  };
+
+  toggleTodo = tid => {
+    this.setState({
+      todos: this.state.todos.map(todo =>
+        todo.id === tid
+          ? {
+              ...todo,
+              done: !todo.done,
+            }
+          : todo
+      ),
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <Title title="meow" hidden>
+          <hr />
+          <Foo />
+        </Title>
+        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
+      </div>
+    );
+  }
+}
+
+// function App() {
+//   return (
+//     <div>
+//       <Title title="meow" hidden>
+//         <hr />
+//         <Foo />
+//       </Title>
+//       <TodoList todos={todos} />
+//     </div>
+//   );
+// }
+
+render(<App />, document.getElementById('root'));
