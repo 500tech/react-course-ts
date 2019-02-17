@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useCallback } from 'react';
 import { render } from 'react-dom';
 
 const Todo = ({ todo, toggleTodo }) => (
@@ -86,16 +86,23 @@ function useTodos(initialTodos) {
   return { todos, toggleTodo, addTodo };
 }
 
-function AddTodo({ addTodo }) {
-  const [text, setText] = useState('');
+function useControlledInput(defaultText = '') {
+  const [text, setText] = useState(defaultText);
   const onTextChange = event => setText(event.target.value);
+  const reset = () => setText('');
+  const inputParams = { value: text, onChange: onTextChange };
+  return { inputParams, text, reset };
+}
+
+function AddTodo({ addTodo }) {
+  const { inputParams, text, reset } = useControlledInput();
   const onAddTodo = () => {
     addTodo(text);
-    setText('');
+    reset();
   };
   return (
     <>
-      <input onChange={onTextChange} value={text} />
+      <input {...inputParams} />
       <button disabled={!text.length} onClick={onAddTodo}>
         Add
       </button>
