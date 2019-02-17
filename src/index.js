@@ -78,17 +78,27 @@ function useTodos(initialTodos) {
           : todo
       )
     );
-  return { todos, toggleTodo };
+  const addTodo = text => {
+    const maxId = Math.max(...todos.map(t => t.id));
+    const todo = { id: maxId + 1, text, done: false };
+    setTodos([...todos, todo]);
+  };
+  return { todos, toggleTodo, addTodo };
+}
+
+function AddTodo({ addTodo }) {
+  return <button onClick={() => addTodo('Added')}>Add</button>;
 }
 
 function App() {
-  const { todos, toggleTodo } = useTodos(initialTodos);
+  const { todos, toggleTodo, addTodo } = useTodos(initialTodos);
   return (
     <div>
       <Title title="meow" hidden>
         <hr />
         <Foo />
       </Title>
+      <AddTodo addTodo={addTodo} />
       <TodoList todos={todos} toggleTodo={toggleTodo} />
     </div>
   );
