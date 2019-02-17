@@ -2,22 +2,30 @@ import React from 'react';
 import { render } from 'react-dom';
 
 const todos = [
-  { text: 'Foobar meow', done: true },
-  { text: 'Spam buzz pow', done: false },
-  { text: 'Find better things to do', done: false },
+  { id: 1, text: 'Foobar meow', done: true },
+  { id: 2, text: 'Spam buzz pow', done: false },
+  { id: 3, text: 'Find better things to do', done: true },
 ];
 
+function logEvent(e) {
+  e.persist();
+  console.log(e);
+}
+
 const Todo = ({ todo }) => (
-  <p style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>
+  <p
+    onClick={logEvent}
+    style={{ textDecoration: todo.done ? 'line-through' : 'none' }}
+  >
     {todo.text}
   </p>
 );
 
-const TodoList = () => (
+const TodoList = ({ todos }) => (
   <div>
-    <Todo todo={todos[0]} />
-    <Todo todo={todos[1]} />
-    <Todo todo={todos[2]} />
+    {todos.map(todo => (
+      <Todo todo={todo} key={todo.id} />
+    ))}
   </div>
 );
 
@@ -36,7 +44,7 @@ render(
       <hr />
       <Foo />
     </Title>
-    <TodoList />
+    <TodoList todos={todos} />
   </div>,
   document.getElementById('root')
 );
