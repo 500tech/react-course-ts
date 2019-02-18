@@ -4,6 +4,7 @@ import { Foo } from './common/Foo';
 import { AwareLink } from './common/AwareLink';
 import { AddTodo } from './todos/AddTodo';
 import { TodoList } from './todos/TodoList';
+import { AddressBar } from './common/AddressBar';
 import { Home } from '../pages/Home';
 
 function fetchFromServer(id) {}
@@ -54,6 +55,7 @@ export class App extends Component {
     return (
       <div>
         <Foo />
+        <AddressBar />
         <div>
           <AwareLink to="/" exact>
             Home
