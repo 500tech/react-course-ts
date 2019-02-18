@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { Foo } from './common/Foo';
 import { AddTodo } from './todos/AddTodo';
 import { TodoList } from './todos/TodoList';
@@ -51,8 +52,29 @@ export class App extends Component {
     return (
       <div>
         <Foo />
-        <AddTodo addTodo={this.addTodo} />
-        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => {
+              return <p>Home sweet home</p>;
+            }}
+          />
+          <Route
+            path="/todos"
+            render={() => {
+              return (
+                <>
+                  <AddTodo addTodo={this.addTodo} />
+                  <TodoList
+                    todos={this.state.todos}
+                    toggleTodo={this.toggleTodo}
+                  />
+                </>
+              );
+            }}
+          />
+        </Switch>
       </div>
     );
   }
