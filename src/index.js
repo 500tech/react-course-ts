@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, memo, createRef } from 'react';
 import { render } from 'react-dom';
 
 function fetchFromServer(id) {}
@@ -27,7 +27,7 @@ function Title({ title, children, hidden }) {
   return <h1 style={{ background: 'red' }}>{title ? title : children}</h1>;
 }
 
-const Foo = () => <span>Foo</span>;
+const Foo = memo(() => console.log('render') || <p>Foo</p>);
 
 const initialTodos = [
   { id: 1, text: 'Foobar meow', done: true },
@@ -74,10 +74,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Title title="meow" hidden>
-          <hr />
-          <Foo />
-        </Title>
+        <Foo />
         <AddTodo addTodo={this.addTodo} />
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
       </div>
@@ -87,6 +84,12 @@ class App extends Component {
 
 class AddTodo extends Component {
   state = { text: '' };
+
+  input = createRef();
+
+  componentDidMount() {
+    // this.input.current.focus();
+  }
 
   setText = text => this.setState({ text });
 
@@ -102,7 +105,11 @@ class AddTodo extends Component {
   render() {
     return (
       <>
-        <input onChange={this.onTextChange} value={this.state.text} />
+        <input
+          ref={this.input}
+          onChange={this.onTextChange}
+          value={this.state.text}
+        />
         <button disabled={!this.state.text.length} onClick={this.onAddTodo}>
           Add
         </button>
