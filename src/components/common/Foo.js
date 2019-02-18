@@ -17,7 +17,7 @@ import styled from 'styled-components';
 const BaseFoo = memo(({ className }) => <p className={className}>Foo</p>);
 
 export const Foo = styled(BaseFoo)`
-  color: red;
+  color: ${props => (props.active ? 'red' : 'green')};
 
   &:hover {
     opacity: 0.5;

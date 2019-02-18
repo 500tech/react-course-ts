@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Foo } from './common/Foo';
 import { AddTodo } from './todos/AddTodo';
 import { TodoList } from './todos/TodoList';
+import { Home } from '../pages/Home';
 
 function fetchFromServer(id) {}
 
@@ -53,13 +54,7 @@ export class App extends Component {
       <div>
         <Foo />
         <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => {
-              return <p>Home sweet home</p>;
-            }}
-          />
+          <Route path="/" exact component={Home} />
           <Route
             path="/todos"
             render={() => {
