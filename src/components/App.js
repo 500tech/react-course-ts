@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Foo } from './common/Foo';
+import { AwareLink } from './common/AwareLink';
 import { AddTodo } from './todos/AddTodo';
 import { TodoList } from './todos/TodoList';
 import { Home } from '../pages/Home';
@@ -53,6 +54,12 @@ export class App extends Component {
     return (
       <div>
         <Foo />
+        <div>
+          <AwareLink to="/" exact>
+            Home
+          </AwareLink>
+          <AwareLink to="/todos">Todos</AwareLink>
+        </div>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route
