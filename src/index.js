@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from 'react';
 import { render } from 'react-dom';
 
+function fetchFromServer(id) {}
+
 const Todo = ({ todo, toggleTodo }) => (
   <p
     onClick={() => toggleTodo(todo.id)}
@@ -32,21 +34,23 @@ const initialTodos = [
   { id: 2, text: 'Spam buzz pow', done: false },
   { id: 3, text: 'Find better things to do', done: true },
 ];
-/*
-class CApp extends Component {
+
+class App extends Component {
   state = {
     todos: initialTodos,
   };
 
   componentDidMount() {
-    //fetchFromServer(this.props.id);
+    fetchFromServer(this.props.id);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
-      //fetchFromServer(this.props.id);
+      fetchFromServer(this.props.id);
     }
   }
+
+  setTodos = todos => this.setState({ todos });
 
   toggleTodo = tid => {
     this.setState({
@@ -61,6 +65,12 @@ class CApp extends Component {
     });
   };
 
+  addTodo = text => {
+    const maxId = Math.max(...this.state.todos.map(t => t.id));
+    const todo = { id: maxId + 1, text, done: false };
+    this.setTodos([...this.state.todos, todo]);
+  };
+
   render() {
     return (
       <div>
@@ -68,76 +78,37 @@ class CApp extends Component {
           <hr />
           <Foo />
         </Title>
+        <AddTodo addTodo={this.addTodo} />
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
       </div>
     );
   }
 }
-*/
 
-function useTodos(initialTodos) {
-  const [todos, setTodos] = useState(initialTodos);
-  const toggleTodo = tid =>
-    setTodos(
-      todos.map(todo =>
-        todo.id === tid
-          ? {
-              ...todo,
-              done: !todo.done,
-            }
-          : todo
-      )
+class AddTodo extends Component {
+  state = { text: '' };
+
+  setText = text => this.setState({ text });
+
+  reset = () => this.setText('');
+
+  onTextChange = event => this.setText(event.target.value);
+
+  onAddTodo = () => {
+    this.props.addTodo(this.state.text);
+    this.reset();
+  };
+
+  render() {
+    return (
+      <>
+        <input onChange={this.onTextChange} value={this.state.text} />
+        <button disabled={!this.state.text.length} onClick={this.onAddTodo}>
+          Add
+        </button>
+      </>
     );
-  const addTodo = text => {
-    const maxId = Math.max(...todos.map(t => t.id));
-    const todo = { id: maxId + 1, text, done: false };
-    setTodos([...todos, todo]);
-  };
-  return { todos, toggleTodo, addTodo };
-}
-
-function useControlledInput(defaultText = '') {
-  const [text, setText] = useState(defaultText);
-  const onTextChange = event => setText(event.target.value);
-  const reset = () => setText('');
-  const inputParams = { value: text, onChange: onTextChange };
-  return { inputParams, text, reset };
-}
-
-function AddTodo({ addTodo, id }) {
-  const { inputParams, text, reset } = useControlledInput();
-  useEffect(
-    () => {
-      fetchFromServer(id);
-    },
-    [id]
-  );
-  const onAddTodo = () => {
-    addTodo(text);
-    reset();
-  };
-  return (
-    <>
-      <input {...inputParams} />
-      <button disabled={!text.length} onClick={onAddTodo}>
-        Add
-      </button>
-    </>
-  );
-}
-
-function App() {
-  const { todos, toggleTodo, addTodo } = useTodos(initialTodos);
-  return (
-    <div>
-      <Title title="meow" hidden>
-        <hr />
-        <Foo />
-      </Title>
-      <AddTodo addTodo={addTodo} />
-      <TodoList todos={todos} toggleTodo={toggleTodo} />
-    </div>
-  );
+  }
 }
 
 render(<App />, document.getElementById('root'));
