@@ -1,3 +1,5 @@
+const notify = Symbol('notify');
+
 function createStore(initialValue, reducer) {
   let state = initialValue;
   const subscribers = new Set();
@@ -5,7 +7,7 @@ function createStore(initialValue, reducer) {
     getState() {
       return state;
     },
-    notify(action) {
+    [notify](action) {
       state = reducer(state, action);
       for (let sub of subscribers) {
         sub();
@@ -18,6 +20,9 @@ function createStore(initialValue, reducer) {
   };
 }
 
+const dispatcher = stores => action =>
+  stores.forEach(store => store[notify](action));
+
 const countStore = createStore(0, (state, action) => {
   switch (action.type) {
     case 'INCREMENT':
@@ -27,8 +32,10 @@ const countStore = createStore(0, (state, action) => {
   }
 });
 
+const dispatch = dispatcher([countStore]);
+
 countStore.subscribe(() => console.log(countStore.getState()));
-countStore.notify({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
-countStore.notify({ type: 'INCREMENT' });
-countStore.notify({ type: 'INCREMENT' });
-countStore.notify({ type: 'INCREMENT' });
+dispatch({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
+dispatch({ type: 'INCREMENT' });
+dispatch({ type: 'INCREMENT' });
+dispatch({ type: 'INCREMENT' });
