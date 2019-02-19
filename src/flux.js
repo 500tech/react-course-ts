@@ -26,7 +26,10 @@ const dispatcher = stores => action =>
 const countStore = createStore(0, (state, action) => {
   switch (action.type) {
     case 'INCREMENT':
-      return state + 1;
+      const { payload = 1 } = action;
+      return state + payload;
+    case 'DECREMENT':
+      return state - 1;
     default:
       return state;
   }
@@ -35,7 +38,11 @@ const countStore = createStore(0, (state, action) => {
 const dispatch = dispatcher([countStore]);
 const counter = document.getElementById('counter');
 for (let el of document.querySelectorAll('[data-action]')) {
-  el.onclick = () => dispatch({ type: el.dataset.action });
+  el.onclick = () =>
+    dispatch({
+      type: el.dataset.action,
+      payload: el.dataset.payload ? eval(el.dataset.payload) : undefined,
+    });
 }
 countStore.subscribe(() => (counter.textContent = countStore.getState()));
 dispatch({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
