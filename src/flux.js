@@ -1,31 +1,4 @@
-const notify = Symbol('notify');
-
-function createStore(initialValue, reducer) {
-  let state = initialValue;
-  const subscribers = new Set();
-  return {
-    getState() {
-      return state;
-    },
-    [notify](action) {
-      state = reducer(state, action);
-      for (let sub of subscribers) {
-        sub();
-      }
-    },
-    subscribe(cb) {
-      subscribers.add(cb);
-      return () => subscribers.delete(cb);
-    },
-  };
-}
-
-const dispatcher = (stores, mw = []) => {
-  const dispatch = action => stores.forEach(store => store[notify](action));
-  mw.push(dispatch);
-  const actualDispatch = action => mw.forEach(m => m(action, actualDispatch));
-  return actualDispatch;
-};
+import { createStore } from 'redux';
 
 function validator(predicate, wrappedReducer) {
   return function wrapperReducer(state, action) {
@@ -34,32 +7,41 @@ function validator(predicate, wrappedReducer) {
   };
 }
 
-const countStore = createStore(
-  0,
-  validator(
-    state => state >= 0 && state <= 5,
-    (state, action) => {
-      switch (action.type) {
-        case 'INCREMENT':
-          const { payload = 1 } = action;
-          return state + payload;
-        case 'DECREMENT':
-          return state - 1;
-        default:
-          return state;
-      }
+const countReducer = validator(
+  state => state >= 0 && state <= 5,
+  (state = 0, action) => {
+    switch (action.type) {
+      case 'INCREMENT':
+        const { payload = 1 } = action;
+        return state + payload;
+      case 'DECREMENT':
+        return state - 1;
+      default:
+        return state;
     }
-  )
+  }
 );
 
-const dispatch = dispatcher(
-  [countStore],
-  [
-    function logMiddleware(action) {
-      console.log(action);
-    },
-  ]
-);
+const userReducer = (state = null, action) => {
+  switch (action.type) {
+    case 'LOGIN': {
+      const { username, password } = action.payload;
+      return { username, password };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const store = createStore(function mainReducer(state = {}, action) {
+  return {
+    count: countReducer(state.count, action),
+    user: userReducer(state.user, action),
+  };
+});
+
+const dispatch = store.dispatch;
 const counter = document.getElementById('counter');
 for (let el of document.querySelectorAll('[data-action]')) {
   el.onclick = () =>
@@ -68,10 +50,11 @@ for (let el of document.querySelectorAll('[data-action]')) {
       payload: el.dataset.payload ? eval(el.dataset.payload) : undefined,
     });
 }
-countStore.subscribe(() => {
-  counter.textContent = countStore.getState();
+store.subscribe(() => {
+  console.log(store.getState());
+  counter.textContent = store.getState().count;
   // document.querySelector(
   //   '[data-action=DECREMENT]'
-  // ).disabled = !countStore.getState();
+  // ).disabled = !store.getState();
 });
 dispatch({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
