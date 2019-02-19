@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Foo } from './common/Foo';
 import { AwareLink } from './common/AwareLink';
-import { AddTodo } from './todos/AddTodo';
-import { TodoList } from './todos/TodoList';
 import { AddressBar } from './common/AddressBar';
 import { Home } from '../pages/Home';
+import { Todos } from '../pages/Todos';
+import { TodosContext } from './TodosContext';
 
 function fetchFromServer(id) {}
 
@@ -53,33 +53,28 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
-        <Foo />
-        <AddressBar />
+      <TodosContext.Provider
+        value={{
+          addTodo: this.addTodo,
+          todos: this.state.todos,
+          toggleTodo: this.toggleTodo,
+        }}
+      >
         <div>
-          <AwareLink to="/" exact>
-            Home
-          </AwareLink>
-          <AwareLink to="/todos">Todos</AwareLink>
+          <Foo />
+          <AddressBar />
+          <div>
+            <AwareLink to="/" exact>
+              Home
+            </AwareLink>
+            <AwareLink to="/todos">Todos</AwareLink>
+          </div>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/todos" component={Todos} />
+          </Switch>
         </div>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route
-            path="/todos"
-            render={() => {
-              return (
-                <>
-                  <AddTodo addTodo={this.addTodo} />
-                  <TodoList
-                    todos={this.state.todos}
-                    toggleTodo={this.toggleTodo}
-                  />
-                </>
-              );
-            }}
-          />
-        </Switch>
-      </div>
+      </TodosContext.Provider>
     );
   }
 }
