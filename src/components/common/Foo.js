@@ -1,20 +1,12 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
+import { ReduxConsumer } from '../../ReduxBridge';
 
-// function pstyled(Component) {
-//   return (rawCss) => {
-//     return props => {
-//       const css = cssFactory(rawCss, props);
-//       const className = genrateNewClassNameFromCSS(css);
-//       return React.createElement(Component, {
-//         ...props,
-//         className: `${className} ${props.className}`,
-//       }, props.children);
-//     }
-//   };
-// }
-
-const BaseFoo = memo(({ className }) => <p className={className}>Foo</p>);
+const BaseFoo = memo(({ className }) => (
+  <p className={className}>
+    <ReduxConsumer>{({ state }) => state.count}</ReduxConsumer>
+  </p>
+));
 
 export const Foo = styled(BaseFoo)`
   color: ${props => (props.active ? 'red' : 'green')};

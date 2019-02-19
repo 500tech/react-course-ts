@@ -2,10 +2,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './components/App';
+import { ReduxBridge } from './ReduxBridge';
+import store from './state';
 
 render(
   <Router>
-    <App />
+    <ReduxBridge store={store}>
+      <App />
+    </ReduxBridge>
   </Router>,
   document.getElementById('root')
 );

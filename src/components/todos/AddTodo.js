@@ -1,4 +1,6 @@
 import React, { Component, createRef } from 'react';
+import { ReduxConsumer } from '../../ReduxBridge';
+import { increment } from '../../state/actions/count.actions';
 
 export class AddTodo extends Component {
   state = { text: '' };
@@ -22,16 +24,26 @@ export class AddTodo extends Component {
 
   render() {
     return (
-      <>
-        <input
-          ref={this.input}
-          onChange={this.onTextChange}
-          value={this.state.text}
-        />
-        <button disabled={!this.state.text.length} onClick={this.onAddTodo}>
-          Add
-        </button>
-      </>
+      <ReduxConsumer>
+        {({ dispatch }) => (
+          <>
+            <input
+              ref={this.input}
+              onChange={this.onTextChange}
+              value={this.state.text}
+            />
+            <button
+              disabled={!this.state.text.length}
+              onClick={() => {
+                dispatch(increment());
+                this.onAddTodo();
+              }}
+            >
+              Add
+            </button>
+          </>
+        )}
+      </ReduxConsumer>
     );
   }
 }
