@@ -1,4 +1,18 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+
+const log = store => {
+  // on init
+  return next => {
+    // on ready
+    return action => {
+      // on action
+      const oldState = store.getState();
+      next(action);
+      const newState = store.getState();
+      console.log({ oldState, action, newState });
+    };
+  };
+};
 
 function validator(predicate, wrappedReducer) {
   return function wrapperReducer(state, action) {
@@ -41,23 +55,12 @@ function nonGenericMainReducer(state = {}, action) {
   };
 }
 
-function combineReducers(statesToReducers) {
-  const stateKeys = Object.keys(statesToReducers);
-  return (state = {}, action) => {
-    const newState = {};
-    for (let stateKey of stateKeys) {
-      newState[stateKey] = statesToReducers[stateKey](state[stateKey], action);
-    }
-    return newState;
-  };
-}
-
 const mainReducer = combineReducers({
   count: countReducer,
   user: userReducer,
 });
 
-const store = createStore(mainReducer);
+const store = createStore(mainReducer, applyMiddleware(log));
 
 const dispatch = store.dispatch;
 const counter = document.getElementById('counter');
@@ -69,7 +72,6 @@ for (let el of document.querySelectorAll('[data-action]')) {
     });
 }
 store.subscribe(() => {
-  console.log(store.getState());
   counter.textContent = store.getState().count;
   // document.querySelector(
   //   '[data-action=DECREMENT]'
