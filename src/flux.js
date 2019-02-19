@@ -34,12 +34,30 @@ const userReducer = (state = null, action) => {
   }
 };
 
-const store = createStore(function mainReducer(state = {}, action) {
+function nonGenericMainReducer(state = {}, action) {
   return {
     count: countReducer(state.count, action),
     user: userReducer(state.user, action),
   };
+}
+
+function combineReducers(statesToReducers) {
+  const stateKeys = Object.keys(statesToReducers);
+  return (state = {}, action) => {
+    const newState = {};
+    for (let stateKey of stateKeys) {
+      newState[stateKey] = statesToReducers[stateKey](state[stateKey], action);
+    }
+    return newState;
+  };
+}
+
+const mainReducer = combineReducers({
+  count: countReducer,
+  user: userReducer,
 });
+
+const store = createStore(mainReducer);
 
 const dispatch = store.dispatch;
 const counter = document.getElementById('counter');
