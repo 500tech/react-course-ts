@@ -1,11 +1,8 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { ReduxConsumer } from '../../ReduxBridge';
 
-const BaseFoo = memo(({ className }) => (
-  <p className={className}>
-    <ReduxConsumer>{({ state }) => state.count}</ReduxConsumer>
-  </p>
+const BaseFoo = memo(({ className, count }) => (
+  <p className={className}>{count}</p>
 ));
 
 export const Foo = styled(BaseFoo)`
