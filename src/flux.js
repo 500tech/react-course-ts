@@ -33,9 +33,9 @@ const countStore = createStore(0, (state, action) => {
 });
 
 const dispatch = dispatcher([countStore]);
-
-countStore.subscribe(() => console.log(countStore.getState()));
+const counter = document.getElementById('counter');
+for (let el of document.querySelectorAll('[data-action]')) {
+  el.onclick = () => dispatch({ type: el.dataset.action });
+}
+countStore.subscribe(() => (counter.textContent = countStore.getState()));
 dispatch({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
-dispatch({ type: 'INCREMENT' });
-dispatch({ type: 'INCREMENT' });
-dispatch({ type: 'INCREMENT' });
