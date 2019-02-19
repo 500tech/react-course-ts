@@ -5,21 +5,10 @@ import { AwareLink } from './common/AwareLink';
 import { AddressBar } from './common/AddressBar';
 import { Home } from '../pages/Home';
 import { Todos } from '../pages/Todos';
-import { TodosContext } from './TodosContext';
 
 function fetchFromServer(id) {}
 
-const initialTodos = [
-  { id: 1, text: 'Foobar meow', done: true },
-  { id: 2, text: 'Spam buzz pow', done: false },
-  { id: 3, text: 'Find better things to do', done: true },
-];
-
 export class App extends Component {
-  state = {
-    todos: initialTodos,
-  };
-
   componentDidMount() {
     fetchFromServer(this.props.id);
   }
@@ -30,51 +19,22 @@ export class App extends Component {
     }
   }
 
-  setTodos = todos => this.setState({ todos });
-
-  toggleTodo = tid => {
-    this.setState({
-      todos: this.state.todos.map(todo =>
-        todo.id === tid
-          ? {
-              ...todo,
-              done: !todo.done,
-            }
-          : todo
-      ),
-    });
-  };
-
-  addTodo = text => {
-    const maxId = Math.max(...this.state.todos.map(t => t.id));
-    const todo = { id: maxId + 1, text, done: false };
-    this.setTodos([...this.state.todos, todo]);
-  };
-
   render() {
     return (
-      <TodosContext.Provider
-        value={{
-          addTodo: this.addTodo,
-          todos: this.state.todos,
-          toggleTodo: this.toggleTodo,
-        }}
-      >
+      <div>
+        <Foo />
+        <AddressBar />
         <div>
-          <Foo />
-          <AddressBar />
-          <div>
-            <AwareLink to="/" exact>
-              Home
-            </AwareLink>
-            <AwareLink to="/todos">Todos</AwareLink>
-          </div>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/todos" component={Todos} />
-          </Switch>
+          <AwareLink to="/" exact>
+            Home
+          </AwareLink>
+          <AwareLink to="/todos">Todos</AwareLink>
         </div>
-      </TodosContext.Provider>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/todos" component={Todos} />
+        </Switch>
+      </div>
     );
   }
 }
