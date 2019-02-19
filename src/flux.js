@@ -23,17 +23,30 @@ function createStore(initialValue, reducer) {
 const dispatcher = stores => action =>
   stores.forEach(store => store[notify](action));
 
-const countStore = createStore(0, (state, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      const { payload = 1 } = action;
-      return state + payload;
-    case 'DECREMENT':
-      return state - 1;
-    default:
-      return state;
-  }
-});
+function validator(predicate, wrappedReducer) {
+  return function wrapperReducer(state, action) {
+    const newState = wrappedReducer(state, action);
+    return predicate(newState) ? newState : state;
+  };
+}
+
+const countStore = createStore(
+  0,
+  validator(
+    state => state >= 0 && state <= 5,
+    (state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          const { payload = 1 } = action;
+          return state + payload;
+        case 'DECREMENT':
+          return state - 1;
+        default:
+          return state;
+      }
+    }
+  )
+);
 
 const dispatch = dispatcher([countStore]);
 const counter = document.getElementById('counter');
@@ -44,5 +57,10 @@ for (let el of document.querySelectorAll('[data-action]')) {
       payload: el.dataset.payload ? eval(el.dataset.payload) : undefined,
     });
 }
-countStore.subscribe(() => (counter.textContent = countStore.getState()));
+countStore.subscribe(() => {
+  counter.textContent = countStore.getState();
+  // document.querySelector(
+  //   '[data-action=DECREMENT]'
+  // ).disabled = !countStore.getState();
+});
 dispatch({ type: '@@INTERNAL__BOOTSTRAP__INIT' });
