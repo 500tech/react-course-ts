@@ -20,8 +20,12 @@ function createStore(initialValue, reducer) {
   };
 }
 
-const dispatcher = stores => action =>
-  stores.forEach(store => store[notify](action));
+const dispatcher = (stores, mw = []) => {
+  const dispatch = action => stores.forEach(store => store[notify](action));
+  mw.push(dispatch);
+  const actualDispatch = action => mw.forEach(m => m(action, actualDispatch));
+  return actualDispatch;
+};
 
 function validator(predicate, wrappedReducer) {
   return function wrapperReducer(state, action) {
@@ -48,7 +52,14 @@ const countStore = createStore(
   )
 );
 
-const dispatch = dispatcher([countStore]);
+const dispatch = dispatcher(
+  [countStore],
+  [
+    function logMiddleware(action) {
+      console.log(action);
+    },
+  ]
+);
 const counter = document.getElementById('counter');
 for (let el of document.querySelectorAll('[data-action]')) {
   el.onclick = () =>
