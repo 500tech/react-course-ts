@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Counter } from './Counter';
+import { Counter } from '../Counter';
 
 const FantasyCounter = styled(Counter)`
   font-family: fantasy;
@@ -20,7 +19,7 @@ const StyledButton = styled.button`
   }
 `;
 
-export function BaseApp({ count, incrementCount, decrementCount, setCount }) {
+export default function BaseApp({ count, incrementCount, decrementCount, setCount }) {
   const input = useRef();
   useEffect(() => {
     input.current.focus();
@@ -46,27 +45,3 @@ export function BaseApp({ count, incrementCount, decrementCount, setCount }) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    count: state.count,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    incrementCount() {
-      dispatch({ type: 'INCREMENT' });
-    },
-    decrementCount() {
-      dispatch({ type: 'DECREMENT' });
-    },
-    setCount(count) {
-      dispatch({ type: 'SET_COUNT', payload: count });
-    },
-  };
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-export const App = connector(BaseApp);
