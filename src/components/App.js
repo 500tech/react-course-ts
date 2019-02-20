@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-// import { CountProvider } from './CountContext';
+import { connect } from 'react-redux';
 import { Counter } from './Counter';
-import { useRedux } from './ReduxBridge';
 
 const FantasyCounter = styled(Counter)`
   font-family: fantasy;
@@ -21,20 +20,16 @@ const StyledButton = styled.button`
   }
 `;
 
-export function App() {
-  const { state, dispatch } = useRedux();
+export function BaseApp({ count, incrementCount, decrementCount, setCount }) {
   const input = useRef();
   useEffect(() => {
     input.current.focus();
   }, []);
-  const incrementCount = () => dispatch({ type: 'INCREMENT' });
-  const decrementCount = () => dispatch({ type: 'DECREMENT' });
-  const onChangeCountFromInput = e =>
-    dispatch({ type: 'SET_COUNT', payload: parseInt(e.target.value) });
-  const disabled = state.count === 0;
+  const onChangeCountFromInput = e => setCount(parseInt(e.target.value));
+  const disabled = count === 0;
   return (
     <div>
-      <FantasyCounter/>
+      <FantasyCounter />
       <StyledButton onClick={incrementCount}>+</StyledButton>
       <StyledButton onClick={decrementCount} disabled={disabled}>
         -
@@ -43,7 +38,7 @@ export function App() {
         <input
           ref={input}
           type="number"
-          value={state.count}
+          value={count}
           onChange={onChangeCountFromInput}
           placeholder="Set input"
         />
@@ -51,3 +46,27 @@ export function App() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    count: state.count,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    incrementCount() {
+      dispatch({ type: 'INCREMENT' });
+    },
+    decrementCount() {
+      dispatch({ type: 'DECREMENT' });
+    },
+    setCount(count) {
+      dispatch({ type: 'SET_COUNT', payload: count });
+    },
+  };
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export const App = connector(BaseApp);
