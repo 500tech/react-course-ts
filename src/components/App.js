@@ -34,7 +34,7 @@ export function App() {
   const disabled = state.count === 0;
   return (
     <div>
-      <FantasyCounter />
+      <FantasyCounter/>
       <StyledButton onClick={incrementCount}>+</StyledButton>
       <StyledButton onClick={decrementCount} disabled={disabled}>
         -
