@@ -56,9 +56,25 @@ const createDispatcher = (stores, middlewares = []) => {
  * }
  */
 
-const countStore = createStore((state=0, action) => {
+const countStore = createStore((state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT': {
+      const { payload = 1 } = action;
+      return state + payload;
+    }
+    case 'DECREMENT': {
+      return state - 1;
+    }
+    default: {
+      return state;
+    }
+  }
+});
+
+const clicksStore = createStore((state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+    case 'DECREMENT': {
       return state + 1;
     }
     default: {
@@ -66,18 +82,25 @@ const countStore = createStore((state=0, action) => {
     }
   }
 });
+
 const logMiddleware = stores => next => action => {
   console.log(stores.countStore.getState());
   console.log(action);
   next(action);
   console.log(stores.countStore.getState());
 };
-const dispatch = createDispatcher({ countStore }, [logMiddleware]);
+const dispatch = createDispatcher({ countStore, clicksStore }, [logMiddleware]);
 const counter = document.getElementById('counter');
+const clicks = document.getElementById('clicks');
 for (let el of document.querySelectorAll('button[data-action]')) {
-  el.onclick = () => dispatch({ type: el.dataset.action });
+  el.onclick = () =>
+    dispatch({ type: el.dataset.action, payload: eval(el.dataset.payload) });
 }
 countStore.subscribe(state => {
   counter.textContent = state.toString();
+});
+
+clicksStore.subscribe(state => {
+  clicks.textContent = state.toString();
 });
 dispatch({ type: '@@RANDOM_FOO_BAR' });
