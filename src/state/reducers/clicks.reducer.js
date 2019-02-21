@@ -1,4 +1,4 @@
-export const clicksReducer = (state = 0, action) => {
+export const clicks = (state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT':
     case 'DECREMENT': {

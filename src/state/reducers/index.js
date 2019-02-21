@@ -1,9 +1,8 @@
-import { countReducer } from './count.reducer';
-import { clicksReducer } from './clicks.reducer';
+import { combineReducers } from 'redux';
+import { count } from './count.reducer';
+import { clicks } from './clicks.reducer';
 
-export default function mainReducer(state = {}, action) {
-  return {
-    count: countReducer(state.count, action),
-    clicks: clicksReducer(state.clicks, action),
-  };
-}
+export default combineReducers({
+  count,
+  clicks,
+});
