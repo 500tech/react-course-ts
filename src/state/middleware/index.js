@@ -1,2 +1,3 @@
+import { applyMiddleware } from 'redux'
 import { log } from './log.middleware';
-export default [log];
+export default applyMiddleware(log);

@@ -1,16 +1,19 @@
-import { countStore, clicksStore, dispatch } from './state';
+import { store } from './state';
 
 const counter = document.getElementById('counter');
 const clicks = document.getElementById('clicks');
 for (let el of document.querySelectorAll('button[data-action]')) {
   el.onclick = () =>
-    dispatch({ type: el.dataset.action, payload: eval(el.dataset.payload) });
+    store.dispatch({
+      type: el.dataset.action,
+      payload: eval(el.dataset.payload),
+    });
 }
-countStore.subscribe(state => {
-  counter.textContent = state.toString();
+store.subscribe(() => {
+  counter.textContent = store.getState().count.toString();
 });
 
-clicksStore.subscribe(state => {
-  clicks.textContent = state.toString();
+store.subscribe(() => {
+  clicks.textContent = store.getState().clicks.toString();
 });
-dispatch({ type: '@@RANDOM_FOO_BAR' });
+store.dispatch({ type: '@@RANDOM_FOO_BAR' });

@@ -1,7 +1,5 @@
-import { createStore, createDispatcher } from '../flux';
-import { countReducer, clicksReducer } from './reducers';
+import { createStore } from 'redux';
+import mainReducer from './reducers';
 import mw from './middleware';
 
-export const countStore = createStore(countReducer);
-export const clicksStore = createStore(clicksReducer);
-export const dispatch = createDispatcher({ countStore, clicksStore }, mw);
+export const store = createStore(mainReducer, mw);
