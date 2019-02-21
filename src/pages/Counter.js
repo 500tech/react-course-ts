@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { store } from '../state';
+import React from 'react';
+import { useRedux } from '../components/ReduxBridge';
 
-export function Counter() {
-  const [count, setCount] = useState(store.getState().count);
-  useEffect(() => store.subscribe(() => setCount(store.getState().count)), []);
-  return <p>{count}</p>;
-}
+export const Counter = () => {
+  const { state, dispatch } = useRedux();
+  return <p onClick={() => dispatch({ type: 'INCREMENT' })}>{state.count}</p>;
+};
