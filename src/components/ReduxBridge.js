@@ -13,9 +13,10 @@ export function ReduxBridge({ store, children }) {
   return <ReduxContext.Provider value={ctx}>{children}</ReduxContext.Provider>;
 }
 
-export function withRedux(Component) {
+export function withRedux(Component, mapper) {
   return props => {
-    const reduxProps = useRedux();
-    return <Component {...reduxProps} {...props} />;
+    const { state, dispatch } = useRedux();
+    const mappedProps = mapper(state, dispatch, props)
+    return <Component {...props} {...mappedProps} />;
   };
 }
