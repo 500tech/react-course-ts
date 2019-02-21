@@ -7,14 +7,13 @@ import { Switch, Route } from 'react-router-dom';
 import { Greeting } from './Greeting';
 import { Home } from '../pages/Home';
 import { Todos } from '../pages/Todos';
+import { Counter } from '../pages/Counter';
 import { AwareLink } from './AwareLink';
 import Url from './Url';
 
 const Container = styled.div`
   border: 1px solid lightblue;
 `;
-
-
 
 const INITIAL_TODOS = [
   { $id: uuid(), text: 'This is todo #1', done: true },
@@ -61,6 +60,7 @@ export function App() {
       </div>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/counter" component={Counter} />
         <Route
           path="/todos"
           render={() => {
