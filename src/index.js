@@ -10,9 +10,9 @@
  * [...stores]
  */
 
-function createStore(reducer, initialState) {
+function createStore(reducer) {
   const subscribers = new Set();
-  let state = initialState;
+  let state = undefined;
 
   return {
     getState() {
@@ -56,7 +56,7 @@ const createDispatcher = (stores, middlewares = []) => {
  * }
  */
 
-const countStore = createStore((state, action) => {
+const countStore = createStore((state=0, action) => {
   switch (action.type) {
     case 'INCREMENT': {
       return state + 1;
@@ -65,7 +65,7 @@ const countStore = createStore((state, action) => {
       return state;
     }
   }
-}, 0);
+});
 const logMiddleware = stores => next => action => {
   console.log(stores.countStore.getState());
   console.log(action);
