@@ -1,15 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider as ReduxProvider } from 'react-redux';
 import { App } from './components/App';
-import { ReduxBridge } from './components/ReduxBridge';
 import { store } from './state';
 
 render(
   <Router>
-    <ReduxBridge store={store}>
+    <ReduxProvider store={store}>
       <App />
-    </ReduxBridge>
+    </ReduxProvider>
   </Router>,
   document.getElementById('root')
 );
