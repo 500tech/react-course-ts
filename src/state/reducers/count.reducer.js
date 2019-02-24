@@ -1,10 +1,12 @@
+import * as actions from '../actions/types';
+
 export const count = (state = 0, action) => {
   switch (action.type) {
-    case 'INCREMENT': {
+    case actions.INCREMENT: {
       const { payload = 1 } = action;
       return state + payload;
     }
-    case 'DECREMENT': {
+    case actions.DECREMENT: {
       return state - 1;
     }
     default: {
