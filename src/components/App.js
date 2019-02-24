@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import { Greeting } from './Greeting';
+import { Greeting } from './Greetings';
 import { Home } from '../pages/Home';
 import { Todos } from '../pages/Todos';
 import { Counter } from '../pages/Counter';
