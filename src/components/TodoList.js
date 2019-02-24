@@ -6,7 +6,7 @@ export function TodoList({ todos = [], toggleTodo, removeTodo }) {
     <ol>
       {todos.map((todo, idx) => (
         <Todo
-          key={todo.$id}
+          key={todo.id}
           onToggleTodo={() => toggleTodo(idx)}
           onRemoveTodo={() => removeTodo(idx)}
           {...todo}

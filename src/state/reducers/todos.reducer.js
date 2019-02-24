@@ -1,27 +1,24 @@
 import uuid from 'uuid';
 import produce from 'immer';
-import { TOGGLE_TODO, ADD_TODO, REMOVE_TODO } from '../actions/types';
+import {
+  TOGGLE_TODO,
+  ADD_TODO,
+  REMOVE_TODO,
+  SET_TODOS,
+} from '../actions/types';
 
-const INITIAL_TODOS = [
-  { $id: uuid(), text: 'This is todo #1', done: true },
-  { $id: uuid(), text: 'This is todo #2', done: false },
-  { $id: uuid(), text: 'This is todo #3', done: false },
-  { $id: uuid(), text: 'This is todo #4', done: false },
-  { $id: uuid(), text: 'This is todo #5', done: false },
-];
-
-export function todos(todos = INITIAL_TODOS, action) {
+export function todos(todos = null, action) {
   switch (action.type) {
     case TOGGLE_TODO: {
       const idx = action.payload;
       return produce(todos, draft => {
-        draft[idx].done = !draft[idx].done;
+        draft[idx].completed = !draft[idx].completed;
       });
     }
     case ADD_TODO: {
-      const text = action.payload;
+      const title = action.payload;
       return produce(todos, draft => {
-        const todo = { text, done: false, $id: uuid() };
+        const todo = { title, completed: false, $id: uuid() };
         draft.push(todo);
       });
     }
@@ -30,6 +27,9 @@ export function todos(todos = INITIAL_TODOS, action) {
       return produce(todos, draft => {
         draft.splice(idx, 1);
       });
+    }
+    case SET_TODOS: {
+      return action.payload;
     }
     default: {
       return todos;

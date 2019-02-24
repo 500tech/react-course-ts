@@ -1,3 +1,4 @@
-import { applyMiddleware } from 'redux'
+import { applyMiddleware } from 'redux';
 import { log } from './log.middleware';
-export default applyMiddleware(log);
+import { api } from './api.middleware';
+export default applyMiddleware(log, api);

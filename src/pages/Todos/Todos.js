@@ -3,6 +3,9 @@ import { AddTodo } from '../../components/AddTodo';
 import { TodoList } from '../../components/TodoList';
 
 export function Todos({ todos, onAddTodo, toggleTodo, onRemoveTodo }) {
+  if (!todos) {
+    return <p>Loading...</p>
+  }
   return (
     <>
       <AddTodo onAddTodo={onAddTodo} />

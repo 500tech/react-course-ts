@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Greeting as BaseGreeting } from './Greeting';
 
 const getCountOfUndoneTodos = memoizeOne(
-  todos => todos.filter(todo => !todo.done).length
+  todos => todos && todos.filter(todo => !todo.completed).length
 );
 
 function mapStateToProps(state) {
