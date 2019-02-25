@@ -1,6 +1,6 @@
-export const log = store => next => action => {
-  console.log(store.getState());
-  console.log(action);
+export const log = logger => store => next => action => {
+  logger(store.getState());
+  logger(action);
   next(action);
-  console.log(store.getState());
+  logger(store.getState());
 };
