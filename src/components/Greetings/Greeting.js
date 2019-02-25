@@ -12,7 +12,7 @@ const RightDiv = styled.div`
 export function Greeting({ name = 'stranger', count = 0 }) {
   return (
     <StyledTitle>
-      Hello, {name}! <RightDiv>{count}</RightDiv>
+      <span>Hello, {name}!</span> <RightDiv>{count}</RightDiv>
     </StyledTitle>
   );
 }
