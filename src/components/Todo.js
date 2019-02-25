@@ -24,3 +24,5 @@ Todo.propTypes = {
   onToggleTodo: PropTypes.func,
   onRemoveTodo: PropTypes.func,
 };
+
+export default Todo;
