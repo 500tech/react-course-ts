@@ -7,7 +7,6 @@ exports[`<Greeting /> is sane 1`] = `
     stranger
     !
   </span>
-   
   <styled.div>
     0
   </styled.div>

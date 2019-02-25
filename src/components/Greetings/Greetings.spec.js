@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import { Greeting } from './Greeting';
+import { Greeting, RightDiv } from './Greeting';
 
 describe('<Greeting />', () => {
   it('is sane', () => {
@@ -25,5 +25,14 @@ describe('<Greeting />', () => {
         .get(0)
         .props.children.join('')
     ).toBe('Hello, Foo!');
+  });
+  it('has a default greeting', () => {
+    const wrapper = shallow(<Greeting />);
+    expect(
+      wrapper
+        .find(RightDiv)
+        .get(0)
+        .props.children
+    ).toBe(0);
   });
 });

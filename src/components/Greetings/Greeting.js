@@ -5,14 +5,15 @@ const StyledTitle = styled.h1`
   color: violet;
 `;
 
-const RightDiv = styled.div`
+export const RightDiv = styled.div`
   float: right;
 `;
 
 export function Greeting({ name = 'stranger', count = 0 }) {
   return (
     <StyledTitle>
-      <span>Hello, {name}!</span> <RightDiv>{count}</RightDiv>
+      <span>Hello, {name}!</span>
+      <RightDiv>{count}</RightDiv>
     </StyledTitle>
   );
 }
