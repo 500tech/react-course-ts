@@ -33,8 +33,9 @@ export function AddTodo({ onAddTodo, focus = true }) {
         value={draft}
         onChange={onDraftChange}
         onKeyPress={onKeyPress}
+        data-testid="input"
       />
-      <button disabled={draft === ''} onClick={addTodo}>
+      <button disabled={draft === ''} onClick={addTodo} data-testid="adder">
         Add Me!
       </button>
     </div>
