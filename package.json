@@ -1,0 +1,27 @@
+{
+  "name": "react-course",
+  "version": "1.0.0",
+  "description": "```sh npm init -y # Setup a new project with NPM using the defaults npm install --save-dev typescript # install typescript as a dev dependency ```",
+  "main": "index.js",
+  "scripts": {
+    "watch-ts": "tsc -p . -w",
+    "run-js": "nodemon dist/index.js",
+    "start": "concurrently 'npm:watch-ts' 'npm:run-js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/500tech/react-course-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/500tech/react-course-ts/issues"
+  },
+  "homepage": "https://github.com/500tech/react-course-ts#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.2"
+  }
+}
