@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function App({ color="pink" }) {
+function App({ color = 'pink', children }) {
   return (
     <div>
       <h1 style={{ color }}>Hello, world!</h1>
-      <p>Hello, {3 + 4}!</p>
+      <p>{children}</p>
     </div>
   );
 }
 
-ReactDOM.render(<App color="blue" />, document.getElementById('root'));
+ReactDOM.render(
+  <App color="blue">
+    Display this
+  </App>,
+  document.getElementById('root')
+);
