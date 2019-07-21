@@ -5,35 +5,26 @@ import './index.css';
 
 // Todo { text, done, id }
 
+const NOOP = () => null;
+
 function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-function Todo({ todo }) {
+function Todo({ todo, onToggleTodo = NOOP }) {
   const style = { textDecoration: todo.done ? 'line-through' : 'none' };
   return (
-    <li
-      style={style}
-      onClick={event => {
-        // event.persist();
-        const { target } = event;
-        console.log(event);
-        console.log(event.target);
-        setTimeout(() => {
-          console.log(target);
-        }, 3);
-      }}
-    >
+    <li style={style} onClick={() => onToggleTodo(todo)}>
       {todo.text}
     </li>
   );
 }
 
-function TodoList({ items }) {
+function TodoList({ items, onToggleTodo }) {
   return (
     <ul>
       {items.map(item => (
-        <Todo key={item.id} todo={item} />
+        <Todo key={item.id} todo={item} onToggleTodo={onToggleTodo} />
       ))}
     </ul>
   );
@@ -44,7 +35,11 @@ function App({ color = 'pink', items = [], children }) {
     <div className="container">
       <h1 style={{ color }}>Todo list</h1>
       {children ? <p>{children}</p> : null}
-      {items.length ? <TodoList items={items} /> : <NoItemsEmptyState />}
+      {items.length ? (
+        <TodoList items={items} onToggleTodo={console.log} />
+      ) : (
+        <NoItemsEmptyState />
+      )}
     </div>
   );
 }
