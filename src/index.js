@@ -30,14 +30,7 @@ function TodoList({ items, onToggleTodo }) {
   );
 }
 
-function useForceRender() {
-  const [version, setVersion] = useState(0);
-  const rerender = () => setVersion(version + 1);
-  return rerender;
-}
-
 function App({ children }) {
-  const rerender = useForceRender();
   const [todos, setTodos] = useState([
     { id: uuid(), text: 'Learn Hebrew', done: false },
     { id: uuid(), text: 'Order lunch', done: true },
@@ -58,9 +51,8 @@ function App({ children }) {
       )
     );
   };
-  console.log('render');
   return (
-    <div className="container" onClick={() => rerender()}>
+    <div className="container" onClick={() => setColor('red')}>
       <h1 style={{ color }}>Todo list</h1>
       {children ? <p>{children}</p> : null}
       {todos.length ? (
