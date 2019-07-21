@@ -39,7 +39,7 @@ function TodoList({ items, onToggleTodo, onRemoveTodo }) {
   );
 }
 
-function TodoAdder() {
+function TodoAdder({ onAddTodo = NOOP }) {
   const [draft, setDraft] = useState('');
   return (
     <>
@@ -48,7 +48,15 @@ function TodoAdder() {
         value={draft}
         onChange={event => setDraft(event.target.value)}
       />
-      <button onClick={() => console.log(draft)}>Add Todo</button>
+      <button
+        onClick={() => {
+          onAddTodo(draft);
+          setDraft('');
+        }}
+        disabled={!draft}
+      >
+        Add Todo
+      </button>
     </>
   );
 }
@@ -70,12 +78,20 @@ function useTodosService(initialTodos) {
   };
 
   const removeTodo = todo => setTodos(todos.filter(({ id }) => id !== todo.id));
-
-  return { todos, toggleTodo, removeTodo };
+  const addTodo = text =>
+    setTodos([
+      {
+        id: uuid(),
+        text,
+        done: false,
+      },
+      ...todos,
+    ]);
+  return { todos, toggleTodo, removeTodo, addTodo };
 }
 
 function App({ children }) {
-  const { todos, removeTodo, toggleTodo } = useTodosService([
+  const { todos, removeTodo, toggleTodo, addTodo } = useTodosService([
     { id: uuid(), text: 'Learn Hebrew', done: false },
     { id: uuid(), text: 'Order lunch', done: true },
   ]);
@@ -85,7 +101,7 @@ function App({ children }) {
     <div className="container" onClick={() => setColor('red')}>
       <h1 style={{ color }}>Todo list</h1>
       {children ? <p>{children}</p> : null}
-      <TodoAdder />
+      <TodoAdder onAddTodo={addTodo} />
       {todos.length ? (
         <TodoList
           items={todos}
