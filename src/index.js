@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  memo as memoizedComponent,
+} from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 import './index.css';
@@ -6,6 +11,19 @@ import './index.css';
 // Todo { text, done, id }
 
 const NOOP = () => null;
+
+const BlackHole = memoizedComponent(
+  ({ text }) => {
+    const pref = useRef();
+    useEffect(() => {
+      const p = pref.current;
+
+    }, []);
+    console.log('black hole rendered');
+    return <p ref={pref}>{text}</p>;
+  },
+  () => true
+);
 
 function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
@@ -41,10 +59,20 @@ function TodoList({ items, onToggleTodo, onRemoveTodo }) {
 
 function TodoAdder({ onAddTodo = NOOP }) {
   const [draft, setDraft] = useState('');
+  const inputRef = useRef();
+  useEffect(() => {
+    const tid = setTimeout(() => console.log('No input for a while...'), 3000);
+    return () => clearTimeout(tid);
+  }, [draft]);
+  useEffect(() => {
+    const actualInputNode = inputRef.current;
+    actualInputNode.focus();
+  }, []);
   return (
     <>
       <input
         type="text"
+        ref={inputRef}
         value={draft}
         onChange={event => setDraft(event.target.value)}
       />
@@ -100,6 +128,7 @@ function App({ children }) {
   return (
     <div className="container" onClick={() => setColor('red')}>
       <h1 style={{ color }}>Todo list</h1>
+      <BlackHole text={color} />
       {children ? <p>{children}</p> : null}
       <TodoAdder onAddTodo={addTodo} />
       {todos.length ? (
