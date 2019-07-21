@@ -39,6 +39,20 @@ function TodoList({ items, onToggleTodo, onRemoveTodo }) {
   );
 }
 
+function TodoAdder() {
+  const [draft, setDraft] = useState('');
+  return (
+    <>
+      <input
+        type="text"
+        value={draft}
+        onChange={event => setDraft(event.target.value)}
+      />
+      <button onClick={() => console.log(draft)}>Add Todo</button>
+    </>
+  );
+}
+
 function useTodosService(initialTodos) {
   const [todos, setTodos] = useState(initialTodos);
 
@@ -71,6 +85,7 @@ function App({ children }) {
     <div className="container" onClick={() => setColor('red')}>
       <h1 style={{ color }}>Todo list</h1>
       {children ? <p>{children}</p> : null}
+      <TodoAdder />
       {todos.length ? (
         <TodoList
           items={todos}
