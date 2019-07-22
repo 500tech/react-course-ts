@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, createRef, useRef, useEffect } from "react";
 
 interface IProps {
   onAddTodo: (text: string) => void;
@@ -21,8 +21,17 @@ function useFormState<T>(initialState: string) {
   ];
 }
 
+function useAutofocus() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    inputRef.current!.focus();
+  }, []);
+  return { ref: inputRef };
+}
+
 export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
   const [draft, controlled, setDraft] = useFormState("");
+  const autofocus = useAutofocus();
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (draft) {
@@ -33,7 +42,7 @@ export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={submit}>
-      <input type="text" {...controlled} />
+      <input type="text" {...autofocus} {...controlled} />
       <button type="submit" disabled={!draft}>
         Add
       </button>
@@ -45,6 +54,14 @@ export class TodoAdder extends React.Component<IProps, IState> {
   state = {
     draft: ""
   };
+
+  inputRef = createRef<HTMLInputElement>();
+
+  componentDidMount() {
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
+    }
+  }
 
   submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,6 +75,7 @@ export class TodoAdder extends React.Component<IProps, IState> {
     return (
       <form onSubmit={this.submit}>
         <input
+          ref={this.inputRef}
           type="text"
           value={this.state.draft}
           onChange={e => this.setState({ draft: e.target.value })}
