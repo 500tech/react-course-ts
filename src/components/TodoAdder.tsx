@@ -32,13 +32,19 @@ function useAutofocus() {
 export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
   const [draft, controlled, setDraft] = useFormState("");
   const autofocus = useAutofocus();
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
+  function submit(e?: React.FormEvent) {
+    console.log("submit??");
+    e && e.preventDefault();
     if (draft) {
       onAddTodo(draft);
       setDraft("");
     }
   }
+
+  useEffect(() => {
+    const tid = setTimeout(submit, 1500);
+    return () => clearTimeout(tid);
+  }, [draft]);
 
   return (
     <form onSubmit={submit}>
@@ -51,6 +57,8 @@ export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
 };
 
 export class TodoAdder extends React.Component<IProps, IState> {
+  private tid?: number;
+
   state = {
     draft: ""
   };
@@ -61,14 +69,34 @@ export class TodoAdder extends React.Component<IProps, IState> {
     if (this.inputRef.current) {
       this.inputRef.current.focus();
     }
+    this.startTimer();
   }
 
-  submit = (e: React.FormEvent) => {
-    e.preventDefault();
+  clearTimer = () => {
+    clearTimeout(this.tid);
+  };
+
+  componentWillUnmount() {
+    this.clearTimer();
+  }
+
+  submit = (e?: React.FormEvent) => {
+    console.log("submit??");
+    e && e.preventDefault();
     if (this.state.draft) {
       this.props.onAddTodo(this.state.draft);
       this.setState({ draft: "" });
     }
+  };
+
+  startTimer = () => {
+    this.clearTimer();
+    this.tid = setTimeout(this.submit, 1500);
+  };
+
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ draft: e.target.value });
+    this.startTimer();
   };
 
   render() {
@@ -78,7 +106,7 @@ export class TodoAdder extends React.Component<IProps, IState> {
           ref={this.inputRef}
           type="text"
           value={this.state.draft}
-          onChange={e => this.setState({ draft: e.target.value })}
+          onChange={this.onChange}
         />
         <button type="submit" disabled={!this.state.draft}>
           Add
