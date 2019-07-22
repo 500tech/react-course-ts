@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import uuid from "uuid";
-import { TodoAdder, TodoAdder2 } from "./TodoAdder";
+import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
 import { useTodosService } from "../services/todos";
 

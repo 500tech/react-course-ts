@@ -1,4 +1,10 @@
-import React, { useState, createRef, useRef, useEffect } from "react";
+import React, {
+  useState,
+  createRef,
+  useRef,
+  useEffect,
+  useCallback
+} from "react";
 
 interface IProps {
   onAddTodo: (text: string) => void;
@@ -32,19 +38,23 @@ function useAutofocus() {
 export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
   const [draft, controlled, setDraft] = useFormState("");
   const autofocus = useAutofocus();
-  function submit(e?: React.FormEvent) {
-    console.log("submit??");
-    e && e.preventDefault();
-    if (draft) {
-      onAddTodo(draft);
-      setDraft("");
-    }
-  }
+
+  const submit = useCallback(
+    (e?: React.FormEvent) => {
+      console.log("submit??");
+      e && e.preventDefault();
+      if (draft) {
+        onAddTodo(draft);
+        setDraft("");
+      }
+    },
+    [draft, onAddTodo, setDraft]
+  );
 
   useEffect(() => {
     const tid = setTimeout(submit, 1500);
     return () => clearTimeout(tid);
-  }, [draft]);
+  }, [draft, submit]);
 
   return (
     <form onSubmit={submit}>

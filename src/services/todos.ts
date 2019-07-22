@@ -27,8 +27,11 @@ export function useTodosService(initialTodos: Todo[]) {
     []
   );
 
-  const addTodo = (text: string) =>
-    setTodos(todos => [{ id: uuid(), text, done: false }, ...todos]);
+  const addTodo = useCallback(
+    (text: string) =>
+      setTodos(todos => [{ id: uuid(), text, done: false }, ...todos]),
+    []
+  );
 
   return { todos, toggleTodo, removeTodo, addTodo };
 }
