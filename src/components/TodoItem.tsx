@@ -1,5 +1,10 @@
 import React from "react";
+import styled from "styled-components";
 import { Todo } from "../services/todos";
+
+const Item = styled.li<{ decoration: string }>`
+  text-decoration: ${props => props.decoration};
+`;
 
 const NOOP = () => null;
 
@@ -14,15 +19,14 @@ export const TodoItem: React.FC<TodoProps> = ({
   onToggleTodo = NOOP,
   onRemoveTodo = NOOP
 }) => {
-  const style = { textDecoration: todo.done ? "line-through" : "none" };
   return (
-    <li
-      style={style}
+    <Item
+      decoration={todo.done ? "line-through" : "none"}
       onClick={e =>
         e.metaKey || e.ctrlKey ? onRemoveTodo(todo) : onToggleTodo(todo)
       }
     >
       {todo.text}
-    </li>
+    </Item>
   );
 };
