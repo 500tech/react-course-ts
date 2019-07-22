@@ -37,6 +37,7 @@ export const TodoItem = styled(UnstyledTodoItem)`
   ${props => props.todo.done && strikeThrough}
 
   span {
-    color: green;
+    color: ${props =>
+      props.todo.done ? props.theme.colors.primary : props.theme.colors.error};
   }
 `;

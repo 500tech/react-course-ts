@@ -1,17 +1,8 @@
-import React, {
-  useState,
-  createRef,
-  useRef,
-  useEffect,
-  useCallback
-} from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import styled, { css } from "styled-components";
 
 interface IProps {
   onAddTodo: (text: string) => void;
-}
-
-interface IState {
-  draft: string;
 }
 
 function useFormState<T>(initialState: string) {
@@ -34,6 +25,26 @@ function useAutofocus() {
   }, []);
   return { ref: inputRef };
 }
+
+const disabledStyle = css`
+  border: none;
+  box-shadow: none;
+`;
+
+const enabledStyle = css`
+  background-color: pink;
+`;
+
+const Button = styled.button`
+  margin: 0 10px;
+  ${props => (props.disabled ? disabledStyle : enabledStyle)}
+`;
+
+const Input = styled.input`
+  &:focus {
+    outline-color: ${props => props.theme.colors.primary};
+  }
+`;
 
 export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
   const [draft, controlled, setDraft] = useFormState("");
@@ -58,70 +69,10 @@ export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={submit}>
-      <input type="text" {...autofocus} {...controlled} />
-      <button type="submit" disabled={!draft}>
+      <Input type="text" {...autofocus} {...controlled} />
+      <Button type="submit" disabled={!draft}>
         Add
-      </button>
+      </Button>
     </form>
   );
 };
-
-export class TodoAdder extends React.Component<IProps, IState> {
-  private tid?: number;
-
-  state = {
-    draft: ""
-  };
-
-  inputRef = createRef<HTMLInputElement>();
-
-  componentDidMount() {
-    if (this.inputRef.current) {
-      this.inputRef.current.focus();
-    }
-    this.startTimer();
-  }
-
-  clearTimer = () => {
-    clearTimeout(this.tid);
-  };
-
-  componentWillUnmount() {
-    this.clearTimer();
-  }
-
-  submit = (e?: React.FormEvent) => {
-    console.log("submit??");
-    e && e.preventDefault();
-    if (this.state.draft) {
-      this.props.onAddTodo(this.state.draft);
-      this.setState({ draft: "" });
-    }
-  };
-
-  startTimer = () => {
-    this.clearTimer();
-    this.tid = setTimeout(this.submit, 1500);
-  };
-
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ draft: e.target.value });
-    this.startTimer();
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.submit}>
-        <input
-          ref={this.inputRef}
-          type="text"
-          value={this.state.draft}
-          onChange={this.onChange}
-        />
-        <button type="submit" disabled={!this.state.draft}>
-          Add
-        </button>
-      </form>
-    );
-  }
-}
