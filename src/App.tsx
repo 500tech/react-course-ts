@@ -1,6 +1,6 @@
-import React from 'react';
-import { ReactComponent as Logo } from './logo.svg';
-import './App.css';
+import React from "react";
+import { ReactComponent as Logo } from "./logo.svg";
+import "./App.css";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +21,6 @@ const App: React.FC = () => {
       </header>
     </div>
   );
-}
+};
 
 export default App;
