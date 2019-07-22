@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import uuid from "uuid";
+import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
 import { useTodosService } from "../services/todos";
 
@@ -7,8 +8,8 @@ function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-const App: React.FC = ({ children }) => {
-  const { todos, toggleTodo, removeTodo } = useTodosService([
+const App: React.FC = () => {
+  const { todos, toggleTodo, removeTodo, addTodo } = useTodosService([
     { id: uuid(), text: "Learn hooks", done: false },
     { id: uuid(), text: "Eat breakfast", done: true }
   ]);
@@ -17,7 +18,7 @@ const App: React.FC = ({ children }) => {
   return (
     <div className="container" onClick={() => setColor("red")}>
       <h1 style={{ color }}>Todo list</h1>
-      {children ? <p>{children}</p> : null}
+      <TodoAdder2 onAddTodo={addTodo} />
       {todos.length ? (
         <TodoList
           items={todos}

@@ -14,7 +14,6 @@ export const TodoItem: React.FC<TodoProps> = ({
   onToggleTodo = NOOP,
   onRemoveTodo = NOOP
 }) => {
-  console.log("render");
   const style = { textDecoration: todo.done ? "line-through" : "none" };
   return (
     <li

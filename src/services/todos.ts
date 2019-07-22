@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import uuid from "uuid";
 
 export interface Todo {
   text: string;
@@ -26,5 +27,8 @@ export function useTodosService(initialTodos: Todo[]) {
     []
   );
 
-  return { todos, toggleTodo, removeTodo };
+  const addTodo = (text: string) =>
+    setTodos(todos => [{ id: uuid(), text, done: false }, ...todos]);
+
+  return { todos, toggleTodo, removeTodo, addTodo };
 }
