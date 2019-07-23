@@ -14,6 +14,8 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-starter-kit": "^0.6.2",
     "styled-components": "^4.3.2",
     "typescript": "3.5.2",
     "uuid": "^3.3.2"
