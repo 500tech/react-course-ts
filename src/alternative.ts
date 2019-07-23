@@ -3,7 +3,11 @@ import { createStore, Reducer } from "redux";
 const stateReducer: Reducer<number> = function(state = 0, action) {
   switch (action.type) {
     case "INCREMENT": {
-      return state + 1;
+      const { payload = 1 } = action;
+      return state + (+payload);
+    }
+    case "DECREMENT": {
+      return state - 1;
     }
   }
   return state;
@@ -11,7 +15,18 @@ const stateReducer: Reducer<number> = function(state = 0, action) {
 
 const store = createStore(stateReducer);
 
-store.subscribe(() => console.log(store.getState()));
+store.subscribe(() => {
+  document.querySelector("#counter")!.textContent = store.getState().toString();
+});
 
-store.dispatch({ type: 'FOO' });
-store.dispatch({ type: 'INCREMENT' });
+store.dispatch({ type: "@@INIT" });
+
+for (let element of Array.from(document.querySelectorAll("[data-action]"))) {
+  const { action, payload } = (element as HTMLElement).dataset as {
+    action: string;
+    payload?: string;
+  };
+  element.addEventListener("click", () =>
+    store.dispatch({ type: action, payload })
+  );
+}
