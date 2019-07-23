@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import { useRouter } from "./RouterProvider";
 
 const AddressBar = styled.input`
   width: 80%;
   font-size: 24px;
 `;
 
-export const NavigationBar = withRouter(({ location, history }) => {
+export const NavigationBar = () => {
+  const { location, history } = useRouter();
   const { pathname } = location;
   const [url, setUrl] = useState(pathname);
   useEffect(() => {
@@ -28,4 +29,4 @@ export const NavigationBar = withRouter(({ location, history }) => {
       <AddressBar value={url} onChange={e => setUrl(e.target.value)} />
     </form>
   );
-});
+};
