@@ -20,7 +20,7 @@ const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
   return <p>{todo.text}</p>;
 };
 
-export const TodosPage: React.FC = () => {
+export default function TodosPage() {
   const { todos, toggleTodo, removeTodo, addTodo } = useTodos();
   return (
     <>
@@ -37,4 +37,4 @@ export const TodosPage: React.FC = () => {
       <Route path="/todos/:todoId" component={SelectedTodo} />
     </>
   );
-};
+}
