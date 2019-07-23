@@ -4,7 +4,7 @@ const stateReducer: Reducer<number> = function(state = 0, action) {
   switch (action.type) {
     case "INCREMENT": {
       const { payload = 1 } = action;
-      return state + (+payload);
+      return state + +payload;
     }
     case "DECREMENT": {
       return state - 1;
@@ -13,7 +13,22 @@ const stateReducer: Reducer<number> = function(state = 0, action) {
   return state;
 };
 
-const store = createStore(stateReducer);
+const createValidatedReducer = <T>(
+  reducer: Reducer<T>,
+  validator: (value: T) => T
+): Reducer<T> => {
+  return (state, action) => validator(reducer(state, action));
+};
+
+const validatingReducer: Reducer<number> = (state, action) => {
+  return Math.max(0, Math.min(stateReducer(state, action), 20));
+};
+
+const validatingReducer2 = createValidatedReducer(stateReducer, n => {
+  return Math.max(0, Math.min(n, 20));
+})
+
+const store = createStore(validatingReducer);
 
 store.subscribe(() => {
   document.querySelector("#counter")!.textContent = store.getState().toString();
