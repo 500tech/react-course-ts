@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import uuid from "uuid";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
@@ -27,18 +27,16 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <div className="container">
         <NavigationBar />
-        <Route
-          path="/"
-          render={() => (
-            <h1
-              onClick={() =>
-                setTheme(theme === lightTheme ? darkTheme : lightTheme)
-              }
-            >
-              Todo list
-            </h1>
-          )}
-        />
+        <h1
+          onClick={() =>
+            setTheme(theme === lightTheme ? darkTheme : lightTheme)
+          }
+        >
+          Todo list
+        </h1>
+        <div>
+          <Link to="/todos">Todos</Link>
+        </div>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route
