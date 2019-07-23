@@ -1,4 +1,6 @@
-import { createStore } from "redux";
+import { configureStore } from "redux-starter-kit";
 import reducer from "./reducers";
 
-export default createStore(reducer);
+export default configureStore({
+  reducer
+});

@@ -1,37 +1,19 @@
-import { Reducer } from "redux";
 import uuid from "uuid";
-import { ActionWithPayload } from "../types";
+import { createReducer } from "redux-starter-kit";
+import { Todo } from "../types";
+import { addTodo, editTodo, deleteTodo } from "../actions";
 
-export interface Todo {
-  text: string;
-  id: string;
-  done: boolean;
-}
-
-export const todos: Reducer<Todo[]> = (state = [], action) => {
-  switch (action.type) {
-    case "EDIT_TODO": {
-      action = action as ActionWithPayload<
-        "EDIT_TODO",
-        { todoId: string; update: Partial<Todo> }
-      >;
-      return state.map(t =>
-        t.id === action.payload.todoId
-          ? {
-              ...t,
-              ...action.payload.update
-            }
-          : t
-      );
+export const todos = createReducer<Todo[]>([], {
+  [`${addTodo}`]: (state, action: ReturnType<typeof addTodo>) => {
+    state.unshift({ id: uuid(), text: action.payload.text, done: false });
+  },
+  [`${editTodo}`]: (state, action: ReturnType<typeof editTodo>) => {
+    const todo = state.find(t => t.id === action.payload.todoId);
+    if (todo) {
+      Object.assign(todo, action.payload.update);
     }
-    case "DELETE_TODO": {
-      action = action as ActionWithPayload<"DELETE_TODO", { todoId: string }>;
-      return state.filter(t => t.id !== action.payload.todoId);
-    }
-    case "ADD_TODO": {
-      action = action as ActionWithPayload<"ADD_TODO", { text: string }>;
-      return [{ id: uuid(), text: action.payload.text, done: false }, ...state];
-    }
+  },
+  [`${deleteTodo}`]: (state, action: ReturnType<typeof deleteTodo>) => {
+    return state.filter(t => t.id !== action.payload.todoId);
   }
-  return state;
-};
+});

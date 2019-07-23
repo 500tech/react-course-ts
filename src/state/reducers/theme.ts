@@ -1,15 +1,9 @@
-import { Reducer } from "redux";
-import { ActionWithPayload } from "../types";
-import { themes } from "../../theme";
+import { createReducer } from "redux-starter-kit";
+import { Theme } from "../types";
+import { changeTheme } from "../actions";
 
-type Theme = keyof typeof themes;
-
-export const theme: Reducer<Theme> = (state = "light", action) => {
-  switch (action.type) {
-    case "CHANGE_THEME": {
-      action = action as ActionWithPayload<"CHANGE_THEME", Theme>;
-      return action.payload;
-    }
+export const theme = createReducer<Theme>("light", {
+  [`${changeTheme}`]: (_state, action: ReturnType<typeof changeTheme>) => {
+    return action.payload;
   }
-  return state;
-};
+});
