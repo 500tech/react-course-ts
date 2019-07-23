@@ -1,6 +1,6 @@
-import { createStore, Reducer } from "redux";
+import { createStore, Reducer, combineReducers } from "redux";
 
-const stateReducer: Reducer<number> = function(state = 0, action) {
+const countReducer: Reducer<number> = function(state = 0, action) {
   switch (action.type) {
     case "INCREMENT": {
       const { payload = 1 } = action;
@@ -13,25 +13,27 @@ const stateReducer: Reducer<number> = function(state = 0, action) {
   return state;
 };
 
-const createValidatedReducer = <T>(
-  reducer: Reducer<T>,
-  validator: (value: T) => T
-): Reducer<T> => {
-  return (state, action) => validator(reducer(state, action));
+const clicksReducer: Reducer<number> = function(state = 0, action) {
+  switch (action.type) {
+    case "INCREMENT":
+    case "DECREMENT": {
+      return state + 1;
+    }
+  }
+  return state;
 };
 
-const validatingReducer: Reducer<number> = (state, action) => {
-  return Math.max(0, Math.min(stateReducer(state, action), 20));
-};
+const mainReducer = combineReducers({
+  count: countReducer,
+  clicks: clicksReducer
+});
 
-const validatingReducer2 = createValidatedReducer(stateReducer, n => {
-  return Math.max(0, Math.min(n, 20));
-})
-
-const store = createStore(validatingReducer);
+const store = createStore(mainReducer);
 
 store.subscribe(() => {
-  document.querySelector("#counter")!.textContent = store.getState().toString();
+  const { count, clicks } = store.getState();
+  document.querySelector("#counter")!.textContent = count!.toString();
+  document.querySelector("#clicks")!.textContent = clicks!.toString();
 });
 
 store.dispatch({ type: "@@INIT" });
