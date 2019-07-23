@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import uuid from "uuid";
+import { Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
+import { Home } from "./Home";
+import { NotFound } from "./NotFound";
 import { useTodosService } from "../services/todos";
 import { lightTheme, darkTheme } from "./theme";
 
@@ -22,23 +25,39 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="container">
-        <h1
-          onClick={() =>
-            setTheme(theme === lightTheme ? darkTheme : lightTheme)
-          }
-        >
-          Todo list
-        </h1>
-        <TodoAdder2 onAddTodo={addTodo} />
-        {todos.length ? (
-          <TodoList
-            items={todos}
-            onToggleTodo={toggleTodo}
-            onRemoveTodo={removeTodo}
+        <Route
+          path="/"
+          render={() => (
+            <h1
+              onClick={() =>
+                setTheme(theme === lightTheme ? darkTheme : lightTheme)
+              }
+            >
+              Todo list
+            </h1>
+          )}
+        />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route
+            path="/todos"
+            render={() => (
+              <>
+                <TodoAdder2 onAddTodo={addTodo} />
+                {todos.length ? (
+                  <TodoList
+                    items={todos}
+                    onToggleTodo={toggleTodo}
+                    onRemoveTodo={removeTodo}
+                  />
+                ) : (
+                  <NoItemsEmptyState />
+                )}
+              </>
+            )}
           />
-        ) : (
-          <NoItemsEmptyState />
-        )}
+          <Route path="/" component={NotFound} />
+        </Switch>
       </div>
     </ThemeProvider>
   );
