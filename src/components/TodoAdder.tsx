@@ -52,7 +52,6 @@ export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
 
   const submit = useCallback(
     (e?: React.FormEvent) => {
-      console.log("submit??");
       e && e.preventDefault();
       if (draft) {
         onAddTodo(draft);
@@ -69,7 +68,12 @@ export const TodoAdder2: React.FC<IProps> = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={submit}>
-      <Input type="text" {...autofocus} {...controlled} />
+      <Input
+        placeholder="Thing to do..."
+        type="text"
+        {...autofocus}
+        {...controlled}
+      />
       <Button type="submit" disabled={!draft}>
         Add
       </Button>
