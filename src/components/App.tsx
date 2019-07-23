@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
+import { NavigationBar } from "./NavigationBar";
 import { Home } from "./Home";
 import { NotFound } from "./NotFound";
 import { useTodosService } from "../services/todos";
@@ -25,6 +26,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="container">
+        <NavigationBar />
         <Route
           path="/"
           render={() => (
