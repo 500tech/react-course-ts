@@ -17,3 +17,12 @@ export function useAction<T=undefined>(actionCreator: (payload: T) => PayloadAct
   );
   return actionDispatcher;
 }
+
+export function useIsLoading(label?: string) {
+  return useAppSelector(state => {
+    if (label) {
+      return state.loading[label] > 0;
+    }
+    return Object.values(state.loading).some(value => value > 0);
+  })
+}

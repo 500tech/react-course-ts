@@ -1,6 +1,7 @@
 import { Middleware } from "redux";
 import axios from "axios";
 import { APIAction } from "../actions/utils";
+import { startAsync, endAsync } from "../actions";
 
 export const apiMiddleware: Middleware = store => next => async action => {
   const stateBeforeChange = store.getState();
@@ -8,11 +9,12 @@ export const apiMiddleware: Middleware = store => next => async action => {
   const stateAfterChange = store.getState();
   if (action.meta && action.meta.api) {
     // here goes the API code
-    let label = action.meta.api as APIAction["meta"]["api"];
-    if (typeof label === "function") {
-      label = label(action.payload);
+    let apiLabel = action.meta.api as APIAction["meta"]["api"];
+    if (typeof apiLabel === "function") {
+      apiLabel = apiLabel(action.payload);
     }
-    const { onSuccess, onFailure, ...axiosConfig } = label;
+    const { onSuccess, onFailure, label = "*", ...axiosConfig } = apiLabel;
+    store.dispatch(startAsync(label));
     try {
       const response = await axios(axiosConfig);
       const { data } = response;
@@ -41,6 +43,8 @@ export const apiMiddleware: Middleware = store => next => async action => {
           error: err
         });
       }
+    } finally {
+      store.dispatch(endAsync(label));
     }
   }
 };

@@ -3,6 +3,7 @@ import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
 import { useTodosService } from "../services/todos";
+import { useIsLoading } from "../services/state";
 
 function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
@@ -28,9 +29,13 @@ export default function TodosPage() {
     addTodo,
     fetchTodos
   } = useTodosService();
+  const isLoading = useIsLoading("todos");
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <TodoAdder2 onAddTodo={addTodo} />
