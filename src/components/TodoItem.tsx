@@ -25,7 +25,7 @@ const UnstyledTodoItem: React.FC<TodoProps> = ({
           e.metaKey || e.ctrlKey ? onRemoveTodo(todo) : onToggleTodo(todo)
         }
       >
-        {todo.text}
+        {todo.title}
       </span>
       <Link to={`/todos/${todo.id}`}>Select</Link>
     </li>
@@ -38,8 +38,8 @@ const strikeThrough = css`
 
 export const TodoItem = styled(UnstyledTodoItem)`
   span {
-    ${props => props.todo.done && strikeThrough}
+    ${props => props.todo.completed && strikeThrough}
     color: ${props =>
-      props.todo.done ? props.theme.colors.primary : props.theme.colors.error};
+      props.todo.completed ? props.theme.colors.primary : props.theme.colors.error};
   }
 `;

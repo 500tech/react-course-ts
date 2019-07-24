@@ -13,7 +13,7 @@ export function useTodosService() {
     doEditTodo({
       todoId: todo.id,
       update: {
-        done: !todo.done
+        completed: !todo.completed
       }
     });
   }, [doEditTodo]);
@@ -24,7 +24,7 @@ export function useTodosService() {
 
   const addTodo = useCallback(
     (text: string) => {
-      doAddTodo({ text });
+      doAddTodo({ title: text });
     },
     [doAddTodo]
   );

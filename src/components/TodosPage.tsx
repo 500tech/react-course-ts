@@ -13,11 +13,11 @@ const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
 }) => {
   const { todos } = useTodosService();
   const { todoId } = match.params;
-  const todo = todos.find(({ id }) => todoId === id);
+  const todo = todos.find(({ id }) => +todoId === id);
   if (!todo) {
     return <Redirect to="/404" />;
   }
-  return <p>{todo.text}</p>;
+  return <p>{todo.title}</p>;
 };
 
 export default function TodosPage() {
