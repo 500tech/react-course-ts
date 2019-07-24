@@ -1,7 +1,7 @@
 import { createReducer } from "redux-starter-kit";
 import { startAsync, endAsync } from "../actions";
 
-type Loading = {
+export type Loading = {
   [label: string]: number;
 };
 
