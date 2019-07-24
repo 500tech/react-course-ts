@@ -15,4 +15,13 @@ export const editTodo = createAction<{
   update: Partial<Todo>;
 }>("EDIT_TODO");
 export const deleteTodo = createAction<{ todoId: Todo["id"] }>("DELETE_TODO");
-export const addTodo = createAction<{ title: string }>("ADD_TODO");
+export const addTodo = createAction<Todo>("ADD_TODO");
+export const postTodo = createApiAction<{ title: string }>(
+  "POST_TODO",
+  payload => ({
+    url: "https://jsonplaceholder.typicode.com/todos",
+    method: "POST",
+    onSuccess: addTodo.toString(),
+    data: payload
+  })
+);

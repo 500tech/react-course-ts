@@ -2,11 +2,9 @@ import { createReducer } from "redux-starter-kit";
 import { Todo } from "../types";
 import { addTodo, editTodo, deleteTodo, setTodos } from "../actions";
 
-let id = 0;
-
 export const todos = createReducer<Todo[]>([], {
   [`${addTodo}`]: (state, action: ReturnType<typeof addTodo>) => {
-    state.unshift({ id: id++, title: action.payload.title, completed: false });
+    state.unshift(action.payload);
   },
   [`${editTodo}`]: (state, action: ReturnType<typeof editTodo>) => {
     const todo = state.find(t => t.id === action.payload.todoId);
