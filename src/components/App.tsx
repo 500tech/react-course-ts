@@ -1,25 +1,28 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { NavigationBar } from "./NavigationBar";
 import { Home } from "./Home";
 import { NotFound } from "./NotFound";
-import { lightTheme, darkTheme } from "./theme";
+import { themes, lightTheme } from "../theme";
+import { useAppSelector, useAction } from "../services/state";
+import { changeTheme } from "../state/actions";
 const TodosPage = lazy(() => import("./TodosPage"));
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<typeof lightTheme | typeof darkTheme>(
-    lightTheme
-  );
+  const theme = useAppSelector(state => {
+    return themes[state.theme];
+  });
+  const doChangeTheme = useAction(changeTheme);
 
   return (
     <ThemeProvider theme={theme}>
       <div className="container">
         <NavigationBar />
         <h1
-          onClick={() =>
-            setTheme(theme === lightTheme ? darkTheme : lightTheme)
-          }
+          onClick={() => {
+            doChangeTheme(theme === lightTheme ? "dark" : "light");
+          }}
         >
           Todo list
         </h1>
