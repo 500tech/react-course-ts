@@ -23,7 +23,7 @@ const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
 export default function TodosPage() {
   const { todos, toggleTodo, removeTodo, addTodo, fetchTodos } = useTodosService();
   useEffect(() => {
-    fetchTodos(undefined);
+    fetchTodos();
   }, [fetchTodos]);
   return (
     <>

@@ -10,8 +10,8 @@ export function useAppSelector<T>(selector: (state: State) => T) {
 export function useAction<T=undefined>(actionCreator: (payload: T) => PayloadAction<T>) {
   const dispatch = useDispatch();
   const actionDispatcher = useCallback(
-    (payload: T) => {
-      dispatch(actionCreator(payload));
+    (payload?: T) => {
+      dispatch(actionCreator(payload as T));
     },
     [actionCreator, dispatch]
   );
