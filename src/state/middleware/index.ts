@@ -1,2 +1,3 @@
 import reduxLogger from "redux-logger";
-export default [reduxLogger];
+import { apiMiddleware } from "./api";
+export default [apiMiddleware, reduxLogger];

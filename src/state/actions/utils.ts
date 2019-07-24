@@ -1,7 +1,7 @@
 import { createAction, PayloadAction } from "redux-starter-kit";
 import { AxiosRequestConfig } from "axios";
 
-type ApiLabel = AxiosRequestConfig & {
+export type ApiLabel = AxiosRequestConfig & {
   onSuccess?: string;
   onFailure?: string;
 };
