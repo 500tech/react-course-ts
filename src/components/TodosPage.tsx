@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
@@ -21,7 +21,10 @@ const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
 };
 
 export default function TodosPage() {
-  const { todos, toggleTodo, removeTodo, addTodo } = useTodosService();
+  const { todos, toggleTodo, removeTodo, addTodo, fetchTodos } = useTodosService();
+  useEffect(() => {
+    fetchTodos(undefined);
+  }, [fetchTodos]);
   return (
     <>
       <TodoAdder2 onAddTodo={addTodo} />

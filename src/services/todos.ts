@@ -8,19 +8,26 @@ export function useTodosService() {
   const doAddTodo = useAction(actions.addTodo);
   const doDeleteTodo = useAction(actions.deleteTodo);
   const doEditTodo = useAction(actions.editTodo);
+  const fetchTodos = useAction(actions.fetchTodos);
 
-  const toggleTodo = useCallback((todo: Todo) => {
-    doEditTodo({
-      todoId: todo.id,
-      update: {
-        completed: !todo.completed
-      }
-    });
-  }, [doEditTodo]);
+  const toggleTodo = useCallback(
+    (todo: Todo) => {
+      doEditTodo({
+        todoId: todo.id,
+        update: {
+          completed: !todo.completed
+        }
+      });
+    },
+    [doEditTodo]
+  );
 
-  const removeTodo = useCallback((todo: Todo) => {
-    doDeleteTodo({ todoId: todo.id });
-  }, [doDeleteTodo]);
+  const removeTodo = useCallback(
+    (todo: Todo) => {
+      doDeleteTodo({ todoId: todo.id });
+    },
+    [doDeleteTodo]
+  );
 
   const addTodo = useCallback(
     (text: string) => {
@@ -29,5 +36,5 @@ export function useTodosService() {
     [doAddTodo]
   );
 
-  return { todos, toggleTodo, removeTodo, addTodo };
+  return { todos, toggleTodo, removeTodo, addTodo, fetchTodos };
 }
