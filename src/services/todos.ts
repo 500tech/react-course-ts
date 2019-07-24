@@ -1,36 +1,32 @@
-import { useState, useCallback } from "react";
-import uuid from "uuid";
+import { useCallback } from "react";
+import { useAction, useAppSelector } from "./state";
+import * as actions from "../state/actions";
+import { Todo } from "../state/types";
 
-export interface Todo {
-  text: string;
-  id: string;
-  done: boolean;
-}
+export function useTodosService() {
+  const todos = useAppSelector(state => state.todos);
+  const doAddTodo = useAction(actions.addTodo);
+  const doDeleteTodo = useAction(actions.deleteTodo);
+  const doEditTodo = useAction(actions.editTodo);
 
-export function useTodosService(initialTodos: Todo[]) {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const toggleTodo = useCallback((todo: Todo) => {
-    setTodos(todos =>
-      todos.map(t =>
-        t.id === todo.id
-          ? {
-              ...todo,
-              done: !todo.done
-            }
-          : t
-      )
-    );
-  }, []);
+    doEditTodo({
+      todoId: todo.id,
+      update: {
+        done: !todo.done
+      }
+    });
+  }, [doEditTodo]);
 
-  const removeTodo = useCallback(
-    (todo: Todo) => setTodos(todos => todos.filter(t => t.id !== todo.id)),
-    []
-  );
+  const removeTodo = useCallback((todo: Todo) => {
+    doDeleteTodo({ todoId: todo.id });
+  }, [doDeleteTodo]);
 
   const addTodo = useCallback(
-    (text: string) =>
-      setTodos(todos => [{ id: uuid(), text, done: false }, ...todos]),
-    []
+    (text: string) => {
+      doAddTodo({ text });
+    },
+    [doAddTodo]
   );
 
   return { todos, toggleTodo, removeTodo, addTodo };

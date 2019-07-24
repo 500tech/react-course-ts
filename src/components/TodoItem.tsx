@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import { Todo } from "../services/todos";
+import { Todo } from "../state/types";
 
 const NOOP = () => null;
 

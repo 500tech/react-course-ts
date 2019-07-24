@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { TodoAdder2 } from "./TodoAdder";
 import { TodoList } from "./TodoList";
-import { useTodos } from "./TodosProvider";
+import { useTodosService } from "../services/todos";
 
 function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
@@ -11,7 +11,7 @@ function NoItemsEmptyState() {
 const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
   match
 }) => {
-  const { todos } = useTodos();
+  const { todos } = useTodosService();
   const { todoId } = match.params;
   const todo = todos.find(({ id }) => todoId === id);
   if (!todo) {
@@ -21,7 +21,7 @@ const SelectedTodo: React.FC<RouteComponentProps<{ todoId: string }>> = ({
 };
 
 export default function TodosPage() {
-  const { todos, toggleTodo, removeTodo, addTodo } = useTodos();
+  const { todos, toggleTodo, removeTodo, addTodo } = useTodosService();
   return (
     <>
       <TodoAdder2 onAddTodo={addTodo} />
