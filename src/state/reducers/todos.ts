@@ -1,6 +1,6 @@
 import { createReducer } from "redux-starter-kit";
 import { Todo } from "../types";
-import { addTodo, editTodo, deleteTodo } from "../actions";
+import { addTodo, editTodo, deleteTodo, setTodos } from "../actions";
 
 let id = 0;
 
@@ -16,5 +16,8 @@ export const todos = createReducer<Todo[]>([], {
   },
   [`${deleteTodo}`]: (state, action: ReturnType<typeof deleteTodo>) => {
     return state.filter(t => t.id !== action.payload.todoId);
+  },
+  [`${setTodos}`]: (_state, action: ReturnType<typeof setTodos>) => {
+    return action.payload;
   }
 });
