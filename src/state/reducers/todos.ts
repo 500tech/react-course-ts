@@ -7,13 +7,13 @@ export const todos = createReducer<Todo[]>([], {
     state.unshift(action.payload);
   },
   [`${editTodo}`]: (state, action: ReturnType<typeof editTodo>) => {
-    const todo = state.find(t => t.id === action.payload.todoId);
+    const todo = state.find(t => t.id === action.payload.id);
     if (todo) {
-      Object.assign(todo, action.payload.update);
+      Object.assign(todo, action.payload);
     }
   },
-  [`${deleteTodo}`]: (state, action: ReturnType<typeof deleteTodo>) => {
-    return state.filter(t => t.id !== action.payload.todoId);
+  [`${deleteTodo}`]: (state, action) => {
+    return state.filter(t => t.id !== action.meta.originalPayload.todoId);
   },
   [`${setTodos}`]: (_state, action: ReturnType<typeof setTodos>) => {
     return action.payload;

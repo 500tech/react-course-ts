@@ -6,8 +6,8 @@ import { Todo } from "../state/types";
 export function useTodosService() {
   const todos = useAppSelector(state => state.todos);
   const doAddTodo = useAction(actions.postTodo);
-  const doDeleteTodo = useAction(actions.deleteTodo);
-  const doEditTodo = useAction(actions.editTodo);
+  const doDeleteTodo = useAction(actions.removeTodo);
+  const doEditTodo = useAction(actions.updateTodo);
   const fetchTodos = useAction(actions.fetchTodos);
 
   const toggleTodo = useCallback(

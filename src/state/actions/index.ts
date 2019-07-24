@@ -10,11 +10,28 @@ export const fetchTodos = createApiAction("FETCH_TODOS", {
   method: "GET",
   onSuccess: setTodos.toString()
 });
-export const editTodo = createAction<{
+
+export const editTodo = createAction<Todo>("EDIT_TODO");
+export const updateTodo = createApiAction<{
   todoId: Todo["id"];
   update: Partial<Todo>;
-}>("EDIT_TODO");
-export const deleteTodo = createAction<{ todoId: Todo["id"] }>("DELETE_TODO");
+}>("UPDATE_TODO", payload => ({
+  url: `https://jsonplaceholder.typicode.com/todos/${payload.todoId}`,
+  method: "PATCH",
+  onSuccess: editTodo.toString(),
+  data: payload.update
+}));
+
+export const deleteTodo = createAction("DELETE_TODO");
+export const removeTodo = createApiAction<{ todoId: Todo["id"] }>(
+  "REMOVE_TODO",
+  payload => ({
+    url: `https://jsonplaceholder.typicode.com/todos/${payload.todoId}`,
+    method: "DELETE",
+    onSuccess: deleteTodo.toString()
+  })
+);
+
 export const addTodo = createAction<Todo>("ADD_TODO");
 export const postTodo = createApiAction<{ title: string }>(
   "POST_TODO",
