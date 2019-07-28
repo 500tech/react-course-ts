@@ -59,6 +59,37 @@ function EmptyState() {
   );
 }
 
+class TodoAdder extends React.Component {
+  state = {
+    text: '',
+  };
+
+  submit = e => {
+    e.preventDefault();
+    if (this.state.text) {
+      const { onAddTodo = NOOP } = this.props;
+      onAddTodo(this.state.text);
+      this.setState({ text: '' });
+    }
+  };
+
+  setText = e => this.setState({ text: e.target.value });
+
+  render() {
+    return (
+      <form onSubmit={this.submit}>
+        <input
+          name="todoText"
+          type="text"
+          value={this.state.text}
+          onChange={this.setText}
+        />
+        <button disabled={this.state.text.length === 0}>Add</button>
+      </form>
+    );
+  }
+}
+
 export class App2 extends React.Component {
   state = { todos: TODOS };
 
@@ -86,6 +117,13 @@ export class App2 extends React.Component {
     });
   };
 
+  addTodo = text => {
+    this.todos = [
+      { id: getId(), title: text, completed: false },
+      ...this.todos,
+    ];
+  };
+
   render() {
     const { greeting = 'Hello', username } = this.props;
     const { todos } = this;
@@ -94,6 +132,7 @@ export class App2 extends React.Component {
         <h1>
           <span>{username ? `${greeting}, ${username}` : greeting}</span>
         </h1>
+        <TodoAdder onAddTodo={this.addTodo} />
         {todos && todos.length ? (
           <TodoList
             todos={todos}
