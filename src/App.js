@@ -19,12 +19,15 @@ const TODOS = [
 
 // window.todos = TODOS;
 
-function Todo({ todo, onToggleTodo = NOOP }) {
+function Todo({ todo, onToggleTodo = NOOP, onDeleteTodo = NOOP }) {
   const style = todo.completed ? { textDecoration: 'line-through' } : {};
   return (
     <li
       style={style}
-      onClick={() => {
+      onClick={e => {
+        if (e.ctrlKey || e.metaKey) {
+          return onDeleteTodo(todo);
+        }
         onToggleTodo(todo);
       }}
     >
@@ -33,11 +36,16 @@ function Todo({ todo, onToggleTodo = NOOP }) {
   );
 }
 
-function TodoList({ todos, onToggleTodo }) {
+function TodoList({ todos, onToggleTodo, onDeleteTodo }) {
   return (
     <ul>
       {todos.map(todo => (
-        <Todo key={todo.id} todo={todo} onToggleTodo={onToggleTodo} />
+        <Todo
+          key={todo.id}
+          todo={todo}
+          onToggleTodo={onToggleTodo}
+          onDeleteTodo={onDeleteTodo}
+        />
       ))}
     </ul>
   );
@@ -54,33 +62,44 @@ function EmptyState() {
 export class App2 extends React.Component {
   state = { todos: TODOS };
 
+  get todos() {
+    return this.state.todos;
+  }
+
+  set todos(newTodos) {
+    this.setState({ todos: newTodos });
+  }
+
+  deleteTodo = todo => {
+    this.todos = this.todos.filter(t => t.id !== todo.id);
+  };
+
   toggleTodo = todo => {
-    // const todoIndex = this.state.todos.indexOf(todo);
-    // this.state.todos[todoIndex].completed = !this.state.todos[todoIndex]
-    //   .completed;
-    this.setState({
-      todos: this.state.todos.map(t => {
-        if (t.id === todo.id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-        return t;
-      }),
+    this.todos = this.todos.map(t => {
+      if (t.id === todo.id) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+      return t;
     });
   };
 
   render() {
     const { greeting = 'Hello', username } = this.props;
-    const { todos } = this.state;
+    const { todos } = this;
     return (
       <div className="container">
         <h1>
           <span>{username ? `${greeting}, ${username}` : greeting}</span>
         </h1>
         {todos && todos.length ? (
-          <TodoList todos={todos} onToggleTodo={this.toggleTodo} />
+          <TodoList
+            todos={todos}
+            onToggleTodo={this.toggleTodo}
+            onDeleteTodo={this.deleteTodo}
+          />
         ) : (
           <EmptyState />
         )}
