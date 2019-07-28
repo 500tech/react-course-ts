@@ -66,14 +66,42 @@ class TodoAdder extends React.Component {
 
   inputRef = createRef();
 
-  componentDidMount() {
+  startTimer() {
+    this.autoSubmitTimer = setTimeout(this.submit, 3000);
+  }
+
+  clearTimer() {
+    clearTimeout(this.autoSubmitTimer);
+  }
+
+  autoFocusInput() {
     if (this.inputRef.current) {
       this.inputRef.current.focus();
     }
   }
 
+  componentDidMount() {
+    this.autoFocusInput();
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.clearTimer();
+  }
+
+  resetTimerOnTextChange(_prevProps, prevState) {
+    if (this.state.text !== prevState.text) {
+      this.clearTimer();
+      this.startTimer();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.resetTimerOnTextChange(prevProps, prevState);
+  }
+
   submit = e => {
-    e.preventDefault();
+    e && e.preventDefault();
     if (this.state.text) {
       const { onAddTodo = NOOP } = this.props;
       onAddTodo(this.state.text);
