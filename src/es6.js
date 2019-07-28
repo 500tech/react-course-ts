@@ -24,7 +24,7 @@ async function varLetConst() {
     values.reduce(function(sum, value) {
       return sum + value;
     }) === 10
-  ); // 0 + 1 + 2 + 3 + 4 + 5
+  ); // 0 + 1 + 2 + 3 + 4
 }
 
 function generateNRandomNumbers(n, max) {
