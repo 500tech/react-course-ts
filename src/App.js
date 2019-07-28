@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { getId } from './utils';
 
 /**
@@ -64,6 +64,14 @@ class TodoAdder extends React.Component {
     text: '',
   };
 
+  inputRef = createRef();
+
+  componentDidMount() {
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
+    }
+  }
+
   submit = e => {
     e.preventDefault();
     if (this.state.text) {
@@ -79,6 +87,7 @@ class TodoAdder extends React.Component {
     return (
       <form onSubmit={this.submit}>
         <input
+          ref={this.inputRef}
           name="todoText"
           type="text"
           value={this.state.text}
