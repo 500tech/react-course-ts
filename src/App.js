@@ -64,6 +64,10 @@ class TodoAdder extends React.Component {
     text: '',
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.text !== this.state.text;
+  }
+
   inputRef = createRef();
 
   startTimer() {
@@ -112,6 +116,7 @@ class TodoAdder extends React.Component {
   setText = e => this.setState({ text: e.target.value });
 
   render() {
+    console.log('render todo adder');
     return (
       <form onSubmit={this.submit}>
         <input
