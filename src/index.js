@@ -1,3 +1,7 @@
-import runAll from './es6';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-runAll();
+ReactDOM.render(
+  React.createElement('h1', {}, ['Hello, world!']),
+  document.getElementById('root')
+);
