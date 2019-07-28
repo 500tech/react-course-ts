@@ -3,13 +3,13 @@
  * Some of these are new, but some have been with us since the early 2010s
  *
  * @TOKNOW promises, async-await
- * 
+ *
  * https://babeljs.io/repl
  */
 
 async function varLetConst() {
-  var promises = [];
-  for (var i = 0; i < 5; i++) {
+  const promises = [];
+  for (let i = 0; i < 5; i++) {
     promises.push(
       // eslint-disable-next-line
       new Promise(function(resolve) {
@@ -19,7 +19,7 @@ async function varLetConst() {
       })
     );
   }
-  var values = await Promise.all(promises);
+  const values = await Promise.all(promises);
   return (
     values.reduce(function(sum, value) {
       return sum + value;
@@ -36,40 +36,49 @@ function generateNRandomNumbers(n, max) {
 }
 
 function filterMapReduce() {
-  const samples = generateNRandomNumbers(4, 10).concat(
-    generateNRandomNumbers(3, 5)
-  );
-  const samplesOver5 = samples;
-  const squaresOfSamplesOver5 = samplesOver5;
-  return !squaresOfSamplesOver5.find(function(item) {
-    return item < 25;
-  });
+  return !generateNRandomNumbers(4, 10)
+    .concat(generateNRandomNumbers(3, 5))
+    .filter(function(value) {
+      return value > 5;
+    })
+    .map(function(value) {
+      return value * value;
+    })
+    .find(function(item) {
+      return item < 25;
+    });
 }
 
 // Hint: use destructuring for more readable code :)
-function generateCompanyEmail(userObject) {}
+function generateCompanyEmail({ company, fullName }) {
+  const [firstName] = fullName.split(' ');
+  return `${firstName}@${company}.com`;
+}
 
 // Use arrow functions and class syntax to make this work
 function getUserFoo() {
-  function User(username) {
-    this.username = username;
-  }
-  User.prototype.fetchUser = function() {
-    return new Promise(function(resolve) {
-      resolve({
-        username: this && this.username,
+  class User {
+    constructor(username) {
+      this.username = username;
+    }
+    fetchUser = () => {
+      return new Promise(resolve => {
+        resolve({
+          username: this && this.username,
+        });
       });
-    });
-  };
+    };
+  }
   const user = new User('foo');
-  return user.fetchUser();
+  const { fetchUser } = user;
+  return fetchUser();
 }
 
 function shallowClone(object) {
   if (Array.isArray(object)) {
-    return object;
+    return [...object];
   }
-  return object;
+  return { ...object };
 }
 
 export default async function runAll() {
