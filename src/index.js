@@ -1,7 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
-ReactDOM.render(
-  React.createElement('h1', {}, ['Hello, world!']),
-  document.getElementById('root')
-);
+function App({ greeting = 'Hello!' }) {
+  return (
+    <div className="container">
+      <h1>
+        <span>{greeting}</span>
+      </h1>
+    </div>
+  );
+}
+
+ReactDOM.render(<App greeting="???" />, document.getElementById('root'));
