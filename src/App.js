@@ -15,11 +15,22 @@ const TODOS = [
   { id: getId(), title: 'Learn ReactJS', completed: false },
 ];
 
+window.todos = TODOS;
+
+function Todo({ todo }) {
+  const style = todo.completed ? { textDecoration: 'line-through' } : {};
+  return (
+    <li style={style}>
+      {todo.title}
+    </li>
+  );
+}
+
 function TodoList({ todos }) {
   return (
     <ul>
       {todos.map(todo => (
-        <li key={todo.id}>{todo.title}</li>
+        <Todo key={todo.id} todo={todo} />
       ))}
     </ul>
   );
