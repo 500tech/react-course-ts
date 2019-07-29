@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { getId } from '../utils';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
@@ -17,11 +18,28 @@ const TODOS = [
   { id: getId(), title: 'Learn ReactJS', completed: false },
 ];
 
+const Box = styled.div`
+  padding: 10px;
+  border-radius: 5px;
+  background-color: ivory;
+
+  code {
+    background-color: grey;
+    color: limegreen;
+
+    &:hover {
+      color: red;
+    }
+  }
+`;
+
 function EmptyState() {
   return (
-    <h3>
-      Nothing to do! <code>goto</code> the beach!
-    </h3>
+    <Box>
+      <h3>
+        Nothing to do! <code>goto</code> the beach!
+      </h3>
+    </Box>
   );
 }
 
