@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { getId } from '../utils';
 import { Home } from './Home';
 import { TopSection } from './TopSection';
@@ -8,13 +8,11 @@ import { TodosPage } from './TodosPage';
 import { PageNotFound } from './NotFound';
 import * as themes from '../theme';
 
-/**
- * interface Todo {
- *   id: number;
- *   title: string;
- *   completed: boolean;
- * }
- */
+function BaseAddressBar({ location }) {
+  return <p>{location.pathname}</p>;
+}
+
+const AddressBar = withRouter(BaseAddressBar);
 
 const TODOS = [
   { id: getId(), title: 'Get up in time', completed: true },
@@ -63,6 +61,7 @@ export class App extends React.Component {
     return (
       <ThemeProvider theme={themes[this.state.theme]}>
         <Container>
+          <AddressBar />
           <TopSection
             username={username}
             greeting={greeting}
