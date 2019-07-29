@@ -5,7 +5,8 @@
   "dependencies": {
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "styled-components": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
