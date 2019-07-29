@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { AddressBar } from './AddressBar';
 
 const NavBar = styled.nav`
   > * {
@@ -15,6 +16,7 @@ export function TopSection({ username, greeting, setTheme, theme }) {
       <h1>
         <span>{username ? `${greeting}, ${username}` : greeting}</span>
       </h1>
+      <AddressBar />
       <NavBar>
         <Link to="/">Home</Link>
         <Link to="/todos">Todos</Link>
