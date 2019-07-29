@@ -5,6 +5,7 @@ import { getId } from '../utils';
 import { Home } from './Home';
 import { TopSection } from './TopSection';
 import { TodosPage } from './TodosPage';
+import { PageNotFound } from './NotFound';
 import * as themes from '../theme';
 
 /**
@@ -81,6 +82,7 @@ export class App extends React.Component {
                 />
               )}
             />
+            <Route component={PageNotFound} />
           </Switch>
         </Container>
       </ThemeProvider>
