@@ -1,8 +1,10 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { Route, Switch } from 'react-router-dom';
 import { getId } from '../utils';
-import { TodoAdder } from './TodoAdder';
-import { TodoList } from './TodoList';
+import { Home } from './Home';
+import { TopSection } from './TopSection';
+import { TodosPage } from './TodosPage';
 import * as themes from '../theme';
 
 /**
@@ -18,31 +20,6 @@ const TODOS = [
   { id: getId(), title: 'Eat at Meatbar', completed: true },
   { id: getId(), title: 'Learn ReactJS', completed: false },
 ];
-
-const Box = styled.div`
-  padding: 10px;
-  border-radius: 5px;
-  background-color: ivory;
-
-  code {
-    background-color: grey;
-    color: limegreen;
-
-    &:hover {
-      color: red;
-    }
-  }
-`;
-
-function EmptyState() {
-  return (
-    <Box>
-      <h3>
-        Nothing to do! <code>goto</code> the beach!
-      </h3>
-    </Box>
-  );
-}
 
 export class App extends React.Component {
   state = { todos: TODOS, theme: 'redhat' };
@@ -82,27 +59,29 @@ export class App extends React.Component {
 
   render() {
     const { greeting = 'Hello', username } = this.props;
-    const { todos } = this;
     return (
       <ThemeProvider theme={themes[this.state.theme]}>
         <Container>
-          <h1>
-            <span>{username ? `${greeting}, ${username}` : greeting}</span>
-          </h1>
-          <select onChange={this.setTheme} value={this.state.theme}>
-            <option value="redhat">Redhat</option>
-            <option value="facebook">facebook</option>
-          </select>
-          <TodoAdder onAddTodo={this.addTodo} />
-          {todos && todos.length ? (
-            <TodoList
-              todos={todos}
-              onToggleTodo={this.toggleTodo}
-              onDeleteTodo={this.deleteTodo}
+          <TopSection
+            username={username}
+            greeting={greeting}
+            setTheme={this.setTheme}
+            theme={this.state.theme}
+          />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              path="/todos"
+              render={() => (
+                <TodosPage
+                  onDeleteTodo={this.deleteTodo}
+                  onAddTodo={this.addTodo}
+                  onToggleTodo={this.toggleTodo}
+                  todos={this.todos}
+                />
+              )}
             />
-          ) : (
-            <EmptyState />
-          )}
+          </Switch>
         </Container>
       </ThemeProvider>
     );
