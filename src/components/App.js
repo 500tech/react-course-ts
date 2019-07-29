@@ -85,7 +85,7 @@ export class App extends React.Component {
     const { todos } = this;
     return (
       <ThemeProvider theme={themes[this.state.theme]}>
-        <div className="container">
+        <Container>
           <h1>
             <span>{username ? `${greeting}, ${username}` : greeting}</span>
           </h1>
@@ -103,8 +103,12 @@ export class App extends React.Component {
           ) : (
             <EmptyState />
           )}
-        </div>
+        </Container>
       </ThemeProvider>
     );
   }
 }
+
+const Container = styled.div`
+  background-color: ${props => props.theme.palette.appBackground};
+`;

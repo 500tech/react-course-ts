@@ -33,5 +33,6 @@ const toBeDone = css`
 
 export const Todo = styled(BaseTodo)`
   letter-spacing: 1px;
+  color: ${props => props.theme.palette.itemColor};
   ${props => (props.todo.completed ? strikeThrough : toBeDone)}
 `;

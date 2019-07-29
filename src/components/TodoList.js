@@ -1,9 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Todo } from './Todo';
+
+const List = styled.ul`
+  @media screen and (min-width: ${props => props.theme.breakpoints.tablet}px) {
+    li {
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+`;
 
 export function TodoList({ todos, onToggleTodo, onDeleteTodo }) {
   return (
-    <ul>
+    <List>
       {todos.map(todo => (
         <Todo
           key={todo.id}
@@ -12,6 +22,6 @@ export function TodoList({ todos, onToggleTodo, onDeleteTodo }) {
           onDeleteTodo={onDeleteTodo}
         />
       ))}
-    </ul>
+    </List>
   );
 }
