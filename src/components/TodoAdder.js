@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import styled from 'styled-components'
 import { NOOP } from '../utils';
 
 export class TodoAdder extends React.PureComponent {
@@ -57,15 +58,28 @@ export class TodoAdder extends React.PureComponent {
     console.log('render todo adder');
     return (
       <form onSubmit={this.submit}>
-        <input
+        <Input
           ref={this.inputRef}
           name="todoText"
           type="text"
           value={this.state.text}
           onChange={this.setText}
         />
-        <button disabled={this.state.text.length === 0}>Add</button>
+        <Button disabled={this.state.text.length === 0}>Add</Button>
       </form>
     );
   }
 }
+
+const Button = styled.button`
+  &:disabled {
+    background-color: transparent;
+    border: none;
+  }
+`;
+
+const Input = styled.input`
+  &:focus {
+    outline-color: green;
+  }
+`;
