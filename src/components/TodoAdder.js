@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { NOOP } from '../utils';
 
 export class TodoAdder extends React.PureComponent {
@@ -72,7 +72,10 @@ export class TodoAdder extends React.PureComponent {
 }
 
 const Button = styled.button`
+  background-color: ${props => props.theme.palette.primary};
+  color: ${props => props.theme.palette.primaryText};
   &:disabled {
+    opacity: 0.3;
     background-color: transparent;
     border: none;
   }
@@ -80,6 +83,6 @@ const Button = styled.button`
 
 const Input = styled.input`
   &:focus {
-    outline-color: green;
+    outline-color: ${props => props.theme.palette.primary};
   }
 `;

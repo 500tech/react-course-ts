@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { getId } from '../utils';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
+import * as themes from '../theme';
 
 /**
  * interface Todo {
@@ -44,7 +45,7 @@ function EmptyState() {
 }
 
 export class App extends React.Component {
-  state = { todos: TODOS };
+  state = { todos: TODOS, theme: 'redhat' };
 
   get todos() {
     return this.state.todos;
@@ -77,25 +78,33 @@ export class App extends React.Component {
     ];
   };
 
+  setTheme = e => this.setState({ theme: e.target.value });
+
   render() {
     const { greeting = 'Hello', username } = this.props;
     const { todos } = this;
     return (
-      <div className="container">
-        <h1>
-          <span>{username ? `${greeting}, ${username}` : greeting}</span>
-        </h1>
-        <TodoAdder onAddTodo={this.addTodo} />
-        {todos && todos.length ? (
-          <TodoList
-            todos={todos}
-            onToggleTodo={this.toggleTodo}
-            onDeleteTodo={this.deleteTodo}
-          />
-        ) : (
-          <EmptyState />
-        )}
-      </div>
+      <ThemeProvider theme={themes[this.state.theme]}>
+        <div className="container">
+          <h1>
+            <span>{username ? `${greeting}, ${username}` : greeting}</span>
+          </h1>
+          <select onChange={this.setTheme} value={this.state.theme}>
+            <option value="redhat">Redhat</option>
+            <option value="facebook">facebook</option>
+          </select>
+          <TodoAdder onAddTodo={this.addTodo} />
+          {todos && todos.length ? (
+            <TodoList
+              todos={todos}
+              onToggleTodo={this.toggleTodo}
+              onDeleteTodo={this.deleteTodo}
+            />
+          ) : (
+            <EmptyState />
+          )}
+        </div>
+      </ThemeProvider>
     );
   }
 }
