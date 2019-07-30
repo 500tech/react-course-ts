@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
+import { Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
@@ -34,16 +34,18 @@ function NoItemsEmptyState() {
   );
 }
 
-function UrlTitle({ location }) {
+function BaseUrlTitle({ location, todoCount = 0 }) {
   return (
     <div>
       <p>{location.pathname}</p>
       <nav>
-        <Link to="/todos">Todos page</Link>
+        <Link to="/todos">Todos page ({todoCount})</Link>
       </nav>
     </div>
   );
 }
+
+const UrlTitle = withRouter(BaseUrlTitle);
 
 export function App() {
   const [theme, setTheme] = useState(themes.lightTheme);
@@ -59,7 +61,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="container" onClick={toggleTheme}>
-        <Route component={UrlTitle} />
+        <UrlTitle todoCount={todos.length} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route
