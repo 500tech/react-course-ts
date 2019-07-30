@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
@@ -77,6 +77,18 @@ export function App() {
                 ) : (
                   <NoItemsEmptyState />
                 )}
+                <Route
+                  path="/todos/:todoId"
+                  render={({ match }) => {
+                    const { params } = match;
+                    const { todoId } = params;
+                    const todo = todos.find(t => t.id === todoId);
+                    if (!todo) {
+                      return <Redirect to="/todos" />;
+                    }
+                    return <p>{todo.text}</p>;
+                  }}
+                />
               </>
             )}
           />
