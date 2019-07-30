@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NOOP } from '../utils';
+import { Button, Input } from './atoms';
 
 export function TodoAdder({ onAddTodo = NOOP }) {
   const [draft, setDraft] = useState('');
@@ -14,13 +15,12 @@ export function TodoAdder({ onAddTodo = NOOP }) {
   }, []);
   return (
     <>
-      <input
-        type="text"
+      <Input
         ref={inputRef}
         value={draft}
         onChange={event => setDraft(event.target.value)}
       />
-      <button
+      <Button
         onClick={() => {
           onAddTodo(draft);
           setDraft('');
@@ -28,7 +28,7 @@ export function TodoAdder({ onAddTodo = NOOP }) {
         disabled={!draft}
       >
         Add Todo
-      </button>
+      </Button>
     </>
   );
 }
