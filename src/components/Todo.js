@@ -1,11 +1,16 @@
 import React from 'react';
+import styled, { css } from 'styled-components';
 import { NOOP } from '../utils';
 
-export function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
-  const style = { textDecoration: todo.done ? 'line-through' : 'none' };
+function BaseTodo({
+  todo,
+  className,
+  onToggleTodo = NOOP,
+  onRemoveTodo = NOOP,
+}) {
   return (
     <li
-      style={style}
+      className={className}
       onClick={() => onToggleTodo(todo)}
       onDoubleClick={() => onRemoveTodo(todo)}
     >
@@ -13,3 +18,15 @@ export function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
     </li>
   );
 }
+
+const doneTodo = css`
+  text-decoration: line-through;
+`;
+
+const undoneTodo = css`
+  font-weight: bold;
+`;
+
+export const Todo = styled(BaseTodo)`
+  ${props => props.todo.done ? doneTodo : undoneTodo}
+`;
