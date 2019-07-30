@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 /**
  * {
@@ -32,6 +32,29 @@ function clicks(state = 0, action) {
   }
 }
 
+const logger = store => {
+  // #1 - some MW may have initialized (happens once)
+  return next => {
+    // #2 - all MW have been initialized (happens once)
+    return action => {
+      // #3 - an action was dispatched
+      const snapshotBefore = store.getState();
+      const ref = JSON.parse(JSON.stringify(action));
+      next(action);
+      const snapshotAfter = store.getState();
+      console.log({ snapshotBefore, action: ref, snapshotAfter });
+    };
+  };
+};
+
+const evalPayload = _store => next => action => {
+  if (action.meta && action.meta.eval && action.payload) {
+    // eslint-disable-next-line
+    action.payload = eval(action.payload);
+  }
+  next(action);
+};
+
 const mainReducer = combineReducers({
   count,
   clicks,
@@ -48,12 +71,10 @@ class UI {
   _bootstrapEvents() {
     this.store.subscribe(() => this.render());
     for (let e of document.querySelectorAll('[data-action]')) {
-      let { action: type, payload } = e.dataset;
-      if (payload) {
-        // eslint-disable-next-line
-        payload = eval(payload);
-      }
-      e.addEventListener('click', () => this.store.dispatch({ type, payload }));
+      const { action: type, payload } = e.dataset;
+      e.addEventListener('click', () =>
+        this.store.dispatch({ type, payload, meta: { eval: true } })
+      );
     }
   }
 
@@ -64,7 +85,7 @@ class UI {
   }
 }
 
-const store = createStore(mainReducer);
+const store = createStore(mainReducer, applyMiddleware(logger, evalPayload));
 const ui = new UI(store);
 
 ui.render();
