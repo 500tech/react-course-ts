@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
+import { Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
+import { Home } from './Home';
 import { useTodosService } from '../services/todos';
 import * as themes from '../theme';
 
@@ -45,17 +47,28 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="container" onClick={toggleTheme}>
-        <h1>Todo list</h1>
-        <TodoAdder onAddTodo={addTodo} />
-        {todos.length ? (
-          <TodoList
-            items={todos}
-            onToggleTodo={toggleTodo}
-            onRemoveTodo={removeTodo}
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route
+            path="/todos"
+            render={() => (
+              <>
+                <h1>Todo list</h1>
+                <TodoAdder onAddTodo={addTodo} />
+                {todos.length ? (
+                  <TodoList
+                    items={todos}
+                    onToggleTodo={toggleTodo}
+                    onRemoveTodo={removeTodo}
+                  />
+                ) : (
+                  <NoItemsEmptyState />
+                )}
+              </>
+            )}
           />
-        ) : (
-          <NoItemsEmptyState />
-        )}
+          <Route render={() => <p>404</p>} />
+        </Switch>
       </div>
     </ThemeProvider>
   );
