@@ -33,6 +33,10 @@ function NoItemsEmptyState() {
   );
 }
 
+function UrlTitle({ location }) {
+  return <p>{location.pathname}</p>;
+}
+
 export function App() {
   const [theme, setTheme] = useState(themes.lightTheme);
   const { todos, removeTodo, toggleTodo, addTodo } = useTodosService([
@@ -47,6 +51,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="container" onClick={toggleTheme}>
+        <Route component={UrlTitle} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route
@@ -67,7 +72,11 @@ export function App() {
               </>
             )}
           />
-          <Route render={() => <p>404</p>} />
+          <Route
+            render={({ location }) => (
+              <p>404 - {location.pathname} not found</p>
+            )}
+          />
         </Switch>
       </div>
     </ThemeProvider>
