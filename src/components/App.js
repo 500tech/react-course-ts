@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
 import { useTodosService } from '../services/todos';
+import * as themes from '../theme';
 
 const AlertBox = styled.div`
   background-color: red;
@@ -31,24 +32,31 @@ function NoItemsEmptyState() {
 }
 
 export function App() {
+  const [theme, setTheme] = useState(themes.lightTheme);
   const { todos, removeTodo, toggleTodo, addTodo } = useTodosService([
     { id: uuid(), text: 'Learn Hebrew', done: false },
     { id: uuid(), text: 'Order lunch', done: true },
   ]);
+  const toggleTheme = () =>
+    setTheme(
+      theme === themes.lightTheme ? themes.darkTheme : themes.lightTheme
+    );
 
   return (
-    <div className="container">
-      <h1>Todo list</h1>
-      <TodoAdder onAddTodo={addTodo} />
-      {todos.length ? (
-        <TodoList
-          items={todos}
-          onToggleTodo={toggleTodo}
-          onRemoveTodo={removeTodo}
-        />
-      ) : (
-        <NoItemsEmptyState />
-      )}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="container" onClick={toggleTheme}>
+        <h1>Todo list</h1>
+        <TodoAdder onAddTodo={addTodo} />
+        {todos.length ? (
+          <TodoList
+            items={todos}
+            onToggleTodo={toggleTodo}
+            onRemoveTodo={removeTodo}
+          />
+        ) : (
+          <NoItemsEmptyState />
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
