@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
+import { PageNotFound } from './PageNotFound';
 import { Home } from './Home';
 import { useTodosService } from '../services/todos';
 import * as themes from '../theme';
@@ -34,7 +35,14 @@ function NoItemsEmptyState() {
 }
 
 function UrlTitle({ location }) {
-  return <p>{location.pathname}</p>;
+  return (
+    <div>
+      <p>{location.pathname}</p>
+      <nav>
+        <Link to="/todos">Todos page</Link>
+      </nav>
+    </div>
+  );
 }
 
 export function App() {
@@ -72,11 +80,7 @@ export function App() {
               </>
             )}
           />
-          <Route
-            render={({ location }) => (
-              <p>404 - {location.pathname} not found</p>
-            )}
-          />
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     </ThemeProvider>

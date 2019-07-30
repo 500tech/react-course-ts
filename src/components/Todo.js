@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { NOOP } from '../utils';
 
 function BaseTodo({
@@ -9,12 +10,13 @@ function BaseTodo({
   onRemoveTodo = NOOP,
 }) {
   return (
-    <li
-      className={className}
-      onClick={() => onToggleTodo(todo)}
-      onDoubleClick={() => onRemoveTodo(todo)}
-    >
-      {todo.text}
+    <li className={className}>
+      <span
+        onClick={e => (e.metaKey ? onRemoveTodo(todo) : onToggleTodo(todo))}
+      >
+        {todo.text}
+      </span>
+      <Link to={`/todos/${todo.id}`}>Select</Link>
     </li>
   );
 }
@@ -28,5 +30,5 @@ const undoneTodo = css`
 `;
 
 export const Todo = styled(BaseTodo)`
-  ${props => props.todo.done ? doneTodo : undoneTodo}
+  ${props => (props.todo.done ? doneTodo : undoneTodo)}
 `;
