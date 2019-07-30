@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
-import { Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
 import { PageNotFound } from './PageNotFound';
+import { AddressBar } from './AddressBar';
 import { Home } from './Home';
 import { useTodosService } from '../services/todos';
 import * as themes from '../theme';
@@ -34,19 +35,6 @@ function NoItemsEmptyState() {
   );
 }
 
-function BaseUrlTitle({ location, todoCount = 0 }) {
-  return (
-    <div>
-      <p>{location.pathname}</p>
-      <nav>
-        <Link to="/todos">Todos page ({todoCount})</Link>
-      </nav>
-    </div>
-  );
-}
-
-const UrlTitle = withRouter(BaseUrlTitle);
-
 export function App() {
   const [theme, setTheme] = useState(themes.lightTheme);
   const { todos, removeTodo, toggleTodo, addTodo } = useTodosService([
@@ -61,7 +49,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="container" onClick={toggleTheme}>
-        <UrlTitle todoCount={todos.length} />
+        <AddressBar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route
