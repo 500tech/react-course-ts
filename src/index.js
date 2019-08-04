@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './components/App';
 import { TodosProvider } from 'providers/Todos';
 import { ThemeNameProvider } from 'providers/ThemeName';
+import { Theme } from 'providers/Theme';
 import store from './state';
 import './index.css';
 
@@ -13,7 +14,9 @@ ReactDOM.render(
   <Router>
     <ThemeNameProvider>
       <TodosProvider>
-        <App username="Foo" />
+        <Theme>
+          <App username="Foo" />
+        </Theme>
       </TodosProvider>
     </ThemeNameProvider>
   </Router>,
