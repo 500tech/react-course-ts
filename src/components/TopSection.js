@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { AddressBar } from './AddressBar';
+import { withThemeName } from 'providers/ThemeName';
+import * as themes from 'theme';
 
 const NavBar = styled.nav`
   > * {
@@ -10,7 +12,7 @@ const NavBar = styled.nav`
   }
 `;
 
-export function TopSection({ username, greeting, setTheme, theme }) {
+function BaseTopSection({ username, greeting, themeName, setThemeName }) {
   return (
     <>
       <h1>
@@ -21,10 +23,17 @@ export function TopSection({ username, greeting, setTheme, theme }) {
         <Link to="/">Home</Link>
         <Link to="/todos">Todos</Link>
       </NavBar>
-      <select onChange={setTheme} value={theme}>
-        <option value="redhat">Redhat</option>
-        <option value="facebook">facebook</option>
+      <select onChange={e => setThemeName(e.target.value)} value={themeName}>
+        {Object.keys(themes).map(themeName => {
+          return (
+            <option key={themeName} value={themeName}>
+              {themeName}
+            </option>
+          );
+        })}
       </select>
     </>
   );
 }
+
+export const TopSection = withThemeName(BaseTopSection);

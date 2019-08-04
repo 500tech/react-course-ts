@@ -34,3 +34,12 @@ export const facebook = createTheme({
     secondaryText: 'blue',
   },
 });
+
+export const digitalClues = createTheme({
+  palette: {
+    primary: '#c0c0c0',
+    primaryText: 'white',
+    secondary: 'white',
+    secondaryText: 'purple',
+  },
+})
