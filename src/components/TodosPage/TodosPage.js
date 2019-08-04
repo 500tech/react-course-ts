@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Route, Redirect } from 'react-router-dom';
-import { TodoAdder } from './TodoAdder';
-import { TodoList } from './TodoList';
-import { withTodos } from 'providers/Todos';
+import { TodoAdder } from 'components/TodoAdder';
+import { TodoList } from 'components/TodoList';
 
 const Box = styled.div`
   padding: 10px;
@@ -30,7 +29,7 @@ function EmptyState() {
   );
 }
 
-function BaseTodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
+export function TodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
   return (
     <>
       <TodoAdder onAddTodo={addTodo} />
@@ -58,5 +57,3 @@ function BaseTodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
     </>
   );
 }
-
-export const TodosPage = withTodos(BaseTodosPage);
