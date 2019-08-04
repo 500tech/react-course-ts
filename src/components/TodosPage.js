@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Route, Redirect } from 'react-router-dom';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
+import { withTodos } from 'providers/Todos';
 
 const Box = styled.div`
   padding: 10px;
@@ -29,15 +30,15 @@ function EmptyState() {
   );
 }
 
-export function TodosPage({ onAddTodo, onDeleteTodo, todos, onToggleTodo }) {
+function BaseTodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
   return (
     <>
-      <TodoAdder onAddTodo={onAddTodo} />
+      <TodoAdder onAddTodo={addTodo} />
       {todos && todos.length ? (
         <TodoList
           todos={todos}
-          onToggleTodo={onToggleTodo}
-          onDeleteTodo={onDeleteTodo}
+          onToggleTodo={toggleTodo}
+          onDeleteTodo={deleteTodo}
         />
       ) : (
         <EmptyState />
@@ -57,3 +58,5 @@ export function TodosPage({ onAddTodo, onDeleteTodo, todos, onToggleTodo }) {
     </>
   );
 }
+
+export const TodosPage = withTodos(BaseTodosPage);
