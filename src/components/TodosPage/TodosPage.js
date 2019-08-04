@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { TodoAdder } from 'components/TodoAdder';
 import { TodoList } from 'components/TodoList';
+import { SelectedTodoPage } from './SelectedTodoPage';
 
 const Box = styled.div`
   padding: 10px;
@@ -42,18 +43,7 @@ export function TodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
       ) : (
         <EmptyState />
       )}
-      <Route
-        path="/todos/:todoId"
-        render={({ match }) => {
-          const { params } = match;
-          const { todoId } = params;
-          const todo = todos.find(t => t.id === +todoId);
-          if (!todo) {
-            return <Redirect to="/404" />;
-          }
-          return <p>{todo.title}</p>;
-        }}
-      />
+      <Route path="/todos/:todoId" component={SelectedTodoPage} />
     </>
   );
 }
