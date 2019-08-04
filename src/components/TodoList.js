@@ -4,10 +4,7 @@ import { Todo } from './Todo';
 
 const List = styled.ul`
   @media screen and (min-width: ${props => props.theme.breakpoints.tablet}px) {
-    li {
-      display: inline-block;
-      margin-right: 5px;
-    }
+    background-color: ${props => props.theme.appBackground};
   }
 `;
 
