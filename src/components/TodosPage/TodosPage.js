@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
 import { TodoAdder } from 'components/TodoAdder';
@@ -30,20 +30,29 @@ function EmptyState() {
   );
 }
 
-export function TodosPage({ addTodo, deleteTodo, todos, toggleTodo }) {
-  return (
-    <>
-      <TodoAdder onAddTodo={addTodo} />
-      {todos && todos.length ? (
-        <TodoList
-          todos={todos}
-          onToggleTodo={toggleTodo}
-          onDeleteTodo={deleteTodo}
-        />
-      ) : (
-        <EmptyState />
-      )}
-      <Route path="/todos/:todoId" component={SelectedTodoPage} />
-    </>
-  );
+export class TodosPage extends Component {
+  componentDidMount() {
+    this.props.fetchTodos();
+  }
+
+  render() {
+    const { addTodo, deleteTodo, todos, toggleTodo, isLoading } = this.props;
+    return (
+      <>
+        <TodoAdder onAddTodo={addTodo} />
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : todos && todos.length ? (
+          <TodoList
+            todos={todos}
+            onToggleTodo={toggleTodo}
+            onDeleteTodo={deleteTodo}
+          />
+        ) : (
+          <EmptyState />
+        )}
+        <Route path="/todos/:todoId" component={SelectedTodoPage} />
+      </>
+    );
+  }
 }
