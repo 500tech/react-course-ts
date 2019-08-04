@@ -1,8 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import { withThemeName } from 'providers/ThemeName';
 import * as themes from 'theme';
 
-export const Theme = withThemeName(({ children, themeName }) => {
+function mapStateToProps(state) {
+  return {
+    themeName: state.theme,
+  };
+}
+
+const connector = connect(mapStateToProps);
+
+export const Theme = connector(({ children, themeName }) => {
   return <ThemeProvider theme={themes[themeName]}>{children}</ThemeProvider>;
 });

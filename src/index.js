@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider as ReduxProvider } from 'react-redux';
 import { App } from './components/App';
 import { TodosProvider } from 'providers/Todos';
-import { ThemeNameProvider } from 'providers/ThemeName';
 import { Theme } from 'providers/Theme';
 import store from './state';
 import './index.css';
@@ -12,13 +12,13 @@ window.store = store;
 
 ReactDOM.render(
   <Router>
-    <ThemeNameProvider>
+    <ReduxProvider store={store}>
       <TodosProvider>
         <Theme>
           <App username="Foo" />
         </Theme>
       </TodosProvider>
-    </ThemeNameProvider>
+    </ReduxProvider>
   </Router>,
   document.getElementById('root')
 );

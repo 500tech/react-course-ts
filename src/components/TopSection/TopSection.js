@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { AddressBar } from './AddressBar';
-import { withThemeName } from 'providers/ThemeName';
+import { AddressBar } from '../AddressBar';
 import * as themes from 'theme';
 
 const NavBar = styled.nav`
@@ -12,7 +11,7 @@ const NavBar = styled.nav`
   }
 `;
 
-function BaseTopSection({ username, greeting, themeName, setThemeName }) {
+export function TopSection({ username, greeting, themeName, setThemeName }) {
   return (
     <>
       <h1>
@@ -35,5 +34,3 @@ function BaseTopSection({ username, greeting, themeName, setThemeName }) {
     </>
   );
 }
-
-export const TopSection = withThemeName(BaseTopSection);
