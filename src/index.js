@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider as StoreProvider } from 'react-redux';
 import { App } from 'components/App';
 import { Theme } from 'providers/Theme';
-import { TodosProvider } from 'providers/Todos';
 import store from 'state';
 import 'index.css';
 
@@ -12,9 +11,7 @@ ReactDOM.render(
   <Router>
     <StoreProvider store={store}>
       <Theme>
-        <TodosProvider>
-          <App />
-        </TodosProvider>
+        <App />
       </Theme>
     </StoreProvider>
   </Router>,
