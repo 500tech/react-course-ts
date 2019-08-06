@@ -25,6 +25,7 @@ export function useTodosService() {
       payload: updatedResource,
       meta: {
         api: {
+          group: 'todos',
           url: `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
           method: 'PUT',
           data: updatedResource,
@@ -39,6 +40,7 @@ export function useTodosService() {
       payload: todo,
       meta: {
         api: {
+          group: 'todos',
           url: `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
           method: 'DELETE',
           onSuccess: REMOVE_TODO,
@@ -52,6 +54,7 @@ export function useTodosService() {
       payload: partialTodo,
       meta: {
         api: {
+          group: 'todos',
           url: 'https://jsonplaceholder.typicode.com/todos',
           method: 'POST',
           data: partialTodo,
@@ -66,6 +69,7 @@ export function useTodosService() {
         type: FETCH_TODOS,
         meta: {
           api: {
+            group: 'todos',
             onSuccess: SET_TODOS,
             url: 'https://jsonplaceholder.typicode.com/todos',
           },

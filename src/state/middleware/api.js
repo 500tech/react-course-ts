@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_START, API_END } from 'state/actions';
 
 export const api = store => next => async action => {
   // this is run after every action
@@ -6,7 +7,8 @@ export const api = store => next => async action => {
   await next(action);
   const postState = store.getState();
   if (action.meta && action.meta.api) {
-    const { onFailure, onSuccess, ...requestParams } = action.meta.api;
+    const { group, onFailure, onSuccess, ...requestParams } = action.meta.api;
+    store.dispatch({ type: API_START, payload: group });
     try {
       const response = await axios(requestParams);
       if (onSuccess) {
@@ -31,6 +33,8 @@ export const api = store => next => async action => {
           error,
         });
       }
+    } finally {
+      store.dispatch({ type: API_END, payload: group });
     }
   }
 };

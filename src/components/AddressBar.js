@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Button } from './atoms';
 import { useThemeService } from 'services/theme';
+import { useLoadingIndication } from 'services/net';
 
 const HorizontalForm = styled.form`
   display: flex;
@@ -17,6 +18,7 @@ function useDerivedState(value) {
 }
 
 function BaseAdresssBar({ history, location }) {
+  const isSomethingLoading = useLoadingIndication();
   const { themeName } = useThemeService();
   const [url, setUrl] = useDerivedState(location.pathname);
   const go = e => {
@@ -29,6 +31,7 @@ function BaseAdresssBar({ history, location }) {
       <input value={url} onChange={e => setUrl(e.target.value)} />
       <Button onClick={history.goForward}>Forward</Button>
       <span>Currently using theme: {themeName}</span>
+      {isSomethingLoading && 'Loading...'}
     </HorizontalForm>
   );
 }
