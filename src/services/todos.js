@@ -1,8 +1,9 @@
 import uuid from 'uuid';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { TodosContext } from 'providers/Todos';
 
-export function useTodosService(initialTodos) {
-  const [todos, setTodos] = useState(initialTodos);
+export function useTodosService() {
+  const [todos, setTodos] = useContext(TodosContext);
 
   const toggleTodo = todo => {
     return setTodos(
