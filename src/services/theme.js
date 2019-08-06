@@ -1,10 +1,17 @@
-import { useContext } from 'react';
-import { ThemeNameContext } from 'providers/Theme';
+import { useSelector, useDispatch } from 'react-redux';
+import { SET_THEME } from 'state/actions';
 
 export function useThemeService() {
-  const [themeName, setThemeName] = useContext(ThemeNameContext);
-  const toggleTheme = () =>
-    setThemeName(themeName === 'lightTheme' ? 'darkTheme' : 'lightTheme');
+  const themeName = useSelector(state => state.theme);
+  const dispatch = useDispatch();
+  const toggleTheme = () => {
+    const newTheme = themeName === 'lightTheme' ? 'darkTheme' : 'lightTheme';
+    const setThemeAction = {
+      type: SET_THEME,
+      payload: newTheme,
+    };
+    return dispatch(setThemeAction);
+  };
   return {
     themeName,
     toggleTheme,
