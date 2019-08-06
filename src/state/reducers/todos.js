@@ -1,14 +1,16 @@
-import uuid from 'uuid';
 import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from 'state/actions';
+
+let _id = 0;
+const getId = () => _id++;
 
 export function todos(state = [], action) {
   switch (action.type) {
     case ADD_TODO: {
       const text = action.payload;
       const todo = {
-        id: uuid(),
-        text,
-        done: false,
+        id: getId(),
+        title: text,
+        completed: false,
       };
       return [todo, ...state];
     }
@@ -18,7 +20,7 @@ export function todos(state = [], action) {
         t.id === todo.id
           ? {
               ...todo,
-              done: !todo.done,
+              completed: !todo.completed,
             }
           : t
       );

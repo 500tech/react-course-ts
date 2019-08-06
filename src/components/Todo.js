@@ -14,7 +14,7 @@ function BaseTodo({
       <span
         onClick={e => (e.metaKey ? onRemoveTodo(todo) : onToggleTodo(todo))}
       >
-        {todo.text}
+        {todo.title}
       </span>
       <Link to={`/todos/${todo.id}`}>Select</Link>
     </li>
@@ -30,5 +30,5 @@ const undoneTodo = css`
 `;
 
 export const Todo = styled(BaseTodo)`
-  ${props => (props.todo.done ? doneTodo : undoneTodo)}
+  ${props => (props.todo.completed ? doneTodo : undoneTodo)}
 `;

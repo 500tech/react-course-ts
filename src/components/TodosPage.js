@@ -27,11 +27,11 @@ export const TodosPage = () => {
         render={({ match }) => {
           const { params } = match;
           const { todoId } = params;
-          const todo = todos.find(t => t.id === todoId);
+          const todo = todos.find(t => t.id === +todoId);
           if (!todo) {
             return <Redirect to="/todos" />;
           }
-          return <p>{todo.text}</p>;
+          return <p>{todo.title}</p>;
         }}
       />
     </>
