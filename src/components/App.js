@@ -5,7 +5,6 @@ import { PageNotFound } from './PageNotFound';
 import { AddressBar } from './AddressBar';
 import { Home } from './Home';
 import { TodosPage } from './TodosPage';
-import { useThemeService } from 'services/theme';
 
 const Container = styled.div`
   background-color: ${props => props.theme.palette.bgcolor};
@@ -13,10 +12,8 @@ const Container = styled.div`
 `;
 
 export function App() {
-  const { toggleTheme } = useThemeService();
-
   return (
-    <Container onClick={toggleTheme}>
+    <Container>
       <AddressBar />
       <Switch>
         <Route exact path="/" component={Home} />

@@ -4,13 +4,14 @@ import { TodoAdder } from './TodoAdder';
 import { NoItemsEmptyState } from './atoms';
 import { TodoList } from './TodoList';
 import { useTodosService } from 'services/todos';
+import { useThemeService } from 'services/theme';
 
 export const TodosPage = () => {
   const { todos, removeTodo, toggleTodo, addTodo } = useTodosService();
-
+  const { toggleTheme } = useThemeService();
   return (
     <>
-      <h1>Todo list</h1>
+      <h1 onClick={toggleTheme}>Todo list</h1>
       <TodoAdder onAddTodo={addTodo} />
       {todos.length ? (
         <TodoList
