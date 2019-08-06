@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { TodoAdder } from './TodoAdder';
 import { NoItemsEmptyState } from './atoms';
@@ -7,8 +7,17 @@ import { useTodosService } from 'services/todos';
 import { useThemeService } from 'services/theme';
 
 export const TodosPage = () => {
-  const { todos, removeTodo, toggleTodo, addTodo } = useTodosService();
+  const {
+    todos,
+    removeTodo,
+    toggleTodo,
+    addTodo,
+    fetchTodos,
+  } = useTodosService();
   const { toggleTheme } = useThemeService();
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
   return (
     <>
       <h1 onClick={toggleTheme}>Todo list</h1>

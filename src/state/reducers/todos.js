@@ -1,10 +1,13 @@
-import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from 'state/actions';
+import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO, SET_TODOS } from 'state/actions';
 
 let _id = 0;
 const getId = () => _id++;
 
 export function todos(state = [], action) {
   switch (action.type) {
+    case SET_TODOS: {
+      return action.payload;
+    }
     case ADD_TODO: {
       const text = action.payload;
       const todo = {
