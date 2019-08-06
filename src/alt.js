@@ -89,3 +89,59 @@ const store = createStore(mainReducer, applyMiddleware(logger, evalPayload));
 const ui = new UI(store);
 
 ui.render();
+
+
+// pseudocode
+const ReduxStoreContext = createContext();
+
+function useStore() {
+  return useContext(ReduxStoreContext);
+}
+
+function useReduxState(selector) {
+  const store = useStore();
+  const [state, setState] = useState(selector(store.getState()));
+  useEffect(
+    () =>
+      store.subscribe(() => {
+        setState(selector(store.getState()));
+      }),
+    [store]
+  );
+  return state;
+}
+
+/**
+ * - UI event happened
+ * - an event handler dispatches an action to the store (store.dispatch({...}))
+ * - action goes thorugh the middle chain, if there is one
+ * - action is passed to each reducer, in order to calculate the new store's state
+ * - store's state is updated
+ * - store calls every subscriber
+ * - FIN
+ */
+
+function createStore(reducer) {
+  const subs = new Set();
+  let state;
+
+  function dispatch(action) {
+    state = reducer(state, action);
+    for (let cb of subs) {
+      cb();
+    }
+  }
+
+  function getState() {
+    return state;
+  }
+
+  function subscribe(cb) {
+    subs.add(cb);
+    return () => subs.delete(cb);
+  }
+
+  dispatch({ type: '@@init' });
+
+  return { dispatch, getState, subscribe };
+}
