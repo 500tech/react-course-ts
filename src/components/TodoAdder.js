@@ -19,6 +19,7 @@ export function TodoAdder({ onAddTodo = NOOP }) {
         ref={inputRef}
         value={draft}
         onChange={event => setDraft(event.target.value)}
+        placeholder="Write your todo here..."
       />
       <PrimaryButton
         onClick={() => {
