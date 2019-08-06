@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import uuid from 'uuid';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { TodoAdder } from './TodoAdder';
 import { TodoList } from './TodoList';
 import { PageNotFound } from './PageNotFound';
 import { AddressBar } from './AddressBar';
 import { Home } from './Home';
-import { useTodosService } from '../services/todos';
-import * as themes from '../theme';
+import { useTodosService } from 'services/todos';
+import { useThemeService } from 'services/theme'
+
+const Container = styled.div`
+  background-color: ${props => props.theme.palette.bgcolor};
+  font-size: 18px;
+`;
 
 const AlertBox = styled.div`
   background-color: red;
@@ -36,55 +41,49 @@ function NoItemsEmptyState() {
 }
 
 export function App() {
-  const [theme, setTheme] = useState(themes.lightTheme);
   const { todos, removeTodo, toggleTodo, addTodo } = useTodosService([
     { id: uuid(), text: 'Learn Hebrew', done: false },
     { id: uuid(), text: 'Order lunch', done: true },
   ]);
-  const toggleTheme = () =>
-    setTheme(
-      theme === themes.lightTheme ? themes.darkTheme : themes.lightTheme
-    );
+  const { toggleTheme } = useThemeService();
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="container" onClick={toggleTheme}>
-        <AddressBar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route
-            path="/todos"
-            render={() => (
-              <>
-                <h1>Todo list</h1>
-                <TodoAdder onAddTodo={addTodo} />
-                {todos.length ? (
-                  <TodoList
-                    items={todos}
-                    onToggleTodo={toggleTodo}
-                    onRemoveTodo={removeTodo}
-                  />
-                ) : (
-                  <NoItemsEmptyState />
-                )}
-                <Route
-                  path="/todos/:todoId"
-                  render={({ match }) => {
-                    const { params } = match;
-                    const { todoId } = params;
-                    const todo = todos.find(t => t.id === todoId);
-                    if (!todo) {
-                      return <Redirect to="/todos" />;
-                    }
-                    return <p>{todo.text}</p>;
-                  }}
+    <Container onClick={toggleTheme}>
+      <AddressBar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route
+          path="/todos"
+          render={() => (
+            <>
+              <h1>Todo list</h1>
+              <TodoAdder onAddTodo={addTodo} />
+              {todos.length ? (
+                <TodoList
+                  items={todos}
+                  onToggleTodo={toggleTodo}
+                  onRemoveTodo={removeTodo}
                 />
-              </>
-            )}
-          />
-          <Route component={PageNotFound} />
-        </Switch>
-      </div>
-    </ThemeProvider>
+              ) : (
+                <NoItemsEmptyState />
+              )}
+              <Route
+                path="/todos/:todoId"
+                render={({ match }) => {
+                  const { params } = match;
+                  const { todoId } = params;
+                  const todo = todos.find(t => t.id === todoId);
+                  if (!todo) {
+                    return <Redirect to="/todos" />;
+                  }
+                  return <p>{todo.text}</p>;
+                }}
+              />
+            </>
+          )}
+        />
+        <Route component={PageNotFound} />
+      </Switch>
+    </Container>
   );
 }
