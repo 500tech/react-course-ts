@@ -6,15 +6,60 @@ import {
   REMOVE_TODO,
   FETCH_TODOS,
   SET_TODOS,
+  POST_TODO,
+  SET_TODO,
+  DELETE_TODO,
 } from 'state/actions';
 
 export function useTodosService() {
   const todos = useSelector(state => state.todos);
   const dispatch = useDispatch();
 
-  const toggleTodo = todo => dispatch({ type: TOGGLE_TODO, payload: todo });
-  const removeTodo = todo => dispatch({ type: REMOVE_TODO, payload: todo });
-  const addTodo = text => dispatch({ type: ADD_TODO, payload: text });
+  const toggleTodo = todo => {
+    const updatedResource = {
+      ...todo,
+      completed: !todo.completed,
+    };
+    dispatch({
+      type: TOGGLE_TODO,
+      payload: updatedResource,
+      meta: {
+        api: {
+          url: `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
+          method: 'PUT',
+          data: updatedResource,
+          onSuccess: SET_TODO,
+        },
+      },
+    });
+  };
+  const removeTodo = todo =>
+    dispatch({
+      type: DELETE_TODO,
+      payload: todo,
+      meta: {
+        api: {
+          url: `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
+          method: 'DELETE',
+          onSuccess: REMOVE_TODO,
+        },
+      },
+    });
+  const addTodo = text => {
+    const partialTodo = { completed: false, title: text };
+    dispatch({
+      type: POST_TODO,
+      payload: partialTodo,
+      meta: {
+        api: {
+          url: 'https://jsonplaceholder.typicode.com/todos',
+          method: 'POST',
+          data: partialTodo,
+          onSuccess: ADD_TODO,
+        },
+      },
+    });
+  };
   const fetchTodos = useCallback(
     () =>
       dispatch({
