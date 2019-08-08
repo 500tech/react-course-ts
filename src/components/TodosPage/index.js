@@ -21,7 +21,7 @@ function mapDispatchToProps(dispatch) {
           api: {
             group: 'todos',
             onSuccess: SET_TODOS,
-            url: 'https://jsonplaceholder.typicode.com/todos',
+            url: 'http://localhost:8080/todos',
           },
         },
       });
