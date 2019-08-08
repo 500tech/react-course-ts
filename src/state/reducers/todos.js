@@ -1,8 +1,8 @@
 import {
   ADD_TODO,
   REMOVE_TODO,
-  TOGGLE_TODO,
   SET_TODOS,
+  SET_TODO,
 } from 'state/actions/todos';
 
 export function todos(state = [], action) {
@@ -15,17 +15,14 @@ export function todos(state = [], action) {
       return [todo, ...state];
     }
     case REMOVE_TODO: {
-      const todo = action.payload;
+      const todo = action.meta.originalPayload;
       return state.filter(t => t.id !== todo.id);
     }
-    case TOGGLE_TODO: {
+    case SET_TODO: {
       const todo = action.payload;
       return state.map(t => {
         if (t.id === todo.id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
+          return todo;
         }
         return t;
       });

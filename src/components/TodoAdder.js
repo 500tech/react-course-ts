@@ -47,7 +47,7 @@ export class TodoAdder extends React.PureComponent {
     e && e.preventDefault();
     if (this.state.text) {
       const { onAddTodo = NOOP } = this.props;
-      onAddTodo(this.state.text);
+      onAddTodo({ title: this.state.text, completed: false });
       this.setState({ text: '' });
     }
   };
@@ -55,7 +55,6 @@ export class TodoAdder extends React.PureComponent {
   setText = e => this.setState({ text: e.target.value });
 
   render() {
-    console.log('render todo adder');
     return (
       <form onSubmit={this.submit}>
         <Input
