@@ -1,4 +1,3 @@
-import { getId } from 'utils';
 import {
   ADD_TODO,
   REMOVE_TODO,
@@ -12,8 +11,7 @@ export function todos(state = [], action) {
       return action.payload;
     }
     case ADD_TODO: {
-      const title = action.payload;
-      const todo = { id: getId(), title, completed: false };
+      const todo = action.payload;
       return [todo, ...state];
     }
     case REMOVE_TODO: {

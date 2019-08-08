@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import {
+  POST_TODO,
   ADD_TODO,
   TOGGLE_TODO,
   REMOVE_TODO,
@@ -27,7 +28,19 @@ function mapDispatchToProps(dispatch) {
       });
     },
     addTodo(title) {
-      dispatch({ type: ADD_TODO, payload: title });
+      dispatch({
+        type: POST_TODO,
+        payload: { title, completed: false },
+        meta: {
+          api: {
+            group: 'add-todo',
+            url: 'http://localhost:8080/todos',
+            method: 'POST',
+            onSuccess: ADD_TODO,
+            data: { title, completed: false },
+          },
+        },
+      });
     },
     toggleTodo(todo) {
       dispatch({ type: TOGGLE_TODO, payload: todo });
