@@ -59,18 +59,21 @@ export class TodoAdder extends React.PureComponent {
       <form onSubmit={this.submit}>
         <Input
           ref={this.inputRef}
+          placeholder="Write a new task here..."
           name="todoText"
           type="text"
           value={this.state.text}
           onChange={this.setText}
         />
-        <Button disabled={this.state.text.length === 0}>Add</Button>
+        <Button type="submit" disabled={this.state.text.length === 0}>
+          Add
+        </Button>
       </form>
     );
   }
 }
 
-const Button = styled.button`
+const Button = styled.button.attrs({ type: 'button' })`
   background-color: ${props => props.theme.palette.primary};
   color: ${props => props.theme.palette.primaryText};
   &:disabled {
