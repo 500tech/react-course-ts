@@ -11,6 +11,7 @@ export function net(state = {}, action) {
     }
     case END_API: {
       const group = action.payload;
+      if (!state[group]) return state;
       return {
         ...state,
         [group]: state[group] - 1,
