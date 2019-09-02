@@ -1,30 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import uuid from 'uuid';
-import './index.css';
+import { getId } from './utils';
 
-// Todo { text, done, id }
-
-const NOOP = () => null;
+/**
+ * interfce Todo {
+ *   id: number;
+ *   title: string;
+ *   completed: boolean;
+ * }
+ */
 
 function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-function Todo({ todo, onToggleTodo = NOOP }) {
-  const style = { textDecoration: todo.done ? 'line-through' : 'none' };
-  return (
-    <li style={style} onClick={() => onToggleTodo(todo)}>
-      {todo.text}
-    </li>
-  );
+function Todo({ todo }) {
+  const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
+  return <li style={style}>{todo.title}</li>;
 }
 
-function TodoList({ items, onToggleTodo }) {
+function TodoList({ items }) {
   return (
     <ul>
       {items.map(item => (
-        <Todo key={item.id} todo={item} onToggleTodo={onToggleTodo} />
+        <Todo key={item.id} todo={item} />
       ))}
     </ul>
   );
@@ -35,18 +34,14 @@ function App({ color = 'pink', items = [], children }) {
     <div className="container">
       <h1 style={{ color }}>Todo list</h1>
       {children ? <p>{children}</p> : null}
-      {items.length ? (
-        <TodoList items={items} onToggleTodo={console.log} />
-      ) : (
-        <NoItemsEmptyState />
-      )}
+      {items.length ? <TodoList items={items} /> : <NoItemsEmptyState />}
     </div>
   );
 }
 
 const TODOS = [
-  { id: uuid(), text: 'Learn Hebrew', done: false },
-  { id: uuid(), text: 'Order lunch', done: true },
+  { id: getId(), title: 'Do this', completed: false },
+  { id: getId(), title: 'Do that', completed: true },
 ];
 
 window.todos = TODOS;
