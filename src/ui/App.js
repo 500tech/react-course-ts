@@ -1,10 +1,29 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
 import { useTodosService } from 'services/todos';
 
+const Container = styled.div`
+  border: 1px solid silver;
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.2);
+
+  p {
+    color: silver;
+
+    &:hover {
+      color: red;
+    }
+  }
+`;
+
 function NoItemsEmptyState() {
-  return <p>Oh noes, no items yet! Please create one :)</p>;
+  return (
+    <Container>
+      <p>Oh noes, no items yet! Please create one :)</p>
+    </Container>
+  );
 }
 
 export function App({ initialColor = 'pink' }) {

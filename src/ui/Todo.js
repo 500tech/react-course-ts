@@ -1,5 +1,7 @@
 import React, { memo as memoizedComponent } from 'react';
+import styled from 'styled-components';
 import { NOOP } from 'utils';
+import {clickable} from 'ui/mixins'
 
 /**
  * interfce Todo {
@@ -9,16 +11,29 @@ import { NOOP } from 'utils';
  * }
  */
 
-export const Todo = memoizedComponent(function Todo({
+// function NeedsA({ a }) {
+//   return <p>{a}</p>;
+// }
+
+// // <NeedsA a={5} />
+
+// function withA(Component) {
+//   return props => <Component {...props} a={5}/>
+// }
+
+// const DoesntNeedA = withA(NeedsA);
+
+// // <DoesntNeedA />
+
+function BaseTodo({
   todo,
   onToggleTodo = NOOP,
   onRemoveTodo = NOOP,
+  className,
 }) {
-  console.log(`Rendering: ${todo.id}`);
-  const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
-      style={style}
+      className={className}
       onClick={({ ctrlKey, metaKey }) => {
         if (ctrlKey || metaKey) {
           onRemoveTodo(todo.id);
@@ -30,4 +45,11 @@ export const Todo = memoizedComponent(function Todo({
       {todo.title}
     </li>
   );
-});
+}
+
+const StyledTodo = styled(BaseTodo)`
+  ${clickable}
+  text-decoration: ${props => (props.todo.completed ? 'line-through' : 'none')};
+`;
+
+export const Todo = memoizedComponent(StyledTodo);
