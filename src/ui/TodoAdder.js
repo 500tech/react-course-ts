@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import styled from 'styled-components';
 import { NOOP } from 'utils';
 
 function useInputForm(onSubmit, autoSubmitInterval) {
@@ -32,8 +33,24 @@ export function TodoAdder({ onAddTodo = NOOP }) {
   }, []);
   return (
     <form onSubmit={submit}>
-      <input ref={inputRef} type="text" {...{ value, onChange }} />
-      <button disabled={!value}>Add</button>
+      <Input ref={inputRef} type="text" {...{ value, onChange }} />
+      <Button disabled={!value}>Add</Button>
     </form>
   );
 }
+
+const Input = styled.input`
+  &:focus {
+    background-color: rgba(0, 255, 0, 0.2);
+  }
+`;
+
+const Button = styled.button`
+  background-color: blue;
+  color: white;
+  border-radius: 100%;
+
+  &:disabled {
+    visibility: hidden;
+  }
+`;
