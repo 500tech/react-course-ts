@@ -41,13 +41,13 @@ export function TodoAdder({ onAddTodo = NOOP }) {
 
 const Input = styled.input`
   &:focus {
-    background-color: rgba(0, 255, 0, 0.2);
+    background-color: ${props => props.theme.palette.active};
   }
 `;
 
 const Button = styled.button`
-  background-color: blue;
-  color: white;
+  background-color: ${props => props.theme.palette.primary};
+  color: ${props => props.theme.palette.primaryText};
   border-radius: 100%;
 
   &:disabled {
