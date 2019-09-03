@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { getId } from './utils';
+import { getId, NOOP } from './utils';
 
 /**
  * interfce Todo {
@@ -14,41 +14,57 @@ function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-function Todo({ todo }) {
+function Todo({ todo, onToggleTodo = NOOP }) {
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
-  return <li style={style}>{todo.title}</li>;
+  return (
+    <li
+      style={style}
+      onClick={() => {
+        onToggleTodo(todo.id);
+      }}
+    >
+      {todo.title}
+    </li>
+  );
 }
 
-function TodoList({ items }) {
+function TodoList({ todos, onToggleTodo }) {
   return (
     <ul>
-      {items.map(item => (
-        <Todo key={item.id} todo={item} />
+      {todos.map(todo => (
+        <Todo key={todo.id} todo={todo} onToggleTodo={onToggleTodo} />
       ))}
     </ul>
   );
 }
 
-function App({ color = 'pink', items = [], children }) {
+function App({ color = 'pink' }) {
+  const [todos, setTodos] = useState([
+    { id: getId(), title: 'Do this', completed: false },
+    { id: getId(), title: 'Do that', completed: true },
+  ]);
+  const toggleTodo = todoId => {
+    const updatesTodos = todos.map(todo => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+      return todo;
+    });
+    setTodos(updatesTodos);
+  };
   return (
     <div className="container">
       <h1 style={{ color }}>Todo list</h1>
-      {children ? <p>{children}</p> : null}
-      {items.length ? <TodoList items={items} /> : <NoItemsEmptyState />}
+      {todos.length ? (
+        <TodoList todos={todos} onToggleTodo={toggleTodo} />
+      ) : (
+        <NoItemsEmptyState />
+      )}
     </div>
   );
 }
 
-const TODOS = [
-  { id: getId(), title: 'Do this', completed: false },
-  { id: getId(), title: 'Do that', completed: true },
-];
-
-window.todos = TODOS;
-
-ReactDOM.render(
-  <App color="blue" items={TODOS}>
-    Display this
-  </App>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App color="blue"></App>, document.getElementById('root'));
