@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo as memoizedComponent, useState, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { getId, NOOP } from './utils';
 
@@ -14,7 +14,12 @@ function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
+const Todo = memoizedComponent(function Todo({
+  todo,
+  onToggleTodo = NOOP,
+  onRemoveTodo = NOOP,
+}) {
+  console.log(`Rendering: ${todo.id}`);
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
@@ -30,7 +35,7 @@ function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
       {todo.title}
     </li>
   );
-}
+});
 
 function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
   return (
@@ -52,24 +57,26 @@ function useTodosService() {
     { id: getId(), title: 'Do this', completed: false },
     { id: getId(), title: 'Do that', completed: true },
   ]);
-  const toggleTodo = todoId => {
-    const updatesTodos = todos.map(todo => {
-      if (todo.id === todoId) {
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      }
-      return todo;
-    });
-    setTodos(updatesTodos);
-  };
-  const removeTodo = todoId => {
-    const updatesTodos = todos.filter(todo => {
-      return todo.id !== todoId;
-    });
-    setTodos(updatesTodos);
-  };
+  const toggleTodo = useCallback(todoId => {
+    setTodos(todos =>
+      todos.map(todo => {
+        if (todo.id === todoId) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      })
+    );
+  }, []);
+  const removeTodo = useCallback(todoId => {
+    setTodos(todos =>
+      todos.filter(todo => {
+        return todo.id !== todoId;
+      })
+    );
+  }, []);
   return { todos, toggleTodo, removeTodo };
 }
 
