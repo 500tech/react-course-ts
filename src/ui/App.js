@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TodoList } from 'ui/TodoList';
+import { TodoAdder } from 'ui/TodoAdder';
 import { useTodosService } from 'services/todos';
 
 function NoItemsEmptyState() {
@@ -14,6 +15,7 @@ export function App({ initialColor = 'pink' }) {
       <h1 onClick={() => setColor('green')} style={{ color }}>
         Todo list
       </h1>
+      <TodoAdder />
       {todos.length ? (
         <TodoList
           todos={todos}
