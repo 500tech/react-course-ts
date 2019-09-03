@@ -47,7 +47,7 @@ function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
   );
 }
 
-function App({ color = 'pink' }) {
+function useTodosService() {
   const [todos, setTodos] = useState([
     { id: getId(), title: 'Do this', completed: false },
     { id: getId(), title: 'Do that', completed: true },
@@ -70,9 +70,17 @@ function App({ color = 'pink' }) {
     });
     setTodos(updatesTodos);
   };
+  return { todos, toggleTodo, removeTodo };
+}
+
+function App({ initialColor = 'pink' }) {
+  const [color, setColor] = useState(initialColor);
+  const { todos, toggleTodo, removeTodo } = useTodosService();
   return (
     <div className="container">
-      <h1 style={{ color }}>Todo list</h1>
+      <h1 onClick={() => setColor('green')} style={{ color }}>
+        Todo list
+      </h1>
       {todos.length ? (
         <TodoList
           todos={todos}
@@ -86,4 +94,7 @@ function App({ color = 'pink' }) {
   );
 }
 
-ReactDOM.render(<App color="blue"></App>, document.getElementById('root'));
+ReactDOM.render(
+  <App initialColor="blue"></App>,
+  document.getElementById('root')
+);
