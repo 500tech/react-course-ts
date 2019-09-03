@@ -6,6 +6,13 @@ export function useTodosService() {
     { id: getId(), title: 'Do this', completed: false },
     { id: getId(), title: 'Do that', completed: true },
   ]);
+  const addTodo = useCallback(
+    title =>
+      setTodos(todos => {
+        return [{ id: getId(), title, completed: false }, ...todos];
+      }),
+    []
+  );
   const toggleTodo = useCallback(todoId => {
     setTodos(todos =>
       todos.map(todo => {
@@ -26,5 +33,5 @@ export function useTodosService() {
       })
     );
   }, []);
-  return { todos, toggleTodo, removeTodo };
+  return { todos, toggleTodo, removeTodo, addTodo };
 }

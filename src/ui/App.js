@@ -9,13 +9,13 @@ function NoItemsEmptyState() {
 
 export function App({ initialColor = 'pink' }) {
   const [color, setColor] = useState(initialColor);
-  const { todos, toggleTodo, removeTodo } = useTodosService();
+  const { todos, toggleTodo, removeTodo, addTodo } = useTodosService();
   return (
     <div className="container">
       <h1 onClick={() => setColor('green')} style={{ color }}>
         Todo list
       </h1>
-      <TodoAdder />
+      <TodoAdder onAddTodo={addTodo} />
       {todos.length ? (
         <TodoList
           todos={todos}
