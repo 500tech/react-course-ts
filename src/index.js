@@ -14,13 +14,17 @@ function NoItemsEmptyState() {
   return <p>Oh noes, no items yet! Please create one :)</p>;
 }
 
-function Todo({ todo, onToggleTodo = NOOP }) {
+function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
       style={style}
-      onClick={() => {
-        onToggleTodo(todo.id);
+      onClick={({ ctrlKey, metaKey }) => {
+        if (ctrlKey || metaKey) {
+          onRemoveTodo(todo.id);
+        } else {
+          onToggleTodo(todo.id);
+        }
       }}
     >
       {todo.title}
@@ -28,11 +32,16 @@ function Todo({ todo, onToggleTodo = NOOP }) {
   );
 }
 
-function TodoList({ todos, onToggleTodo }) {
+function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
   return (
     <ul>
       {todos.map(todo => (
-        <Todo key={todo.id} todo={todo} onToggleTodo={onToggleTodo} />
+        <Todo
+          key={todo.id}
+          todo={todo}
+          onToggleTodo={onToggleTodo}
+          onRemoveTodo={onRemoveTodo}
+        />
       ))}
     </ul>
   );
@@ -55,11 +64,21 @@ function App({ color = 'pink' }) {
     });
     setTodos(updatesTodos);
   };
+  const removeTodo = todoId => {
+    const updatesTodos = todos.filter(todo => {
+      return todo.id !== todoId;
+    });
+    setTodos(updatesTodos);
+  };
   return (
     <div className="container">
       <h1 style={{ color }}>Todo list</h1>
       {todos.length ? (
-        <TodoList todos={todos} onToggleTodo={toggleTodo} />
+        <TodoList
+          todos={todos}
+          onToggleTodo={toggleTodo}
+          onRemoveTodo={removeTodo}
+        />
       ) : (
         <NoItemsEmptyState />
       )}
