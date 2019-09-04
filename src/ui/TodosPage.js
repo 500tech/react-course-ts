@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Route, Redirect } from 'react-router-dom';
 import { TodoList } from 'ui/TodoList';
@@ -24,7 +24,18 @@ function NoItemsEmptyState() {
 }
 
 export function TodosPage() {
-  const { todos, addTodo, updateTodo, removeTodo } = useTodosService();
+  const {
+    todos,
+    addTodo,
+    updateTodo,
+    removeTodo,
+    fetchTodos,
+  } = useTodosService();
+  useEffect(() => {
+    if (!todos.length) {
+      fetchTodos();
+    }
+  }, [todos.length, fetchTodos]);
   return (
     <>
       <TodoAdder onAddTodo={addTodo} />

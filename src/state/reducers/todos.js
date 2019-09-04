@@ -1,10 +1,9 @@
-import { getId } from 'utils';
-
 export function todos(todos = [], action) {
   switch (action.type) {
-    case 'ADD_TODO': {
-      const title = action.payload;
-      return [{ id: getId(), title, completed: false }, ...todos];
+    case 'SET_TODOS':
+      return action.payload;
+    case 'CREATE_TODO': {
+      return [action.payload, ...todos];
     }
     case 'REMOVE_TODO': {
       const todoId = action.payload;

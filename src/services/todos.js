@@ -4,8 +4,9 @@ import * as actions from 'state/actions';
 
 export function useTodosService() {
   const todos = useSelector(state => state.todos);
+  const fetchTodos = useAction(actions.fetchTodos);
   const addTodo = useAction(actions.addTodo);
   const removeTodo = useAction(actions.removeTodo);
   const updateTodo = useAction(actions.updateTodo);
-  return { todos, updateTodo, removeTodo, addTodo };
+  return { todos, updateTodo, removeTodo, addTodo, fetchTodos };
 }
