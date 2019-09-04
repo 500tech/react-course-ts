@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
+import { PageNotFound } from 'ui/PageNotFound';
 import { useTodosService } from 'services/todos';
 import { lightTheme, darkTheme } from 'themes';
 
@@ -93,7 +94,7 @@ export function App() {
               <TodosPage {...{ todos, addTodo, removeTodo, toggleTodo }} />
             )}
           />
-          <Route render={() => <p>404</p>} />
+          <Route component={PageNotFound} />
         </Switch>
       </Page>
     </ThemeProvider>
