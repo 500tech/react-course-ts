@@ -7,8 +7,6 @@ import store from 'state';
 import { App } from 'ui/App';
 import { Theme } from 'ui/Theme';
 
-// window.store = store;
-
 ReactDOM.render(
   <Router>
     <ReduxStoreProvider store={store}>

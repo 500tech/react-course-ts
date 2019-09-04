@@ -6,7 +6,7 @@ import { clickable } from 'ui/mixins';
 
 function BaseTodo({
   todo,
-  onToggleTodo = NOOP,
+  onUpdateTodo = NOOP,
   onRemoveTodo = NOOP,
   className,
 }) {
@@ -18,7 +18,7 @@ function BaseTodo({
           if (ctrlKey || metaKey) {
             onRemoveTodo(todo.id);
           } else {
-            onToggleTodo(todo.id);
+            onUpdateTodo(todo.id, { completed: !todo.completed });
           }
         }}
       >

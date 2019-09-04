@@ -1,37 +1,11 @@
-import { useState, useCallback } from 'react';
-import { getId } from 'utils';
+import { useSelector } from 'react-redux';
+import { useAction } from 'utils';
+import * as actions from 'state/actions';
 
 export function useTodosService() {
-  const [todos, setTodos] = useState([
-    { id: getId(), title: 'Do this', completed: false },
-    { id: getId(), title: 'Do that', completed: true },
-  ]);
-  const addTodo = useCallback(
-    title =>
-      setTodos(todos => {
-        return [{ id: getId(), title, completed: false }, ...todos];
-      }),
-    []
-  );
-  const toggleTodo = useCallback(todoId => {
-    setTodos(todos =>
-      todos.map(todo => {
-        if (todo.id === todoId) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-        return todo;
-      })
-    );
-  }, []);
-  const removeTodo = useCallback(todoId => {
-    setTodos(todos =>
-      todos.filter(todo => {
-        return todo.id !== todoId;
-      })
-    );
-  }, []);
-  return { todos, toggleTodo, removeTodo, addTodo };
+  const todos = useSelector(state => state.todos);
+  const addTodo = useAction(actions.addTodo);
+  const removeTodo = useAction(actions.removeTodo);
+  const updateTodo = useAction(actions.updateTodo);
+  return { todos, updateTodo, removeTodo, addTodo };
 }
