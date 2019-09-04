@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
 import { useTodosService } from 'services/todos';
@@ -36,6 +37,39 @@ const Page = styled.main`
   color: ${props => props.theme.palette.textColor};
 `;
 
+function HomePage(props) {
+  console.log(props);
+  return <Title>This be home</Title>;
+}
+
+function TodosPage({ todos, addTodo, toggleTodo, removeTodo }) {
+  return (
+    <>
+      <TodoAdder onAddTodo={addTodo} />
+      {todos.length ? (
+        <TodoList
+          todos={todos}
+          onToggleTodo={toggleTodo}
+          onRemoveTodo={removeTodo}
+        />
+      ) : (
+        <NoItemsEmptyState />
+      )}
+      <Route
+        path="/todos/:todoId"
+        render={({ match }) => {
+          const todoId = +match.params.todoId;
+          const todo = todos.find(t => t.id === todoId);
+          if (!todo) {
+            return <Redirect to="/todos" />;
+          }
+          return <p>{todo.title}</p>;
+        }}
+      />
+    </>
+  );
+}
+
 export function App() {
   const [theme, setTheme] = useState(lightTheme);
   const { todos, toggleTodo, removeTodo, addTodo } = useTodosService();
@@ -51,16 +85,16 @@ export function App() {
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
-        <TodoAdder onAddTodo={addTodo} />
-        {todos.length ? (
-          <TodoList
-            todos={todos}
-            onToggleTodo={toggleTodo}
-            onRemoveTodo={removeTodo}
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route
+            path="/todos"
+            render={() => (
+              <TodosPage {...{ todos, addTodo, removeTodo, toggleTodo }} />
+            )}
           />
-        ) : (
-          <NoItemsEmptyState />
-        )}
+          <Route render={() => <p>404</p>} />
+        </Switch>
       </Page>
     </ThemeProvider>
   );
