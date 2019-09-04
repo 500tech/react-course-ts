@@ -33,6 +33,7 @@ const Page = styled.main`
   width: 100vw;
   padding: 10px;
   background-color: ${props => props.theme.palette.bgColor};
+  color: ${props => props.theme.palette.textColor};
 `;
 
 export function App() {

@@ -40,6 +40,7 @@ export function TodoAdder({ onAddTodo = NOOP }) {
 }
 
 const Input = styled.input`
+  color: ${props => props.theme.palette.textColor};
   &:focus {
     background-color: ${props => props.theme.palette.active};
   }
