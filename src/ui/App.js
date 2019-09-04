@@ -5,6 +5,7 @@ import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
 import { PageNotFound } from 'ui/PageNotFound';
 import { useTodosService } from 'services/todos';
+import { Header } from 'ui/Header';
 import { lightTheme, darkTheme } from 'themes';
 
 const Container = styled.div`
@@ -78,14 +79,11 @@ export function App() {
     <ThemeProvider theme={theme}>
       <Page>
         <Title>Todo list</Title>
-        <select
-          onChange={e =>
-            setTheme(e.target.value === 'light' ? lightTheme : darkTheme)
+        <Header
+          toggleTheme={value =>
+            setTheme(value === 'light' ? lightTheme : darkTheme)
           }
-        >
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
+        />
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route
