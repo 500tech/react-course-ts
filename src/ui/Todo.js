@@ -1,29 +1,8 @@
 import React, { memo as memoizedComponent } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { NOOP } from 'utils';
-import {clickable} from 'ui/mixins'
-
-/**
- * interfce Todo {
- *   id: number;
- *   title: string;
- *   completed: boolean;
- * }
- */
-
-// function NeedsA({ a }) {
-//   return <p>{a}</p>;
-// }
-
-// // <NeedsA a={5} />
-
-// function withA(Component) {
-//   return props => <Component {...props} a={5}/>
-// }
-
-// const DoesntNeedA = withA(NeedsA);
-
-// // <DoesntNeedA />
+import { clickable } from 'ui/mixins';
 
 function BaseTodo({
   todo,
@@ -32,17 +11,20 @@ function BaseTodo({
   className,
 }) {
   return (
-    <li
-      className={className}
-      onClick={({ ctrlKey, metaKey }) => {
-        if (ctrlKey || metaKey) {
-          onRemoveTodo(todo.id);
-        } else {
-          onToggleTodo(todo.id);
-        }
-      }}
-    >
-      {todo.title}
+    <li>
+      <span
+        className={className}
+        onClick={({ ctrlKey, metaKey }) => {
+          if (ctrlKey || metaKey) {
+            onRemoveTodo(todo.id);
+          } else {
+            onToggleTodo(todo.id);
+          }
+        }}
+      >
+        {todo.title}
+      </span>
+      <Link to={`/todos/${todo.id}`}>Select</Link>
     </li>
   );
 }
@@ -53,3 +35,11 @@ const StyledTodo = styled(BaseTodo)`
 `;
 
 export const Todo = memoizedComponent(StyledTodo);
+
+/**
+ * interfce Todo {
+ *   id: number;
+ *   title: string;
+ *   completed: boolean;
+ * }
+ */

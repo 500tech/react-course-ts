@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { AddressBar } from 'ui/AddressBar';
 
 const Nav = styled.nav`
   * {
@@ -15,6 +16,7 @@ const PageLink = styled(Link)`
 export function Header({ toggleTheme }) {
   return (
     <header>
+      <AddressBar />
       <select onChange={e => toggleTheme(e.target.value)}>
         <option value="light">Light</option>
         <option value="dark">Dark</option>
