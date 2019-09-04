@@ -39,8 +39,7 @@ const Page = styled.main`
   color: ${props => props.theme.palette.textColor};
 `;
 
-function HomePage(props) {
-  console.log(props);
+function HomePage() {
   return <Title>This be home</Title>;
 }
 
