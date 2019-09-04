@@ -28,3 +28,12 @@ export const darkTheme = createTheme({
     errorText: 'darkred',
   },
 });
+
+export const myTheme = createTheme(
+  {
+    palette: {
+      primary: 'red',
+    },
+  },
+  darkTheme
+);

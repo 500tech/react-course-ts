@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { AddressBar } from 'ui/AddressBar';
+import * as themes from 'themes';
+import { setTheme } from 'state/actions';
+import { useAction } from 'utils';
+const THEME_NAMES = Object.keys(themes);
 
 const Nav = styled.nav`
   * {
@@ -13,13 +17,17 @@ const PageLink = styled(Link)`
   color: ${props => props.theme.palette.primary};
 `;
 
-export function Header({ toggleTheme }) {
+export function Header() {
+  const dispatchSetTheme = useAction(setTheme);
   return (
     <header>
       <AddressBar />
-      <select onChange={e => toggleTheme(e.target.value)}>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
+      <select onChange={e => dispatchSetTheme(e.target.value)}>
+        {THEME_NAMES.map(name => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
       </select>
       <Nav>
         <PageLink to="/">Home</PageLink>

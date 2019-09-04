@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
 import { PageNotFound } from 'ui/PageNotFound';
 import { useTodosService } from 'services/todos';
 import { Header } from 'ui/Header';
-import { lightTheme, darkTheme } from 'themes';
 
 const Container = styled.div`
   border: 1px solid ${props => props.theme.palette.errorText};
@@ -72,28 +71,21 @@ function TodosPage({ todos, addTodo, toggleTodo, removeTodo }) {
 }
 
 export function App() {
-  const [theme, setTheme] = useState(lightTheme);
   const { todos, toggleTodo, removeTodo, addTodo } = useTodosService();
   return (
-    <ThemeProvider theme={theme}>
-      <Page>
-        <Title>Todo list</Title>
-        <Header
-          toggleTheme={value =>
-            setTheme(value === 'light' ? lightTheme : darkTheme)
-          }
+    <Page>
+      <Title>Todo list</Title>
+      <Header />
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route
+          path="/todos"
+          render={() => (
+            <TodosPage {...{ todos, addTodo, removeTodo, toggleTodo }} />
+          )}
         />
-        <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route
-            path="/todos"
-            render={() => (
-              <TodosPage {...{ todos, addTodo, removeTodo, toggleTodo }} />
-            )}
-          />
-          <Route component={PageNotFound} />
-        </Switch>
-      </Page>
-    </ThemeProvider>
+        <Route component={PageNotFound} />
+      </Switch>
+    </Page>
   );
 }
