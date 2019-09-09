@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { getUniqueId, NOOP } from './utils';
+import { getUniqueId, NOOP, getRandomRGB } from './utils';
 
 /**
  * interface Todo {
@@ -23,8 +23,12 @@ function BorderedContainer({ children }) {
   return <div className="main-container">{children}</div>;
 }
 
-function Title({ color, children }) {
-  return <h1 style={{ color }}>{children}</h1>;
+function Title({ color, children, onChangeColor = NOOP }) {
+  return (
+    <h1 style={{ color }} onClick={onChangeColor}>
+      {children}
+    </h1>
+  );
 }
 
 function Todo({ todo, onToggleTodo = NOOP }) {
@@ -51,7 +55,8 @@ function TodoList({ todos, onToggleTodo }) {
   );
 }
 
-function App({ color = 'blue', children }) {
+function App({ initialColor = 'blue', children }) {
+  const [color, setColor] = useState(initialColor);
   const [todos, setTodos] = useState(TODOS);
   function toggleTodo(todoId) {
     const updatedTodos = todos.map(todo => {
@@ -65,9 +70,14 @@ function App({ color = 'blue', children }) {
     });
     setTodos(updatedTodos);
   }
+  function changeColor() {
+    setColor(getRandomRGB());
+  }
   return (
     <BorderedContainer>
-      <Title color={color}>Hello, world!</Title>
+      <Title color={color} onChangeColor={changeColor}>
+        Hello, world!
+      </Title>
       {children ? <p>{children}</p> : null}
       {children && <p>{children}</p>}
       <TodoList todos={todos} onToggleTodo={toggleTodo} />
