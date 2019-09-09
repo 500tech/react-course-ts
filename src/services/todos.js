@@ -33,5 +33,9 @@ export function useTodos() {
   const removeTodo = useCallback(todoId => {
     setTodos(todos => todos.filter(todo => todo.id !== todoId));
   }, []);
-  return { todos, toggleTodo, removeTodo };
+  const addTodo = useCallback(text => {
+    const todo = { id: getUniqueId(), title: text, completed: false };
+    setTodos(todos => [todo, ...todos]);
+  }, []);
+  return { todos, toggleTodo, removeTodo, addTodo };
 }
