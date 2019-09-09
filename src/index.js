@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { getUniqueId, NOOP, getRandomRGB } from './utils';
@@ -31,7 +31,13 @@ function Title({ color, children, onChangeColor = NOOP }) {
   );
 }
 
+const Sample = memo(function Sample({ text }) {
+  console.log('rendering sample');
+  return <p>{text}!</p>;
+});
+
 function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
+  // console.log('rendering:', todo.id);
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
@@ -95,6 +101,7 @@ function App({ initialColor = 'blue', children }) {
       <Title color={color} onChangeColor={changeColor}>
         Hello, world!
       </Title>
+      <Sample text={color}></Sample>
       {children ? <p>{children}</p> : null}
       {children && <p>{children}</p>}
       <TodoList
