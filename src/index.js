@@ -25,19 +25,23 @@ function BorderedContainer({ children }) {
 
 function Title({ color, children, onChangeColor = NOOP }) {
   return (
-    <h1 style={{ color }} onClick={onChangeColor}>
+    <h1 style={{ color, userSelect: 'none' }} onClick={onChangeColor}>
       {children}
     </h1>
   );
 }
 
-function Todo({ todo, onToggleTodo = NOOP }) {
+function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
       style={style}
-      onClick={() => {
-        onToggleTodo(todo.id);
+      onClick={e => {
+        if (e.metaKey) {
+          onRemoveTodo(todo.id);
+        } else {
+          onToggleTodo(todo.id);
+        }
       }}
     >
       {todo.title}
@@ -45,18 +49,22 @@ function Todo({ todo, onToggleTodo = NOOP }) {
   );
 }
 
-function TodoList({ todos, onToggleTodo }) {
+function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
   return (
     <ul>
       {todos.map(todo => (
-        <Todo key={todo.id} todo={todo} onToggleTodo={onToggleTodo} />
+        <Todo
+          key={todo.id}
+          todo={todo}
+          onToggleTodo={onToggleTodo}
+          onRemoveTodo={onRemoveTodo}
+        />
       ))}
     </ul>
   );
 }
 
-function App({ initialColor = 'blue', children }) {
-  const [color, setColor] = useState(initialColor);
+function useTodos() {
   const [todos, setTodos] = useState(TODOS);
   function toggleTodo(todoId) {
     const updatedTodos = todos.map(todo => {
@@ -70,6 +78,15 @@ function App({ initialColor = 'blue', children }) {
     });
     setTodos(updatedTodos);
   }
+  function removeTodo(todoId) {
+    setTodos(todos.filter(todo => todo.id !== todoId));
+  }
+  return { todos, toggleTodo, removeTodo };
+}
+
+function App({ initialColor = 'blue', children }) {
+  const [color, setColor] = useState(initialColor);
+  const { todos, removeTodo, toggleTodo } = useTodos();
   function changeColor() {
     setColor(getRandomRGB());
   }
@@ -80,7 +97,11 @@ function App({ initialColor = 'blue', children }) {
       </Title>
       {children ? <p>{children}</p> : null}
       {children && <p>{children}</p>}
-      <TodoList todos={todos} onToggleTodo={toggleTodo} />
+      <TodoList
+        todos={todos}
+        onToggleTodo={toggleTodo}
+        onRemoveTodo={removeTodo}
+      />
     </BorderedContainer>
   );
 }
