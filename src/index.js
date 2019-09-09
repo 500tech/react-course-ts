@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { getUniqueId, NOOP, getRandomRGB } from './utils';
@@ -31,13 +31,12 @@ function Title({ color, children, onChangeColor = NOOP }) {
   );
 }
 
-const Sample = memo(function Sample({ text }) {
-  console.log('rendering sample');
-  return <p>{text}!</p>;
-});
-
-function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
-  // console.log('rendering:', todo.id);
+const Todo = memo(function Todo({
+  todo,
+  onToggleTodo = NOOP,
+  onRemoveTodo = NOOP,
+}) {
+  console.log('rendering:', todo.id);
   const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
@@ -53,7 +52,7 @@ function Todo({ todo, onToggleTodo = NOOP, onRemoveTodo = NOOP }) {
       {todo.title}
     </li>
   );
-}
+});
 
 function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
   return (
@@ -72,21 +71,22 @@ function TodoList({ todos, onToggleTodo, onRemoveTodo }) {
 
 function useTodos() {
   const [todos, setTodos] = useState(TODOS);
-  function toggleTodo(todoId) {
-    const updatedTodos = todos.map(todo => {
-      if (todo.id === todoId) {
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  }
-  function removeTodo(todoId) {
-    setTodos(todos.filter(todo => todo.id !== todoId));
-  }
+  const toggleTodo = useCallback(todoId => {
+    setTodos(currentTodosProvidedByReact =>
+      currentTodosProvidedByReact.map(todo => {
+        if (todo.id === todoId) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      })
+    );
+  }, []);
+  const removeTodo = useCallback(todoId => {
+    setTodos(todos => todos.filter(todo => todo.id !== todoId));
+  }, []);
   return { todos, toggleTodo, removeTodo };
 }
 
@@ -101,7 +101,6 @@ function App({ initialColor = 'blue', children }) {
       <Title color={color} onChangeColor={changeColor}>
         Hello, world!
       </Title>
-      <Sample text={color}></Sample>
       {children ? <p>{children}</p> : null}
       {children && <p>{children}</p>}
       <TodoList
