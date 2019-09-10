@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { NOOP } from 'utils';
 
 const Button = styled.button`
+  background-color: ${props => props.theme.palette.primary};
+  color: ${props => props.theme.palette.primaryText};
   &:disabled {
     visibility: hidden;
   }
@@ -10,7 +12,7 @@ const Button = styled.button`
 
 const Input = styled.input`
   &:active {
-    background-color: lightblue;
+    background-color: ${props => props.theme.palette.activeInput};
   }
 `;
 

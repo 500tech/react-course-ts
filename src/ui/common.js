@@ -4,7 +4,7 @@ export const BorderedContainer = styled.div`
   border: 1px solid black;
 
   &:hover {
-    background-color: pink;
+    background-color: ${props => props.theme.palette.bgHover};
   }
 
   h1 {
@@ -25,6 +25,5 @@ export const Title = styled.h1`
 //       return <Element className={className} {...filteredProps} />
 //     }
 //   }
-  
-// }
 
+// }
