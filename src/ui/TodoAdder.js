@@ -1,5 +1,18 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import styled from 'styled-components';
 import { NOOP } from 'utils';
+
+const Button = styled.button`
+  &:disabled {
+    visibility: hidden;
+  }
+`;
+
+const Input = styled.input`
+  &:active {
+    background-color: lightblue;
+  }
+`;
 
 export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
   const [text, setText] = useState('');
@@ -30,13 +43,13 @@ export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
 
   return (
     <form onSubmit={submit}>
-      <input
+      <Input
         ref={inputRef}
         type="text"
         value={text}
         onChange={e => setText(e.target.value)}
       />
-      <button disabled={!text}>Add</button>
+      <Button disabled={!text}>Add</Button>
     </form>
   );
 }

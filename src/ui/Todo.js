@@ -1,16 +1,16 @@
 import React, { memo } from 'react';
+import styled from 'styled-components';
 import { NOOP } from 'utils';
 
-export const Todo = memo(function Todo({
+function BaseTodo({
+  className,
   todo,
   onToggleTodo = NOOP,
   onRemoveTodo = NOOP,
 }) {
-  console.log('rendering:', todo.id);
-  const style = { textDecoration: todo.completed ? 'line-through' : 'none' };
   return (
     <li
-      style={style}
+      className={className}
       onClick={e => {
         if (e.metaKey) {
           onRemoveTodo(todo.id);
@@ -19,7 +19,16 @@ export const Todo = memo(function Todo({
         }
       }}
     >
-      {todo.title}
+      <span>{todo.title}</span>
     </li>
   );
-});
+}
+
+const StyledTodo = styled(BaseTodo)`
+  span:first-child {
+    text-decoration: ${props =>
+      props.todo.completed ? 'line-through' : 'none'};
+  }
+`;
+
+export const Todo = memo(StyledTodo);

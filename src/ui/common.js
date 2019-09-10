@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const BorderedContainer = styled.div`
@@ -7,6 +6,10 @@ export const BorderedContainer = styled.div`
   &:hover {
     background-color: pink;
   }
+
+  h1 {
+    font-family: fantasy;
+  }
 `;
 
 export const Title = styled.h1`
@@ -14,9 +17,14 @@ export const Title = styled.h1`
   color: ${props => props.color};
 `;
 
-// function styledH1(strings, ...values) {
-//   return function Component(props) {
-//     const className = createClassName(strings, values.map(fn => fn(props)))
-//     return <h1 className={className} {...props} />
+// function styledx(Element) {
+//   return function (strings, ...values) {
+//     return function Component(props) {
+//       const className = createClassName(strings, values.map(fn => fn(props)))
+//       const filteredProps = getProperDOMProps(props)
+//       return <Element className={className} {...filteredProps} />
+//     }
 //   }
+  
 // }
+
