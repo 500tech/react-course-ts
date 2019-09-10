@@ -1,8 +1,8 @@
 # Cycle of React
 - Render
 - Diff
-- Apply changes to DOM
 - Run cleanups (from effects)
+- Apply changes to DOM
 - Sync refs
 - Run effects
 

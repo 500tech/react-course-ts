@@ -1,26 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { NOOP } from 'utils';
 
-export function TodoAdder({ onAddTodo = NOOP }) {
+export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
   const [text, setText] = useState('');
   const inputRef = useRef();
-  function submit(e) {
-    if (e) {
-      e.preventDefault();
-    }
-    if (text) {
-      onAddTodo(text);
-      setText('');
-    }
-  }
+  const submit = useCallback(
+    function submit(e) {
+      console.log('submitting');
+      if (e) {
+        e.preventDefault();
+      }
+      if (text) {
+        onAddTodo(text);
+        setText('');
+      }
+    },
+    [text, onAddTodo]
+  );
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
   useEffect(() => {
-    const tid = setTimeout(submit, 3000);
-    return () => clearTimeout(tid);
-  }, [text]);
+    if (autoSubmit) {
+      const tid = setTimeout(submit, 3000);
+      return () => clearTimeout(tid);
+    }
+  }, [submit, autoSubmit]);
 
   return (
     <form onSubmit={submit}>
