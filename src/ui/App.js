@@ -17,7 +17,7 @@ export function App({ initialColor = 'blue' }) {
   }
   return (
     <BorderedContainer>
-      <Title color={color} onChangeColor={changeColor}>
+      <Title color={color} onClick={changeColor}>
         Todo List ({pendingTodosCount})
       </Title>
       <TodoAdder onAddTodo={addTodo} autoSubmit={pendingTodosCount === 0} />

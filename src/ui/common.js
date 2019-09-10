@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NOOP } from 'utils';
 
 export const BorderedContainer = styled.div`
   border: 1px solid black;
@@ -10,10 +9,14 @@ export const BorderedContainer = styled.div`
   }
 `;
 
-export function Title({ color, children, onChangeColor = NOOP }) {
-  return (
-    <h1 style={{ color, userSelect: 'none' }} onClick={onChangeColor}>
-      {children}
-    </h1>
-  );
-}
+export const Title = styled.h1`
+  user-select: none;
+  color: ${props => props.color};
+`;
+
+// function styledH1(strings, ...values) {
+//   return function Component(props) {
+//     const className = createClassName(strings, values.map(fn => fn(props)))
+//     return <h1 className={className} {...props} />
+//   }
+// }
