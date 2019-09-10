@@ -1,9 +1,14 @@
 import React from 'react';
+import styled from 'styled-components';
 import { NOOP } from 'utils';
 
-export function BorderedContainer({ children }) {
-  return <div className="main-container">{children}</div>;
-}
+export const BorderedContainer = styled.div`
+  border: 1px solid black;
+
+  &:hover {
+    background-color: pink;
+  }
+`;
 
 export function Title({ color, children, onChangeColor = NOOP }) {
   return (
