@@ -35,7 +35,7 @@ export function TodoAdder({ onAddTodo = NOOP }) {
   );
 }
 
-class LegacyTodoAdder extends React.Component {
+export class LegacyTodoAdder extends React.Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
