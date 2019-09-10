@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const BorderedContainer = styled.div`
   border: 1px solid black;
+  background-color: ${props => props.theme.palette.bgColor};
+  color: ${props => props.theme.palette.textColor};
 
   &:hover {
     background-color: ${props => props.theme.palette.bgHover};
