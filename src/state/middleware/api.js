@@ -10,12 +10,18 @@ export const api = store => next => async action => {
         store.dispatch({
           type: onSuccess,
           payload: response.data,
+          meta: {
+            originalPayload: action.payload,
+          },
         });
       }
     } catch (error) {
       if (onFailure) {
         store.dispatch({
           type: onFailure,
+          meta: {
+            originalPayload: action.payload,
+          },
           error,
         });
       }
