@@ -2,6 +2,9 @@ import { getUniqueId } from 'utils';
 
 export function todos(state = [], action) {
   switch (action.type) {
+    case 'SET_TODOS': {
+      return action.payload;
+    }
     case 'ADD_TODO': {
       const text = action.payload;
       const todo = { id: getUniqueId(), title: text, completed: false };

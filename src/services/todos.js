@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 /**
@@ -11,6 +12,18 @@ import { useSelector, useDispatch } from 'react-redux';
 export function useTodos() {
   const todos = useSelector(state => state.todos);
   const dispatch = useDispatch();
+  const fetchTodos = useCallback(() => {
+    dispatch({
+      type: 'FETCH_TODOS',
+      meta: {
+        api: {
+          // url: 'http://localhost:8000/todos',
+          url: 'https://jsonplaceholder.typicode.com/todos',
+          onSuccess: 'SET_TODOS',
+        },
+      },
+    });
+  }, [dispatch]);
   const toggleTodo = todoId => {
     const todo = todos.find(t => t.id === todoId);
     if (todo) {
@@ -37,5 +50,5 @@ export function useTodos() {
       payload: text,
     });
   };
-  return { todos, toggleTodo, removeTodo, addTodo };
+  return { todos, toggleTodo, removeTodo, addTodo, fetchTodos };
 }
