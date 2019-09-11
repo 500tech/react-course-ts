@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useTodos } from 'services/todos';
 import { Title } from 'ui/common';
 import { TodoList } from 'ui/TodoList';
 import { TodoAdder } from 'ui/TodoAdder';
 
-export function Todos({ addTodo, todos, toggleTodo, removeTodo }) {
+export function Todos() {
+  const { todos, removeTodo, toggleTodo, addTodo } = useTodos();
   const pendingTodosCount = useMemo(
     () => todos.filter(todo => !todo.completed).length,
     [todos]
