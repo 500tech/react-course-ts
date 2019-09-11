@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import { NOOP } from 'utils';
+import { useTheme } from 'services/theme';
 
 function BaseTodo({
   className,
@@ -8,6 +9,7 @@ function BaseTodo({
   onToggleTodo = NOOP,
   onRemoveTodo = NOOP,
 }) {
+  const { theme } = useTheme();
   return (
     <li
       className={className}
@@ -20,6 +22,7 @@ function BaseTodo({
       }}
     >
       <span>{todo.title}</span>
+      <span>And the primary color is: {theme.palette.primary}</span>
     </li>
   );
 }
