@@ -1,10 +1,6 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
+import * as reducers from 'state/reducers';
 
-function counter(state = 0, action) {
-  if (action.type === 'INCREMENT') {
-    return state + 1;
-  }
-  return state;
-}
+const reducer = combineReducers(reducers);
 
-export default createStore(counter);
+export default createStore(reducer);
