@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider as StoreProvider } from 'react-redux';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import store from 'state';
 import { App } from 'ui/App';
@@ -12,11 +13,13 @@ const Router = navigator.userAgent.match(/ie/i) ? HashRouter : BrowserRouter;
 
 ReactDOM.render(
   <Router>
-    <ThemeProvider>
-      <TodosProvider>
-        <App />
-      </TodosProvider>
-    </ThemeProvider>
+    <StoreProvider store={store}>
+      <ThemeProvider>
+        <TodosProvider>
+          <App />
+        </TodosProvider>
+      </ThemeProvider>
+    </StoreProvider>
   </Router>,
   document.getElementById('root')
 );
