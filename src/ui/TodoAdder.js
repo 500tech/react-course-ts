@@ -43,6 +43,7 @@ export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
     <form onSubmit={submit}>
       <Input
         ref={inputRef}
+        placeholder="Type in you todo..."
         type="text"
         value={text}
         onChange={e => setText(e.target.value)}
