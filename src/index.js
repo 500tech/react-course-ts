@@ -5,7 +5,6 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 import store from 'state';
 import { App } from 'ui/App';
 import { ThemeProvider } from 'providers/theme';
-import { TodosProvider } from 'providers/todos';
 
 window.store = store;
 
@@ -15,9 +14,7 @@ ReactDOM.render(
   <Router>
     <StoreProvider store={store}>
       <ThemeProvider>
-        <TodosProvider>
-          <App />
-        </TodosProvider>
+        <App />
       </ThemeProvider>
     </StoreProvider>
   </Router>,

@@ -1,6 +1,4 @@
-import { useCallback } from 'react';
-import { getUniqueId } from 'utils';
-import { useTodosContext } from 'providers/todos';
+import { useSelector, useDispatch } from 'react-redux';
 
 /**
  * interface Todo {
@@ -11,35 +9,33 @@ import { useTodosContext } from 'providers/todos';
  */
 
 export function useTodos() {
-  const [todos, setTodos] = useTodosContext();
-  const toggleTodo = useCallback(
-    todoId => {
-      setTodos(currentTodosProvidedByReact =>
-        currentTodosProvidedByReact.map(todo => {
-          if (todo.id === todoId) {
-            return {
-              ...todo,
-              completed: !todo.completed,
-            };
-          }
-          return todo;
-        })
-      );
-    },
-    [setTodos]
-  );
-  const removeTodo = useCallback(
-    todoId => {
-      setTodos(todos => todos.filter(todo => todo.id !== todoId));
-    },
-    [setTodos]
-  );
-  const addTodo = useCallback(
-    text => {
-      const todo = { id: getUniqueId(), title: text, completed: false };
-      setTodos(todos => [todo, ...todos]);
-    },
-    [setTodos]
-  );
+  const todos = useSelector(state => state.todos);
+  const dispatch = useDispatch();
+  const toggleTodo = todoId => {
+    const todo = todos.find(t => t.id === todoId);
+    if (todo) {
+      dispatch({
+        type: 'UPDATE_TODO',
+        payload: {
+          todoId,
+          update: {
+            completed: !todo.completed,
+          },
+        },
+      });
+    }
+  };
+  const removeTodo = todoId => {
+    dispatch({
+      type: 'REMOVE_TODO',
+      payload: todoId,
+    });
+  };
+  const addTodo = text => {
+    dispatch({
+      type: 'ADD_TODO',
+      payload: text,
+    });
+  };
   return { todos, toggleTodo, removeTodo, addTodo };
 }
