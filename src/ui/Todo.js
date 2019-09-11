@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { NOOP } from 'utils';
 import { useTheme } from 'services/theme';
@@ -27,11 +27,9 @@ function BaseTodo({
   );
 }
 
-const StyledTodo = styled(BaseTodo)`
+export const Todo = styled(BaseTodo)`
   span:first-child {
     text-decoration: ${props =>
       props.todo.completed ? 'line-through' : 'none'};
   }
 `;
-
-export const Todo = memo(StyledTodo);

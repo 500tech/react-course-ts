@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { NOOP } from 'utils';
 
@@ -19,19 +19,15 @@ const Input = styled.input`
 export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
   const [text, setText] = useState('');
   const inputRef = useRef();
-  const submit = useCallback(
-    function submit(e) {
-      console.log('submitting');
-      if (e) {
-        e.preventDefault();
-      }
-      if (text) {
-        onAddTodo(text);
-        setText('');
-      }
-    },
-    [text, onAddTodo]
-  );
+  function submit(e) {
+    if (e) {
+      e.preventDefault();
+    }
+    if (text) {
+      onAddTodo(text);
+      setText('');
+    }
+  }
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -41,7 +37,7 @@ export function TodoAdder({ onAddTodo = NOOP, autoSubmit }) {
       const tid = setTimeout(submit, 3000);
       return () => clearTimeout(tid);
     }
-  }, [submit, autoSubmit]);
+  }, [text, autoSubmit]); // eslint-disable-line
 
   return (
     <form onSubmit={submit}>
