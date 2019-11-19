@@ -1,3 +1,11 @@
 .container {
   background: yellowgreen;
 }
+
+.container:focus-within {
+  background: white;
+}
+
+.tagline:active {
+  color: red;
+}
