@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/500tech/react-course-ts#readme",
   "devDependencies": {
-    "concurrently": "^4.1.0",
-    "nodemon": "^1.19.1",
-    "typescript": "^3.5.2"
+    "concurrently": "^5.0.0",
+    "nodemon": "^1.19.4",
+    "typescript": "^3.7.2"
   }
 }
