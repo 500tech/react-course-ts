@@ -3,13 +3,13 @@
  * Some of these are new, but some have been with us since the early 2010s
  *
  * @TOKNOW promises, async-await
- *
+ * 
  * https://babeljs.io/repl
  */
 
 async function varLetConst() {
-  const promises = [];
-  for (let i = 0; i < 5; i++) {
+  var promises = [];
+  for (var i = 0; i < 5; i++) {
     promises.push(
       // eslint-disable-next-line
       new Promise(function(resolve) {
@@ -19,12 +19,12 @@ async function varLetConst() {
       })
     );
   }
-  const values = await Promise.all(promises);
+  var values = await Promise.all(promises);
   return (
     values.reduce(function(sum, value) {
       return sum + value;
     }) === 10
-  ); // 0 + 1 + 2 + 3 + 4
+  ); // 0 + 1 + 2 + 3 + 4 + 5
 }
 
 function generateNRandomNumbers(n, max) {
@@ -36,62 +36,40 @@ function generateNRandomNumbers(n, max) {
 }
 
 function filterMapReduce() {
-  // return !generateNRandomNumbers(4, 10)
-  //   .concat(generateNRandomNumbers(3, 5))
-  //   .filter(function(item) {
-  //     return item > 5;
-  //   })
-  //   .map(function(item) {
-  //     return item * item;
-  //   })
-  //   .find(function(item) {
-  //     return item < 25;
-  //   });
   const samples = generateNRandomNumbers(4, 10).concat(
     generateNRandomNumbers(3, 5)
   );
-  const samplesOver5 = samples.filter(function(item) {
-    return item > 5;
-  });
-  const squaresOfSamplesOver5 = samplesOver5.map(function(item) {
-    return item * item;
-  });
+  const samplesOver5 = samples;
+  const squaresOfSamplesOver5 = samplesOver5;
   return !squaresOfSamplesOver5.find(function(item) {
     return item < 25;
   });
 }
 
 // Hint: use destructuring for more readable code :)
-function generateCompanyEmail({ fullName, company }) {
-  const [firstName] = fullName.split(' ');
-  return `${firstName}@${company}.com`;
-}
+function generateCompanyEmail(userObject) {}
 
 // Use arrow functions and class syntax to make this work
 function getUserFoo() {
-  class User {
-    constructor(username) {
-      this.username = username;
-    }
-
-    fetchUser = () => {
-      return new Promise(resolve => {
-        resolve({
-          username: this && this.username,
-        });
-      });
-    };
+  function User(username) {
+    this.username = username;
   }
+  User.prototype.fetchUser = function() {
+    return new Promise(function(resolve) {
+      resolve({
+        username: this && this.username,
+      });
+    });
+  };
   const user = new User('foo');
-  const { fetchUser } = user;
-  return fetchUser();
+  return user.fetchUser();
 }
 
 function shallowClone(object) {
   if (Array.isArray(object)) {
-    return [...object];
+    return object;
   }
-  return { ...object };
+  return object;
 }
 
 export default async function runAll() {
