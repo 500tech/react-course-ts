@@ -7,10 +7,13 @@ const e: string = "hello";
 const f: object = {};
 
 // tuples
-type NaiveHTTPResponse = [number, string];
+type HTTPResponseMessage = "OK" | "INTERNAL SERVER ERROR" | "NOT FOUND";
+type NaiveHTTPResponse = [number, HTTPResponseMessage];
 const nresponse: NaiveHTTPResponse = [200, "OK"]; // What about [1000, 'meow']?
 // arrays
 const names: string[] = ["John", "Loki"]; // Array<string>
+const arr = [];
+arr.push(5);
 // what about `const arr = [];` ?
 // alias
 type ID = number;
@@ -35,7 +38,15 @@ interface Person {
     city: string;
   };
 }
-const p: Person = {
+interface PersonWithJob extends Person {
+  job: string;
+}
+type Person2 = {
+  name: string;
+  age: number;
+};
+const p: Person & { foo: boolean } = {
   name: "Foo Bar",
-  age: 35
+  age: 35,
+  foo: true
 };

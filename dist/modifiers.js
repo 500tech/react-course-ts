@@ -11,13 +11,14 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 function mergeInto(main, factory) {
-    return __assign({}, main, factory(main));
+    return __assign(__assign({}, main), factory(main));
 }
 var person = {
     name: "Foo",
     age: 35
 };
-var personAfterBirthday = mergeInto(person, function (person) { return ({
-    age: person.age + 1,
-    meow: true
-}); });
+var personAfterBirthday = mergeInto(person, function (person) {
+    return {
+        age: person.age + 1,
+    };
+});

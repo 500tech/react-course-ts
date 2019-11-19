@@ -4,7 +4,10 @@ export function add(x: number, y: number): number {
 }
 
 // type inference
-export function getStringLength(x: string) {
+export function getStringLength(x: string): number {
+  if (Math.random() > 0.5) {
+    return 0;
+  }
   return x.length;
 }
 
