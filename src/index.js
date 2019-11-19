@@ -1,3 +1,11 @@
-import runAll from './es6';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
 
-runAll();
+ReactDOM.render(
+  <div className="container">
+    <h1 style={{color: 'blue'}}>Hello, world!</h1>
+    <p>Tagline</p>
+  </div>,
+  document.querySelector('#root')
+);
