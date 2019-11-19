@@ -8,8 +8,8 @@
  */
 
 async function varLetConst() {
-  var promises = [];
-  for (var i = 0; i < 5; i++) {
+  const promises = [];
+  for (let i = 0; i < 5; i++) {
     promises.push(
       // eslint-disable-next-line
       new Promise(function(resolve) {
@@ -19,12 +19,12 @@ async function varLetConst() {
       })
     );
   }
-  var values = await Promise.all(promises);
+  const values = await Promise.all(promises);
   return (
     values.reduce(function(sum, value) {
       return sum + value;
     }) === 10
-  ); // 0 + 1 + 2 + 3 + 4 + 5
+  ); // 0 + 1 + 2 + 3 + 4
 }
 
 function generateNRandomNumbers(n, max) {
@@ -39,37 +39,49 @@ function filterMapReduce() {
   const samples = generateNRandomNumbers(4, 10).concat(
     generateNRandomNumbers(3, 5)
   );
-  const samplesOver5 = samples;
-  const squaresOfSamplesOver5 = samplesOver5;
+  const samplesOver5 = samples.filter(function (x) {
+    return x > 5;
+  });
+  const squaresOfSamplesOver5 = samplesOver5.map(function (x) {
+    return x * x;
+  });
   return !squaresOfSamplesOver5.find(function(item) {
     return item < 25;
   });
 }
 
 // Hint: use destructuring for more readable code :)
-function generateCompanyEmail(userObject) {}
+function generateCompanyEmail({ fullName: name, company='foobar' }) {
+  const [firstName] = name.split(' ');
+  return `${firstName}@${company}.com`;
+}
 
 // Use arrow functions and class syntax to make this work
 function getUserFoo() {
-  function User(username) {
-    this.username = username;
-  }
-  User.prototype.fetchUser = function() {
-    return new Promise(function(resolve) {
-      resolve({
-        username: this && this.username,
+  class User {
+    constructor(username) {
+      this.username = username;
+    }
+
+    fetchUser = () => {
+      return new Promise((resolve) => {
+        resolve({
+          username: this.username,
+        });
       });
-    });
-  };
+    }
+  }
+  
   const user = new User('foo');
-  return user.fetchUser();
+  const { fetchUser } = user;
+  return fetchUser();
 }
 
 function shallowClone(object) {
   if (Array.isArray(object)) {
-    return object;
+    return [...object];
   }
-  return object;
+  return {...object};
 }
 
 export default async function runAll() {
