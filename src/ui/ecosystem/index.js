@@ -3,6 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { Title } from 'ui/atoms';
 import { Home, Todos, PageNotFound } from 'ui/organisms';
 import { AddressBar } from 'ui/cells/AddressBar';
+import { TodosProvider } from 'providers/todos';
 
 let _id = 0;
 const getId = () => _id++;
@@ -49,36 +50,32 @@ export class App extends Component {
     const { titleColor = 'blue' } = this.props;
     const { todos } = this.state;
     return (
-      <div className="container">
-        <Title color={titleColor}>Hello world!</Title>
-        <AddressBar />
-        <ul>
-          <li>
-            <Link to="/">Goto home page</Link>
-          </li>
-          <li>
-            <Link to="/todos">Goto todos page</Link>
-          </li>
-        </ul>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route
-            path="/todos"
-            render={() => {
-              return (
-                <Todos
-                  todos={todos}
-                  addTodo={this.addTodo}
-                  toggleTodo={this.toggleTodo}
-                  deleteTodo={this.toggleTodo}
-                />
-              );
-            }}
-          />
-          <Route component={PageNotFound} />
-        </Switch>
-        <button>Click me!</button>
-      </div>
+      <TodosProvider
+        value={{
+          todos,
+          addTodo: this.addTodo,
+          toggleTodo: this.toggleTodo,
+          deleteTodo: this.deleteTodo,
+        }}
+      >
+        <div className="container">
+          <Title color={titleColor}>Hello world!</Title>
+          <AddressBar />
+          <ul>
+            <li>
+              <Link to="/">Goto home page</Link>
+            </li>
+            <li>
+              <Link to="/todos">Goto todos page</Link>
+            </li>
+          </ul>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/todos" component={Todos} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
+      </TodosProvider>
     );
   }
 }

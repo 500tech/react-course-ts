@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { withTodos } from 'hocs/todos';
 import { TodoList, TodoAdder } from 'ui/mols';
 
-export function Todos({ todos, addTodo, toggleTodo, deleteTodo }) {
+function BaseTodos({ todos, addTodo, toggleTodo, deleteTodo }) {
   return (
     <>
       <Route
@@ -25,3 +26,5 @@ export function Todos({ todos, addTodo, toggleTodo, deleteTodo }) {
     </>
   );
 }
+
+export const Todos = withTodos(BaseTodos);
