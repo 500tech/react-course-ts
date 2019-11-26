@@ -28,10 +28,6 @@ export class TodoAdder extends Component {
     this.inputRef.current.focus();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log({ prevProps, prevState });
-  }
-
   render() {
     return (
       <form onSubmit={this.submit}>
