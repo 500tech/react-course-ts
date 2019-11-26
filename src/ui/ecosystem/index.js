@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Title } from 'ui/atoms';
-import { TodoList, TodoAdder } from 'ui/mols';
-import { Home } from 'ui/organisms'
+import { Home, Todos } from 'ui/organisms';
 
 let _id = 0;
 const getId = () => _id++;
@@ -51,21 +50,23 @@ export class App extends Component {
     return (
       <div className="container">
         <Title color={titleColor}>Hello world!</Title>
-        <Route
-          path="/"
-          exact
-          component={Home}
-        />
-        <TodoAdder
-          key={todos.length}
-          initialText={`Todo #${todos.length + 1}`}
-          onAdd={this.addTodo}
-        />
-        <TodoList
-          todos={todos}
-          onToggle={this.toggleTodo}
-          onDelete={this.deleteTodo}
-        />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route
+            path="/todos"
+            render={() => {
+              return (
+                <Todos
+                  todos={todos}
+                  addTodo={this.addTodo}
+                  toggleTodo={this.toggleTodo}
+                  deleteTodo={this.toggleTodo}
+                />
+              );
+            }}
+          />
+          <Route render={() => <h1>Not found :(</h1>} />
+        </Switch>
         <button>Click me!</button>
       </div>
     );
