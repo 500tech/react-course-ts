@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import { Title } from 'ui/atoms';
 import { Home, Todos, PageNotFound } from 'ui/organisms';
+import { AddressBar } from 'ui/cells/AddressBar';
 
 let _id = 0;
 const getId = () => _id++;
@@ -50,6 +51,7 @@ export class App extends Component {
     return (
       <div className="container">
         <Title color={titleColor}>Hello world!</Title>
+        <AddressBar />
         <ul>
           <li>
             <Link to="/">Goto home page</Link>
