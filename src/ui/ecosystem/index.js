@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import { Title } from 'ui/atoms';
-import { Home, Todos } from 'ui/organisms';
+import { Home, Todos, PageNotFound } from 'ui/organisms';
 
 let _id = 0;
 const getId = () => _id++;
@@ -50,6 +50,14 @@ export class App extends Component {
     return (
       <div className="container">
         <Title color={titleColor}>Hello world!</Title>
+        <ul>
+          <li>
+            <Link to="/">Goto home page</Link>
+          </li>
+          <li>
+            <Link to="/todos">Goto todos page</Link>
+          </li>
+        </ul>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route
@@ -65,7 +73,7 @@ export class App extends Component {
               );
             }}
           />
-          <Route render={() => <h1>Not found :(</h1>} />
+          <Route component={PageNotFound} />
         </Switch>
         <button>Click me!</button>
       </div>
