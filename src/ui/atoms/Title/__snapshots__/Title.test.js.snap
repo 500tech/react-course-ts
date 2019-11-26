@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Nothing is broken 1`] = `
+<h1
+  style={
+    Object {
+      "color": "red",
+      "fontWeight": "bold",
+    }
+  }
+>
+  Meow
+</h1>
+`;
