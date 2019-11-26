@@ -1,0 +1,14 @@
+bit.ly/rctjs
+- git fetch
+- git checkout ni/ap
+- npm install
+- npm start
+
+
+- atomic design
+- state init
+- debug tools
+- routing
+- context
+- testing
+- flux

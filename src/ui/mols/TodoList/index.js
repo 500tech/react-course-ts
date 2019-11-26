@@ -1,5 +1,5 @@
 import React from 'react';
-import { TodoItem } from './atoms';
+import { TodoItem } from 'ui/atoms';
 
 export function TodoList({ todos, onToggle, onDelete }) {
   return (

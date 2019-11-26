@@ -1,9 +1,12 @@
 import React, { Component, createRef } from 'react';
 
 export class TodoAdder extends Component {
-  state = {
-    text: '',
-  };
+  constructor(props, ...args) {
+    super(props, ...args);
+    this.state = {
+      text: props.initialText || '',
+    };
+  }
 
   inputRef = createRef();
 

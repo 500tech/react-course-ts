@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { TodoAdder } from './TodoAdder';
-import { TodoList } from './TodoList';
+import { TodoList, TodoAdder } from 'ui/mols';
 
 let _id = 0;
 const getId = () => _id++;
@@ -51,7 +50,7 @@ export class App extends Component {
     return (
       <div className="container">
         <Title color={titleColor}>Hello world!</Title>
-        <TodoAdder onAdd={this.addTodo} />
+        <TodoAdder key={todos.length} initialText={`Todo #${todos.length + 1}`} onAdd={this.addTodo} />
         <TodoList
           todos={todos}
           onToggle={this.toggleTodo}
