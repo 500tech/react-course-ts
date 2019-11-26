@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { Title } from 'ui/atoms';
 import { TodoList, TodoAdder } from 'ui/mols';
+import { Home } from 'ui/organisms'
 
 let _id = 0;
 const getId = () => _id++;
@@ -8,8 +11,6 @@ const TODOS = [
   { id: getId(), title: 'Eat lunch', completed: true },
   { id: getId(), title: 'Drink third double espresso', completed: false },
 ];
-
-const Title = ({ color, children }) => <h1 style={{ color }}>{children}</h1>;
 
 export class App extends Component {
   state = { todos: TODOS };
@@ -50,7 +51,16 @@ export class App extends Component {
     return (
       <div className="container">
         <Title color={titleColor}>Hello world!</Title>
-        <TodoAdder key={todos.length} initialText={`Todo #${todos.length + 1}`} onAdd={this.addTodo} />
+        <Route
+          path="/"
+          exact
+          component={Home}
+        />
+        <TodoAdder
+          key={todos.length}
+          initialText={`Todo #${todos.length + 1}`}
+          onAdd={this.addTodo}
+        />
         <TodoList
           todos={todos}
           onToggle={this.toggleTodo}
