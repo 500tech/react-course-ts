@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component, PureComponent, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -45,6 +45,12 @@ class TodoAdder extends Component {
     text: '',
   };
 
+  inputRef = createRef();
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+
   get canSubmit() {
     const { text } = this.state;
     return text.length > 0 && !text.match(/password/i);
@@ -71,7 +77,7 @@ class TodoAdder extends Component {
     const { text } = this.state;
     return (
       <form onSubmit={this.submit}>
-        <input value={text} onChange={this.updateText} />
+        <input ref={this.inputRef} value={text} onChange={this.updateText} />
         <button disabled={!this.canSubmit}>Add</button>
       </form>
     );
