@@ -1,6 +1,7 @@
 import React, { Component, PureComponent, createRef } from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './themes';
 import './index.css';
 
 let _id = 0;
@@ -32,6 +33,12 @@ class TodoItem extends PureComponent {
     );
   }
 }
+
+const RudeButton = styled.button`
+  :disabled {
+    opacity: 0;
+  }
+`;
 
 class TodoAdder extends Component {
   state = {
@@ -87,7 +94,7 @@ class TodoAdder extends Component {
     return (
       <form onSubmit={this.submit}>
         <input ref={this.inputRef} value={text} onChange={this.updateText} />
-        <button disabled={!this.canSubmit}>Add</button>
+        <RudeButton disabled={!this.canSubmit}>Add</RudeButton>
       </form>
     );
   }
@@ -95,12 +102,29 @@ class TodoAdder extends Component {
 
 const AltTitle = styled.h1`
   background-color: yellow;
-  color: ${props => props.color};
+  margin: 0;
+  text-decoration: underline;
+  color: ${props => props.theme.colors.primary};
+`;
+
+const Page = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${props => props.theme.colors.bgColor};
 `;
 
 class App extends Component {
   state = {
     todos: TODOS,
+    theme: matchMedia('(prefers-color-scheme: dark)').matches
+      ? darkTheme
+      : lightTheme,
+  };
+
+  toggleTheme = () => {
+    this.setState({
+      theme: this.state.theme === lightTheme ? darkTheme : lightTheme,
+    });
   };
 
   toggleTodo = todoId => {
@@ -135,26 +159,28 @@ class App extends Component {
   };
 
   render() {
-    const { titleColor = 'blue', showTagline } = this.props;
+    const { showTagline } = this.props;
 
     return (
-      <div>
-        <AltTitle color={titleColor}>Wierd AF</AltTitle>
-        {showTagline ? <p>Tagline</p> : null}
-        <TodoAdder onAdd={this.addTodo} />
-        <ul>
-          {this.state.todos.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={this.toggleTodo}
-              onDelete={this.deleteTodo}
-            />
-          ))}
-        </ul>
-      </div>
+      <ThemeProvider theme={this.state.theme}>
+        <Page>
+          <AltTitle onClick={this.toggleTheme}>Wierd AF</AltTitle>
+          {showTagline ? <p>Tagline</p> : null}
+          <TodoAdder onAdd={this.addTodo} />
+          <ul>
+            {this.state.todos.map(todo => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggle={this.toggleTodo}
+                onDelete={this.deleteTodo}
+              />
+            ))}
+          </ul>
+        </Page>
+      </ThemeProvider>
     );
   }
 }
 
-ReactDOM.render(<App titleColor="red" />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector('#root'));
