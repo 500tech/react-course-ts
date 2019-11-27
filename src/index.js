@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -18,17 +18,20 @@ const TODOS = [
   { id: getId(), title: 'Have morning coffee', completed: true },
 ];
 
-window.TODOS = TODOS;
-
-class TodoItem extends Component {
+class TodoItem extends PureComponent {
   render() {
     const { todo } = this.props;
+    console.log('Rendering todo #' + todo.id);
 
     return (
       <li
         className={todo.completed ? 'completed' : null}
-        onClick={() => {
-          this.props.onToggle(todo.id);
+        onClick={event => {
+          if (event.ctrlKey || event.metaKey) {
+            this.props.onDelete(todo.id);
+          } else {
+            this.props.onToggle(todo.id);
+          }
         }}
       >
         {todo.title}
@@ -52,13 +55,21 @@ class App extends Component {
   toggleTodo = todoId => {
     const todosAfterChange = this.state.todos.map(todo => {
       if (todo.id === todoId) {
-        // return {
-        //   ...todo,
-        //   completed: !todo.completed
-        // };
-        todo.completed = !todo.completed;
+        return {
+          ...todo,
+          completed: !todo.completed
+        };
       }
       return todo;
+    });
+    this.setState({
+      todos: todosAfterChange,
+    });
+  };
+
+  deleteTodo = todoId => {
+    const todosAfterChange = this.state.todos.filter(todo => {
+      return todo.id !== todoId;
     });
     this.setState({
       todos: todosAfterChange,
@@ -74,7 +85,12 @@ class App extends Component {
         {showTagline ? <p>Tagline</p> : null}
         <ul>
           {this.state.todos.map(todo => (
-            <TodoItem key={todo.id} todo={todo} onToggle={this.toggleTodo} />
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={this.toggleTodo}
+              onDelete={this.deleteTodo}
+            />
           ))}
         </ul>
       </div>
