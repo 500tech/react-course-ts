@@ -13,9 +13,6 @@ class App extends Component {
     const { titleColor = 'blue' } = this.props;
     return (
       <div>
-        {/* <h1 style={{ color: titleColor, backgroundColor: 'yellow' }}>
-          Hello, world!
-        </h1> */}
         <Title color={titleColor}>Have a great evening!</Title>
         <p>Tagline</p>
       </div>
