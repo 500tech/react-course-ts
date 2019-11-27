@@ -49,6 +49,22 @@ class TodoAdder extends Component {
 
   componentDidMount() {
     this.inputRef.current.focus();
+    this.setAutosubmit();
+  }
+
+  componentDidUpdate(_prevProps, prevState) {
+    if (prevState.text !== this.state.text) {
+      this.setAutosubmit();
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timerId);
+  }
+
+  setAutosubmit() {
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(this.submit, 3000);
   }
 
   get canSubmit() {
@@ -65,7 +81,7 @@ class TodoAdder extends Component {
   };
 
   submit = e => {
-    e.preventDefault();
+    e && e.preventDefault();
     const { text } = this.state;
     if (this.canSubmit) {
       this.props.onAdd(text);
