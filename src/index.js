@@ -1,14 +1,7 @@
 import React, { Component, PureComponent, createRef } from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
 import './index.css';
-
-/*
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-*/
 
 let _id = 0;
 const getId = () => _id++;
@@ -100,12 +93,10 @@ class TodoAdder extends Component {
   }
 }
 
-class Title extends Component {
-  render() {
-    const { children, color } = this.props;
-    return <h1 style={{ color, backgroundColor: 'yellow' }}>{children}</h1>;
-  }
-}
+const AltTitle = styled.h1`
+  background-color: yellow;
+  color: ${props => props.color};
+`;
 
 class App extends Component {
   state = {
@@ -148,7 +139,7 @@ class App extends Component {
 
     return (
       <div>
-        <Title color={titleColor}>Have a great evening!</Title>
+        <AltTitle color={titleColor}>Wierd AF</AltTitle>
         {showTagline ? <p>Tagline</p> : null}
         <TodoAdder onAdd={this.addTodo} />
         <ul>
