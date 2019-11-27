@@ -45,15 +45,23 @@ class TodoAdder extends Component {
     text: '',
   };
 
+  get canSubmit() {
+    const { text } = this.state;
+    return text.length > 0 && !text.match(/password/i);
+  }
+
   updateText = e => {
     const { value } = e.target;
+    if (value.match(/clear/i)) {
+      return this.setState({ text: '' });
+    }
     this.setState({ text: value });
   };
 
   submit = e => {
     e.preventDefault();
     const { text } = this.state;
-    if (text) {
+    if (this.canSubmit) {
       this.props.onAdd(text);
       this.setState({ text: '' });
     }
@@ -64,7 +72,7 @@ class TodoAdder extends Component {
     return (
       <form onSubmit={this.submit}>
         <input value={text} onChange={this.updateText} />
-        <button disabled={!text}>Add</button>
+        <button disabled={!this.canSubmit}>Add</button>
       </form>
     );
   }
