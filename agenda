@@ -1,0 +1,10 @@
+AGENDA
+
+- flow-control in jsx
+- the "key" prop
+- stateful components and the rule of render
+- "pure" components
+- React lifecycle & refs
+- styling
+- routing
+- context?
