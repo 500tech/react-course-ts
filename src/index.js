@@ -40,6 +40,36 @@ class TodoItem extends PureComponent {
   }
 }
 
+class TodoAdder extends Component {
+  state = {
+    text: '',
+  };
+
+  updateText = e => {
+    const { value } = e.target;
+    this.setState({ text: value });
+  };
+
+  submit = e => {
+    e.preventDefault();
+    const { text } = this.state;
+    if (text) {
+      this.props.onAdd(text);
+      this.setState({ text: '' });
+    }
+  };
+
+  render() {
+    const { text } = this.state;
+    return (
+      <form onSubmit={this.submit}>
+        <input value={text} onChange={this.updateText} />
+        <button disabled={!text}>Add</button>
+      </form>
+    );
+  }
+}
+
 class Title extends Component {
   render() {
     const { children, color } = this.props;
@@ -57,7 +87,7 @@ class App extends Component {
       if (todo.id === todoId) {
         return {
           ...todo,
-          completed: !todo.completed
+          completed: !todo.completed,
         };
       }
       return todo;
@@ -76,6 +106,13 @@ class App extends Component {
     });
   };
 
+  addTodo = title => {
+    const todo = { id: getId(), title, completed: false };
+    this.setState({
+      todos: [todo, ...this.state.todos],
+    });
+  };
+
   render() {
     const { titleColor = 'blue', showTagline } = this.props;
 
@@ -83,6 +120,7 @@ class App extends Component {
       <div>
         <Title color={titleColor}>Have a great evening!</Title>
         {showTagline ? <p>Tagline</p> : null}
+        <TodoAdder onAdd={this.addTodo} />
         <ul>
           {this.state.todos.map(todo => (
             <TodoItem
