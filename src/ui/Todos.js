@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { TodoAdder } from './TodoAdder';
 import { TodoItem } from './TodoItem';
 import { TodosConsumer } from '../context/todos';
@@ -43,4 +44,18 @@ function withTodos(Component) {
   };
 }
 
-export const Todos = withTodos(BaseTodos);
+const withReduxTodos = connect(
+  function mapStateToProps(state) {
+    return {
+      todos: state.todos,
+    };
+  },
+  function mapDispatchToProps(dispatch) {
+    return {
+      onAdd: title => dispatch({ type: 'add_todo', payload: title }),
+    };
+  }
+);
+
+export const Todos = withReduxTodos(BaseTodos);
+
