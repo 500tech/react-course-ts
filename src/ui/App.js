@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from '../themes';
 import { Home } from './Home';
 import { Todos } from './Todos';
 import { Page, Title } from './common';
+import { PageNotFound } from './PageNotFound';
 
 let _id = 0;
 const getId = () => _id++;
@@ -65,6 +66,11 @@ export class App extends Component {
     return (
       <ThemeProvider theme={this.state.theme}>
         <Page>
+          <header style={{ display: 'flex' }}>
+            <Link to="/">Home</Link>
+            <Link to="/todos">Todos</Link>
+            <Link to="/foo">Amazing Page</Link>
+          </header>
           <Title onClick={this.toggleTheme}>Wierd AF</Title>
           {showTagline ? <p>Tagline</p> : null}
           <Switch>
@@ -80,7 +86,7 @@ export class App extends Component {
                 />
               )}
             />
-            <Route render={() => <h1>Page not found :(</h1>} />
+            <Route component={PageNotFound} />
           </Switch>
         </Page>
       </ThemeProvider>
