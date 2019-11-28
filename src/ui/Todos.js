@@ -2,8 +2,9 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { TodoAdder } from './TodoAdder';
 import { TodoItem } from './TodoItem';
+import { TodosConsumer } from '../context/todos';
 
-export function Todos({ todos, onAdd, onToggle, onDelete }) {
+export function BaseTodos({ todos, onAdd, onToggle, onDelete }) {
   return (
     <>
       <Route
@@ -31,3 +32,15 @@ export function Todos({ todos, onAdd, onToggle, onDelete }) {
     </>
   );
 }
+
+function withTodos(Component) {
+  return function wrapped(props) {
+    return (
+      <TodosConsumer>
+        {todosContext => <Component {...props} {...todosContext} />}
+      </TodosConsumer>
+    );
+  };
+}
+
+export const Todos = withTodos(BaseTodos);
