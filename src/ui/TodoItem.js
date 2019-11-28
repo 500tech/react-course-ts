@@ -19,7 +19,7 @@ export class TodoItem extends PureComponent {
         >
           {todo.title}
         </span>
-        <Link to={`/todos/${todo.id}`}>Select</Link>
+        <Link className="btn" to={`/todos/${todo.id}`}>Select</Link>
       </li>
     );
   }

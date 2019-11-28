@@ -2,6 +2,18 @@
   text-decoration: line-through;
 }
 
+.btn {
+  display: inline-block;
+  border: 1px solid salmon;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: 1px 1px 5px black;
+  width: min-content;
+  background: white;
+  color: salmon !important;
+  text-decoration: none;
+}
+
 html,
 body,
 #root {
