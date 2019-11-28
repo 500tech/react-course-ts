@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { TodoAdder } from './TodoAdder';
 import { TodoItem } from './TodoItem';
 
@@ -12,7 +12,7 @@ export function Todos({ todos, onAdd, onToggle, onDelete }) {
           const { todoId } = match.params;
           const todo = todos.find(todo => todo.id === +todoId);
           if (!todo) {
-            return null;
+            return <Redirect to="/todos" />;
           }
           return <p>{JSON.stringify(todo)}</p>;
         }}
