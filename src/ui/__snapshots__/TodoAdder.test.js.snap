@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoAdder is the same as before 1`] = `
+<DocumentFragment>
+  <form>
+    <input
+      placeholder="Enter todo here..."
+      value=""
+    />
+    <button
+      class="sc-bdVaJa etGpg"
+      disabled=""
+    >
+      Add
+    </button>
+  </form>
+</DocumentFragment>
+`;

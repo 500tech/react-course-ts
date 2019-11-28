@@ -9,6 +9,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "latest",
     "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
     "styled-components": "^4.4.1"
   },
   "scripts": {
@@ -25,5 +26,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2"
+  }
 }

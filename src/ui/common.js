@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+//bit.ly/37JefkQ
 export const RudeButton = styled.button`
   :disabled {
     opacity: 0;

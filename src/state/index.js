@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import reduxLogger from 'redux-logger';
 
 function count(state = 0, action) {
   switch (action.type) {
@@ -54,10 +55,29 @@ function todos(todos = [], action) {
         return todo;
       });
     }
+    case 'sync_todos':
+      return [
+        ...todos,
+        ...action.payload.map(serverTodo => ({
+          id: serverTodo.id,
+          title: serverTodo.title,
+          completed: serverTodo.completed,
+        })),
+      ];
     default:
       return todos;
   }
 }
+
+const api = store => next => async action => {
+  next(action);
+  if (action.meta && action.meta.api) {
+    const { url, onSuccess } = action.meta.api;
+    const response = await fetch(url);
+    const payload = await response.json();
+    store.dispatch({ type: onSuccess, payload });
+  }
+};
 
 export const store = createStore(
   combineReducers({
@@ -65,5 +85,5 @@ export const store = createStore(
     ticker,
     todos,
   }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(reduxLogger, api)
 );

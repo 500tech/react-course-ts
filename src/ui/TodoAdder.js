@@ -54,7 +54,12 @@ export class TodoAdder extends Component {
     const { text } = this.state;
     return (
       <form onSubmit={this.submit}>
-        <input ref={this.inputRef} value={text} onChange={this.updateText} />
+        <input
+          ref={this.inputRef}
+          placeholder="Enter todo here..."
+          value={text}
+          onChange={this.updateText}
+        />
         <RudeButton disabled={!this.canSubmit}>Add</RudeButton>
       </form>
     );
