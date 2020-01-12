@@ -20,6 +20,8 @@ type ID = number;
 const entityId: ID = 5;
 // basic object type notation
 type StringToNumber = { [key: string]: number };
+// But Also:
+type AlsoStringToNumber = Record<string, number>;
 const o: StringToNumber = {
   hello: 4
 };

@@ -1,9 +1,9 @@
 import { add } from "./utils";
 
-class Pet<T extends string> implements Person {
-  public name: T;
+class Pet<T extends string> {
+  public name: Maybe<T>;
   public age: number;
-  constructor(name: T) {
+  constructor(name: Maybe<T>) {
     this.name = name;
     this.age = 4;
   }
@@ -11,10 +11,14 @@ class Pet<T extends string> implements Person {
   getName() {
     return this.name;
   }
+
+  getNameFirstLetter() {
+    return this.name?.[0];
+  }
 }
 
-const p = new Pet("meow");
+const p = new Pet(null);
 // const m = new Pet(4);
-console.log(p.getName());
+console.log(p.getName(), p.getNameFirstLetter());
 
 console.log(add(3, 6));
