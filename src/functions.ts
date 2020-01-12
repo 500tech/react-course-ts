@@ -15,3 +15,9 @@ export function getStringLength(x: string): number {
 export interface Speaker {
   speak: (words: string[]) => string;
 }
+
+const s: Speaker = {
+  speak(words) {
+    return words.join('');
+  }
+}
